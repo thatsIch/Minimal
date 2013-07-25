@@ -1,0 +1,4 @@
+Minimal
+=======
+
+Minimal Rainmeter Skin

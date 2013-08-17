@@ -62,7 +62,8 @@ Gives access to basic Windows functionality as the Trashbin or Volume
 ## To-Do
 
 * RSS-Reader
-* Dynamic Google Calendar
+* Dynamic Google Calendar (integrated weather?)
+* Launcher
 
 ## Known Bugs
 

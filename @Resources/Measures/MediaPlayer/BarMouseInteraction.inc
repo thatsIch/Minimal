@@ -1,5 +1,5 @@
 ; Script Controls Dran n Drop
 [mBarMouseInteraction]
 Measure = Script
-ScriptFile = #@#Scripts\Player\BarMouseInteraction.lua
+ScriptFile = #@#Scripts\MediaPlayer\BarMouseInteraction.lua
 Disabled = 1

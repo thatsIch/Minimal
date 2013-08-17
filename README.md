@@ -59,6 +59,14 @@ Gives access to basic Windows functionality as the Trashbin or Volume
 * `LeftClick` toggles mute
 * Displays different icons depending how loud it is
 
+## To-Do
+
+* RSS-Reader
+* Dynamic Google Calendar
+
+## Known Bugs
+
+* Icons don't display correct size because of `ImageTint` but thats on Rainmeter
 
 ## Contributor
 

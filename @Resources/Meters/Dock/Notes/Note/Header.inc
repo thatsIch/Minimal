@@ -10,5 +10,4 @@ FontSize = 11
 StringAlign = Left
 StringStyle = Normal
 AntiAlias = 1
-Text = #CURRENTCONFIG#
-UpdateRate = -1
+;UpdateRate = -1

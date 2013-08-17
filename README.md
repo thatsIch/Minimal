@@ -33,6 +33,17 @@ Revolutionary Note-Design which involves seperate NoteSkins which can be called 
 * Positioning - you can place each element whereever you like
 * Expandable - Default are 5 notes, but you can easily expand this by copy & paste the Note1 files and rename them to NoteN where `N` is the next iteration in line. You can find it under `Minimal\Dock\Notes`. You will find 5 folders there to replicate. The script will automatically detect more notes if necessary
 
+### System Stats
+
+![Screenshot](http://puu.sh/44blV.png)
+
+Easy Display of CPU, RAM and Download without the need for numbers. Minimum and Maximum are displayed through 2 seperate colors
+
+* No Numbers
+* No Cluttering
+* One Icon displays all information
+* if necessary `MouseOver` displays the current percentage as a tooltip
+
 ## Contributor
 
 * Original Author: [thatsIch](https://github.com/thatsIch)

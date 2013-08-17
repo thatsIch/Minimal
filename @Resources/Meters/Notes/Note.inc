@@ -1,6 +1,6 @@
-[meterNote]
+[sNote]
 Meter = String
-MeasureName = MeasureNoteReader
+MeasureName = mNoteReader
 W = #NoteWidth#
 H = (#NoteHeight# - 20)
 X = 0r

@@ -3,11 +3,11 @@
 X = 0R
 Y = 0r
 FontFace = Webdings
-FontColor = FFFFFF
+FontColor = #IconNormalColor#
 FontSize = 14
 SolidColor = 00000001
-MouseOverAction = [!SetOption "#CURRENTSECTION#" "FontColor" "FF8800"] [!UpdateMeter "#CURRENTSECTION#"] [!Redraw]
-MouseLeaveAction = [!SetOption "#CURRENTSECTION#" "FontColor" "FFFFFF"] [!UpdateMeter "#CURRENTSECTION#"] [!Redraw]
+MouseOverAction = [!SetOption "#CURRENTSECTION#" "FontColor" "#IconHoverCover#"] [!UpdateMeter "#CURRENTSECTION#"] [!Redraw]
+MouseLeaveAction = [!SetOption "#CURRENTSECTION#" "FontColor" "#IconNormalColor#"] [!UpdateMeter "#CURRENTSECTION#"] [!Redraw]
 
 ; Style Previous Control
 [yPrev]

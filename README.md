@@ -44,10 +44,27 @@ Easy Display of CPU, RAM and Download without the need for numbers. Minimum and 
 * One Icon displays all information
 * if necessary `MouseOver` displays the current percentage as a tooltip
 
+### System Access
+
+![Screenshot](http://puu.sh/44bte.png)
+
+Gives access to basic Windows functionality as the Trashbin or Volume
+
+* Displays if trash is there
+* `LeftClick` opens Trashbin
+* `RightClick` clears Trashbin _without_ confirmation
+* `MouseOver` displays how many files are in there
+* `MouseWheelDown` decrease volume by 10%
+* `MouseWheelUp` increase volume by 10%
+* `LeftClick` toggles mute
+* Displays different icons depending how loud it is
+
+
 ## Contributor
 
 * Original Author: [thatsIch](https://github.com/thatsIch)
 * Contributors: [contributors](https://github.com/thatsIch/Minimal/graphs/contributors)
+* powered by [SublimeText 2](http://www.sublimetext.com/2) and [Rainmeter Package](http://merlinthered.github.io/sublime-rainmeter/) by [Merlinthered](https://github.com/merlinthered)
 
 ## License
 

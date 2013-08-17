@@ -71,6 +71,10 @@ Gives access to basic Windows functionality as the Trashbin or Volume
 
 * Icons don't display correct size because of `ImageTint` but thats on Rainmeter
 
+## Thanks to
+
+* [chrfb](http://chrfb.deviantart.com/) for his [ecqclipse 2] IconSet
+
 ## Contributor
 
 * Original Author: [thatsIch](https://github.com/thatsIch)

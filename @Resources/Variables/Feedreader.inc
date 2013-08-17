@@ -1,4 +1,8 @@
 [Variables]
+; Layout
+FeedReaderRowCount = 4
+FeedReaderColCount = 3
+
 ; Background
 FeedreaderBackgroundWidth = 1200
 FeedreaderBackgroundHeight = 800

@@ -4,7 +4,7 @@ Minimal is a Rainmeter Skin, which can be found [here](http://rainmeter.net/cms/
 
 It requires the most current version of Rainmeter to work. 
 
-![Screenshot](http://puu.sh/44cnh.png)
+![Screenshot](http://puu.sh/44cJZ.png)
 
 ## Features
 

@@ -6,4 +6,4 @@ RegExp = "(?si)(.*)"
 StringIndex = 0
 UpdateRate = 1
 UpdateDivider = -1
-FinishAction = [!UpdateMeter "sNote"] [!Redraw]
+FinishAction = [!UpdateMeter "sNote"] [!Redraw] [!Log #CURRENTPATH#]

@@ -6,4 +6,6 @@ function Initialize()
 
 	-- write value to meter
 	SKIN:Bang('!SetOption', 'sHeader', 'Text', '- ' .. configname .. ' -')
+	SKIN:Bang('!UpdateMeter', 'sHeader')
+	SKIN:Bang('!Redraw')
 end

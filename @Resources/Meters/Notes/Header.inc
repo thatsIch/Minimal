@@ -11,3 +11,4 @@ StringAlign = Left
 StringStyle = Normal
 AntiAlias = 1
 Text = #CURRENTCONFIG#
+UpdateRate = -1

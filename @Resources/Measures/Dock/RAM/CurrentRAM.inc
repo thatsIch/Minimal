@@ -1,0 +1,2 @@
+[MeasureRAM]
+Measure = PhysicalMemory

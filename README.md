@@ -73,6 +73,7 @@ Gives access to basic Windows functionality as the Trashbin or Volume
 
 ## Thanks to
 
+* [Rainmeter-Team](https://github.com/rainmeter/rainmeter/graphs/contributors) for [Rainmeter](http://rainmeter.net/cms/)
 * [chrfb](http://chrfb.deviantart.com/) for his [ecqclipse 2] IconSet
 
 ## Contributor

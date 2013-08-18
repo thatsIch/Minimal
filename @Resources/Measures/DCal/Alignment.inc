@@ -1,4 +1,4 @@
 [mAligner]
 Measure = Script
-ScriptFile = #Scripts#Aligner.lua
+ScriptFile = #@#Scripts\DCal\Aligner.lua
 Disabled = 1

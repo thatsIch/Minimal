@@ -8,8 +8,6 @@ function Initialize()
 	local count = getTotalCount()
 	local RealSpacing = ((workareawidth - count * (DayWidth + DaySpacing)) / 2)
 
-
-
 	SKIN:GetMeter("mDummy"):SetX(RealSpacing)
 end
 

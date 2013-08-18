@@ -24,7 +24,6 @@ FontSize = 9
 FontFace = century Gothic
 FontColor = FF8800
 AntiAlias = 1
-;Text = Dienstag, der 13. Feb
 
 ; Seperator
 ; ==================================================
@@ -59,4 +58,3 @@ FontSize = 9
 FontFace = century Gothic
 AntiAlias = 1
 ClipString = 1
-;Text = 00:00 das ist ein Test

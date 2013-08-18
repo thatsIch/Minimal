@@ -37,12 +37,14 @@ Revolutionary Note-Design which involves seperate NoteSkins which can be called 
 
 ### Dynamic Calendar
 
-![Screenshot](http://puu.sh/44V7K.png)
+![Screenshot](http://puu.sh/44WjF.png)
 
 A horizontal display of your upcoming events not bound to a date limit but to the amount only
 
 * Can cover almost infinite amount of calendars (only download time increases)
 * Each calendar can use its own unique color
+* Displays Date to Date if an appointment takes longer than one day
+* all appointments are sorted by time and date
 
 ### System Stats
 

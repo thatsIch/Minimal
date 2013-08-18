@@ -35,6 +35,15 @@ Revolutionary Note-Design which involves seperate NoteSkins which can be called 
 * Positioning - you can place each element whereever you like
 * Expandable - Default are 5 notes, but you can easily expand this by copy & paste the Note1 files and rename them to NoteN where `N` is the next iteration in line. You can find it under `Minimal\Dock\Notes`. You will find 5 folders there to replicate. The script will automatically detect more notes if necessary
 
+### Dynamic Calendar
+
+![Screenshot](http://puu.sh/44V7K.png)
+
+A horizontal display of your upcoming events not bound to a date limit but to the amount only
+
+* Can cover almost infinite amount of calendars (only download time increases)
+* Each calendar can use its own unique color
+
 ### System Stats
 
 ![Screenshot](http://puu.sh/44blV.png)

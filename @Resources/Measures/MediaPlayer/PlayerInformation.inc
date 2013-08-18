@@ -4,36 +4,36 @@ Measure = Plugin
 Plugin = NowPlaying
 PlayerName = CAD
 PlayerType = Title
-TrackChangeAction = [!UpdateMeasureGroup "UpdateMeasureGroupPlayer"]
-OnChangeAction = [!UpdateMeasureGroup "UpdateMeasureGroupPlayer"]
+TrackChangeAction = [!UpdateMeasureGroup "UpdateMeasureGroupPlayer" "#CURRENTCONFIG#"]
 
 [mArtistTitle]
 Measure = Plugin
 Plugin = NowPlaying
-Group = UpdateMeasureGroupPlayer
 PlayerName = [mPlayer]
 PlayerType = Artist
-Substitute = "":"[mFileName]","[mArtistTitle]":"[mArtistTitle] - [mTitle]"
+Group = UpdateMeasureGroupPlayer
 DynamicVariables = 1
+Substitute = "":"[mFileName]","[mArtistTitle]":"[mArtistTitle] - [mTitle]"
+OnChangeAction = [!UpdateMeterGroup "ArtistSubscriber" "#CURRENTCONFIG#"]
 Disabled = 1
 
 [mTitle]
 Measure = Plugin
 Plugin = NowPlaying
-Group = UpdateMeasureGroupPlayer
 PlayerName = [mPlayer]
 PlayerType = Title
+Group = UpdateMeasureGroupPlayer
 Disabled = 1
 
 ; parse the filename out of path \filename.mp3
 [mFileName]
 Measure = Plugin
 Plugin = NowPlaying
-Group = UpdateMeasureGroupPlayer
 PlayerName = [mPlayer]
 PlayerType = File
-RegExpSubstitute = 1
+Group = UpdateMeasureGroupPlayer
 Substitute = ".*\\(.*)\..*":"\1"
+RegExpSubstitute = 1
 Disabled = 1
 
 [mProgress]

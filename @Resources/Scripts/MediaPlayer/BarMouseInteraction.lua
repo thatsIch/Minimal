@@ -48,6 +48,6 @@ end
 function SetVol(currentSection)
 	local index = string.match(currentSection, "(%d+)") or 0
 	SKIN:Bang('!CommandMeasure "mPlayer" "SetVolume ' .. index .. '"')
-	SKIN:Bang('!UpdateMeasure "mPlayer"')
-	SKIN:Bang('!Redraw')
+	-- SKIN:Bang('!UpdateMeasure "mPlayer"')
+	-- SKIN:Bang('!Redraw')
 end

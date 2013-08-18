@@ -2,5 +2,5 @@
 [bBar]
 Meter = Bar
 MeterStyle = sBar
-Group = UpdateMeterGroupPlayer
+Group = StateSubscriber | StatusSubscriber
 MeasureName = mProgress

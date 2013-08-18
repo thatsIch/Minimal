@@ -70,6 +70,7 @@ Gives access to basic Windows functionality as the Trashbin or Volume
 ## Known Bugs
 
 * Icons don't display correct size because of `ImageTint` but thats on Rainmeter
+* NowPlaying doesn't change the state, don't know if it is because of the plugin or Foobar
 
 ## Thanks to
 

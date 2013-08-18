@@ -17,4 +17,4 @@ PlayerName = [mPlayer]
 PlayerType = State
 Group = UpdateMeasureGroupPlayer
 UpdateRate = -1
-OnChangeAction = [!UpdateMeterGroup "StateSubscriber" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"] [!Log [mPlayerState]]
+OnChangeAction = [!UpdateMeterGroup "StateSubscriber" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"]

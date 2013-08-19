@@ -5,14 +5,14 @@ X = 0
 Y = 5
 W = 0
 H = 3
-SolidColor = 101, 192, 228
+SolidColor = #BarColorHigh#
 
 [yLoaderBG]
 X = 0
 Y = 5
 W = #SCREENAREAWIDTH#
 H = 3
-SolidColor = 100,100,100,255
+SolidColor = #BarColorLow#
 
 
 ; Date
@@ -20,9 +20,9 @@ SolidColor = 100,100,100,255
 [sDate]
 X = (0 + 0)R
 Y = 5
-FontSize = 9
-FontFace = century Gothic
-FontColor = FF8800
+FontSize = #FontSizeMedium#
+FontFace = #FontFamily#
+FontColor = #FontColorLow#
 AntiAlias = 1
 
 ; Seperator
@@ -32,7 +32,7 @@ X = 0r
 Y = 0R
 W = #DayWidth#
 H = 3
-SolidColor = 225,225,225,35
+SolidColor = #SeperatorColor#
 
 [sDummy] 
 X = (0 + 9)r
@@ -45,16 +45,15 @@ X = (0 - 7)r
 Y = (0 + 15)r
 W = 3
 H = 12
-;SolidColor = 0000FF
 
 [sEInfo]
 X = (0 + 4)R
 Y = (0 - 1)r
 W = #DayWidth#
 H = 16
-FontColor = FFFFFF
-SolidColor = 00000001
-FontSize = 9
-FontFace = century Gothic
+FontSize = #FontSizeMedium#
+FontFace = #FontFamily#
+FontColor = #FontColorHigh#
+SolidColor = #Transparent#
 AntiAlias = 1
 ClipString = 1

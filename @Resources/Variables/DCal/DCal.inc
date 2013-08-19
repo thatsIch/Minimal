@@ -21,6 +21,7 @@ Cal5 = https://www.google.com/calendar/feeds/do.tranminh%40googlemail.com/privat
 Cal6 = https://www.google.com/calendar/feeds/fuuffojqgkid0dmt2j6nrmv73k%40group.calendar.google.com/private-668b8725e481e19a154980ee6902d422/basic?max-results=8&futureevents=true&singleevents=true&orderby=starttime&sortorder=a
 
 
+DefaultBarColor = 255,255,255,255
 BarColor1 = 25,162,222,255
 BarColor2 = 25,162,222,100
 BarColor3 = 230,93,33,255

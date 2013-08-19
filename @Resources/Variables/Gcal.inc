@@ -1,2 +1,0 @@
-[Variables]
-ColumWidth = 250

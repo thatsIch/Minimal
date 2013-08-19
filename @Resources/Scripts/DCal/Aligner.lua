@@ -6,15 +6,9 @@ function Initialize()
 	local DaySpacing = SKIN:GetVariable("DaySpacing")
 
 	local count = getTotalCount()
-	local RealSpacing = ((workareawidth - count * (DayWidth + DaySpacing)) / 2)
+	local RealSpacing = ((workareawidth - count * (DayWidth + DaySpacing) + DaySpacing) / 2)
 
 	SKIN:GetMeter("mDummy"):SetX(RealSpacing)
-end
-
--- on each update
--- shouldnt be called
-function Update()
-
 end
 
 function getTotalCount()

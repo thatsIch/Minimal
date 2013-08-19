@@ -46,6 +46,17 @@ A horizontal display of your upcoming events not bound to a date limit but to th
 * Displays Date to Date if an appointment takes longer than one day
 * all appointments are sorted by time and date
 
+### Launcher
+
+![Screenshot](http://puu.sh/45oiq.png)
+
+A custom launcher, which can handle seperate things
+
+* Calls a custom programs on keyword
+* can search specific list of webpage
+* can run websites
+* can run normal windows commands
+
 ### System Stats
 
 ![Screenshot](http://puu.sh/44blV.png)

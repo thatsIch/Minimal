@@ -96,7 +96,7 @@ Gives access to basic Windows functionality as the Trashbin or Volume
 ## Thanks to
 
 * [Rainmeter-Team](https://github.com/rainmeter/rainmeter/graphs/contributors) for [Rainmeter](http://rainmeter.net/cms/)
-* [chrfb](http://chrfb.deviantart.com/) for his [ecqclipse 2] IconSet
+* [chrfb](http://chrfb.deviantart.com/) for his [ecqclipse 2](http://chrfb.deviantart.com/art/ecqlipse-2-quot-ico-quot-66339090) IconSet
 
 ## Contributor
 

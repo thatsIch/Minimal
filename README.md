@@ -44,7 +44,7 @@ A horizontal display of your upcoming events not bound to a date limit but to th
 * Can cover almost infinite amount of calendars (only download time increases)
 * Each calendar can use its own unique color
 * Displays Date to Date if an appointment takes longer than one day
-* all appointments are sorted by time and date
+* All appointments are sorted by time and date
 
 ### Launcher
 
@@ -53,9 +53,9 @@ A horizontal display of your upcoming events not bound to a date limit but to th
 A custom launcher, which can handle seperate things
 
 * Calls a custom programs on keyword
-* can search specific list of webpage
-* can run websites
-* can run normal windows commands
+* Search specific list of webpage
+* Open websites
+* Run normal windows commands
 
 ### System Stats
 

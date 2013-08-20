@@ -14,6 +14,7 @@ Text = "5"
 ; Down
 [sScrollbarArrowDown]
 Meter = String
+MeterStyle = yScrollBarArrows
 Y = 800
 AntiAlias = 1
 Text = "6"

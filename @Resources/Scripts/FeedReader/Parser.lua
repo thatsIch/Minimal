@@ -110,31 +110,39 @@ function displayCategory(category)
 end
 
 function displayFeed()
+
+	-- clear everything
+	local index = 1
+	while Meters['sEntryTitle' .. index].isMeter() do
+		Meters['sEntryTitle' .. index].hide()
+		Meters['sEntryDesc' .. index].hide()
+		Meters['iEntryImage' .. index].hide()
+
+		index = index + 1
+	end
+
 	local filePath = Measures.mWebParser:GetStringValue()
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getEntryCount())
-
-	-- clear everything
-	
 
 	-- entry = {title, link, cont, img}
 	for index, entry in pairs(entryList) do
 		if not Meters['sEntryTitle' .. index].isMeter() then break end
 
 		Meters['sEntryTitle' .. index].Text = entry.title
+		Meters['sEntryTitle' .. index].show()
 		Meters['sEntryTitle' .. index].update()
 
 		Meters['sEntryDesc' .. index].Text = entry.cont
 		Meters['sEntryDesc' .. index].RightMouseUpAction = entry.link
+		Meters['sEntryTitle' .. index].show()
 		Meters['sEntryDesc' .. index].update()
 		
 		if Measures['mEntryImageReader' .. index].isMeasure() and entry.img then
 			Measures['mEntryImageReader' .. index].Url = entry.img
 			Measures['mEntryImageReader' .. index].Disabled = 0
 			Measures['mEntryImageReader' .. index].forceUpdate()
-		else
-			Meters['iEntryImage' .. index].ImageName = ""
-			Meters['iEntryImage' .. index].update()
+			Meters['iEntryImage' .. index].show()
 		end
 	end
 

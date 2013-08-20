@@ -2,40 +2,40 @@
 ; Foreground
 ; ==================================================
 ; Corner
-[meterFeedReaderForegroundCornerTopLeft]
+[iForegroundCornerTopLeft]
 Meter = Roundline
-MeterStyle = styleFeedReaderForegroundCorner|styleFeedReaderForegroundCornerTopLeft
+MeterStyle = yForegroundCorner|yForegroundCornerTopLeft
 
-[meterFeedReaderForegroundCornerTopRight]
+[iForegroundCornerTopRight]
 Meter = Roundline
-MeterStyle = styleFeedReaderForegroundCorner|styleFeedReaderForegroundCornerTopRight
+MeterStyle = yForegroundCorner|yForegroundCornerTopRight
 
-[meterFeedReaderForegroundCornerBottomLeft]
+[iForegroundCornerBottomLeft]
 Meter = Roundline
-MeterStyle = styleFeedReaderForegroundCorner|styleFeedReaderForegroundCornerBottomLeft
+MeterStyle = yForegroundCorner|yForegroundCornerBottomLeft
 
-[meterFeedReaderForegroundCornerBottomRight]
+[iForegroundCornerBottomRight]
 Meter = Roundline
-MeterStyle = styleFeedReaderForegroundCorner|styleFeedReaderForegroundCornerBottomRight
+MeterStyle = yForegroundCorner|yForegroundCornerBottomRight
 
 ; Center
-[meterFeedReaderForeground]
+[iForeground]
 Meter = Image
-MeterStyle = styleFeedReaderForeground
+MeterStyle = yForeground
 
 ; Edges
-[meterFeedReaderForegroundTop]
+[iForegroundTop]
 Meter = Image
-MeterStyle = styleFeedReaderForegroundEdge|styleFeedReaderForegroundEdgeTop
+MeterStyle = yForegroundEdge|yForegroundEdgeTop
 
-[meterFeedReaderForegroundBottom]
+[iForegroundBottom]
 Meter = Image
-MeterStyle = styleFeedReaderForegroundEdge|styleFeedReaderForegroundEdgeBottom
+MeterStyle = yForegroundEdge|yForegroundEdgeBottom
 
-[meterFeedReaderForegroundLeft]
+[iForegroundLeft]
 Meter = Image
-MeterStyle = styleFeedReaderForegroundEdge|styleFeedReaderForegroundEdgeLeft
+MeterStyle = yForegroundEdge|yForegroundEdgeLeft
 
-[meterFeedReaderForegroundRight]
+[iForegroundRight]
 Meter = Image
-MeterStyle = styleFeedReaderForegroundEdge|styleFeedReaderForegroundEdgeRight
+MeterStyle = yForegroundEdge|yForegroundEdgeRight

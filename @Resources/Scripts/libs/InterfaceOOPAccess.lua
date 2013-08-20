@@ -34,15 +34,15 @@ return function(SKIN)
 
 			-- catch Rainmeter Native Build-In functions
 			-- Show, Hide, SetXYWH, GetXYWH, GetName, GetOption (though special case), Enable, Disable, GetValueRange, GetRelativeValue, GetMaxValue, 
-			elseif #table > 0 and table.__section[key] then 
+			elseif table.__section[key] then 
 				return function(...) return table.__section[key](table.__section,...) end 
 			
 			-- catch meter options
-			elseif #table > 0 and table.__section.GetOption then
+			elseif table.__section.GetOption then
 				return table.__section:GetOption(key)
 
 			-- catch measure options
-			elseif #table > 0 and table.__section.GetNumberOption then
+			elseif table.__section.GetNumberOption then
 				return (table.__section.GetNumberOption and table.__section:GetNumberOption(key,nil))
 			
 			-- unknown case
@@ -55,7 +55,7 @@ return function(SKIN)
 	}
 	local sections = {
 		__index = function(table,key) 
-			if key == 'Redraw' then
+			if key == 'redraw' then
 				return function() SKIN:Bang('!Redraw', SKIN:GetVariable('CURRENTCONFIG')) end
 			else
 				sections[key] = {}
@@ -75,6 +75,9 @@ return function(SKIN)
 		end,
 		isMeasure = function(measure)
 			return SKIN:GetMeasure(measure) and true or false
+		end,
+		toggleGroup = function(meterGroup)
+			SKIN:Bang('!ToggleMeterGroup', meterGroup,SKIN:GetVariable('CURRENTCONFIG'))
 		end
 	}
 	local variables = {

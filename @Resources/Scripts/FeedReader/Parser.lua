@@ -23,6 +23,9 @@ function Initialize()
 	-- test
 	local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
 	local rawFeed = FileReader(uri)
+	local entryList = FeedParser(rawFeed, getEntryCount())
+
+	displayFeed(entryList)
 end
 
 -- @param rawList string
@@ -109,7 +112,15 @@ function displayCategory(category)
 	Meters.redraw()
 end
 
-function displayFeed()
+function onFinishActionWebParser()
+	local filePath = Measures.mWebParser:GetStringValue()
+	local rawFeed = FileReader(filePath)
+	local entryList = FeedParser(rawFeed, getEntryCount())
+
+	displayFeed(entryList)
+end
+
+function displayFeed(entryList)
 
 	-- clear everything
 	local index = 1
@@ -121,10 +132,6 @@ function displayFeed()
 		index = index + 1
 	end
 
-	local filePath = Measures.mWebParser:GetStringValue()
-	local rawFeed = FileReader(filePath)
-	local entryList = FeedParser(rawFeed, getEntryCount())
-
 	-- entry = {title, link, cont, img}
 	for index, entry in pairs(entryList) do
 		if not Meters['sEntryTitle' .. index].isMeter() then break end
@@ -135,14 +142,14 @@ function displayFeed()
 
 		Meters['sEntryDesc' .. index].Text = entry.cont
 		Meters['sEntryDesc' .. index].RightMouseUpAction = entry.link
-		Meters['sEntryTitle' .. index].show()
+		Meters['sEntryDesc' .. index].show()
 		Meters['sEntryDesc' .. index].update()
 		
 		if Measures['mEntryImageReader' .. index].isMeasure() and entry.img then
+			Meters['iEntryImage' .. index].show()
 			Measures['mEntryImageReader' .. index].Url = entry.img
 			Measures['mEntryImageReader' .. index].Disabled = 0
 			Measures['mEntryImageReader' .. index].forceUpdate()
-			Meters['iEntryImage' .. index].show()
 		end
 	end
 

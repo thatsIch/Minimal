@@ -12,6 +12,10 @@ return function(SKIN)
 			elseif key == 'update' and SKIN:GetMeasure(table.__sectionname) then 
 				return function() SKIN:Bang('!UpdateMeasure',table.__sectionname, SKIN:GetVariable('CURRENTCONFIG')) end 
 
+			-- catch forceUpdate()
+			elseif key == 'forceUpdate' and SKIN:GetMeasure(table.__sectionname) then 
+				return function() SKIN:Bang('!CommandMeasure',table.__sectionname, 'Update', SKIN:GetVariable('CURRENTCONFIG')) end 
+
 			-- catch update()	
 			elseif key == 'update' and SKIN:GetMeter(table.__sectionname) then 
 				return function() SKIN:Bang('!UpdateMeter',table.__sectionname, SKIN:GetVariable('CURRENTCONFIG')) end 

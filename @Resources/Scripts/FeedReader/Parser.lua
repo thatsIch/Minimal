@@ -114,6 +114,7 @@ function displayFeed()
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getEntryCount())
 
+	-- entry = {title, link, cont, img}
 	for index, entry in pairs(entryList) do
 		if not Meters['sEntryTitle' .. index].isMeter() then break end
 
@@ -121,9 +122,18 @@ function displayFeed()
 		Meters['sEntryTitle' .. index].update()
 
 		Meters['sEntryDesc' .. index].Text = entry.cont
+		Meters['sEntryDesc' .. index].RightMouseUpAction = entry.link
 		Meters['sEntryDesc' .. index].update()
+		
+		if Measures['mEntryImageReader' .. index].isMeasure() and entry.img then
+			Measures['mEntryImageReader' .. index].Url = entry.img
+			Measures['mEntryImageReader' .. index].Disabled = 0
+			Measures['mEntryImageReader' .. index].forceUpdate()
+		else
+			Meters['iEntryImage' .. index].ImageName = ""
+			Meters['iEntryImage' .. index].update()
+		end
 	end
-	-- print(PrettyPrint(entryList))
 
 	Meters.redraw()
 end

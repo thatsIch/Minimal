@@ -114,6 +114,9 @@ function displayFeed()
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getEntryCount())
 
+	-- clear everything
+	
+
 	-- entry = {title, link, cont, img}
 	for index, entry in pairs(entryList) do
 		if not Meters['sEntryTitle' .. index].isMeter() then break end

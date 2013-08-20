@@ -5,34 +5,20 @@
 ; and enables you to scroll within
 ; ==================================================
 ; Up
-[meterFeedReaderScrollbarUp]
+[sScrollbarArrowUp]
 Meter = String
-W = 8
-H = 8
-X = 293
-Y = 71
-AntiAlias = 1
-FontFace = Webdings
+MeterStyle = yScrollBarArrows
+Y = 70
 Text = "5"
-FontColor = 666666
 
 ; Down
-[meterFeedReaderScrollbarDown]
+[sScrollbarArrowDown]
 Meter = String
-W = 8
-H = 8
-X = 293
-Y = 801
+Y = 800
 AntiAlias = 1
-FontFace = Webdings
 Text = "6"
-FontColor = 666666
 
+; Area
 [meterFeedReaderScrollbarBar]
 Meter = Image
-W = 8
-H = 80
-X = 297
-Y = 85
-AntiAlias = 1
-SolidColor = 666666
+MeterStyle = yScrollBarArea

@@ -5,6 +5,6 @@
 ; navigation from content
 ; ==================================================
 ; Corner
-[meterFeedReaderNaviContentSeperator]
+[iNaviContentSeperator]
 Meter = Image
-MeterStyle = styleFeedReaderNaviContentSeperator
+MeterStyle = yNaviContentSeperator

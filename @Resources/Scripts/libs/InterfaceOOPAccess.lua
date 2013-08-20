@@ -1,9 +1,6 @@
 return function(SKIN)
 	local ms = {
 		__index = function(table,key) 
-			-- print(key)
-			-- for k, v in pairs(table) do print(k) end
-			-- print(#table)
 			-- catch recursive call		
 			if key == '__section' and #table < 2 then
 				return
@@ -29,8 +26,11 @@ return function(SKIN)
 
 			-- catch hide()
 			elseif key == 'hide' and SKIN:GetMeter(table.__sectionname) then
-				print("hide")
 				return function() SKIN:Bang('!HideMeter',table.__sectionname, SKIN:GetVariable('CURRENTCONFIG')) end
+
+			-- catch show()
+			elseif key == 'show' and SKIN:GetMeter(table.__sectionname) then
+				return function() SKIN:Bang('!ShowMeter',table.__sectionname, SKIN:GetVariable('CURRENTCONFIG')) end
 
 			-- catch Rainmeter Native Build-In functions
 			-- Show, Hide, SetXYWH, GetXYWH, GetName, GetOption (though special case), Enable, Disable, GetValueRange, GetRelativeValue, GetMaxValue, 
@@ -99,5 +99,5 @@ return function(SKIN)
 	setmetatable(variables,variables)
 	setmetatable(sections,sections)
 
-	return sections, sections, variabes
+	return sections, sections, variables
 end

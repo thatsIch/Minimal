@@ -87,11 +87,11 @@ end
 function displayCategory(category)
 
 	-- clear old feeds
-	local iterator = 1
-	while Meters['sFeed' .. iterator].isMeter() do
-		Meters['sFeed' .. iterator].hide()
+	local index = 1
+	while Meters['sFeed' .. index].isMeter() do
+		Meters['sFeed' .. index].hide()
 
-		iterator = iterator + 1
+		index = index + 1
 	end
 
 	-- write onto meter

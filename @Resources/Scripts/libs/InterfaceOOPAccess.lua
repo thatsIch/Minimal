@@ -64,7 +64,7 @@ return function(SKIN)
 		end, 
 		__newindex = function(table,key,value) SKIN:Bang('!SetOption',table.__sectionname,key,value,SKIN:GetVariable('CURRENTCONFIG')) end
 	}
-	local sections = {
+	sections = {
 		__index = function(table,key) 
 			if key == 'redraw' then
 				return function() SKIN:Bang('!Redraw', SKIN:GetVariable('CURRENTCONFIG')) end

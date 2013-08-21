@@ -1,4 +1,4 @@
-
+-- TODO database on update
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
@@ -6,12 +6,13 @@ function Initialize()
 	FeedParser = dofile(Variables['@'].."Scripts\\Libs\\FeedParser.lua")
 	FileReader = dofile(Variables['@'].."Scripts\\Libs\\FileReader.lua")
 	
-	-- Database
+	-- -- Database
 	local feedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
 
 	-- SORTED_URL_LIST[category][id/url] = value
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	SORTED_URL_LIST = sortedFeedList
+
 	displayCategories(categoryOrder)
 
 	SCROLL_OFFSET = 0
@@ -82,7 +83,7 @@ end
 
 -- @param category string
 function displayCategory(category)
-
+	print(category)
 	-- reset offset
 	SCROLL_OFFSET = 0
 
@@ -97,6 +98,7 @@ function displayCategory(category)
 	
 	local stopPoint = 0
 	for index, feed in pairs(SORTED_URL_LIST[category]) do
+
 		-- not enough _meters to display
 		if not Meters['sFeed' .. index].isMeter() then break end
 
@@ -104,13 +106,15 @@ function displayCategory(category)
 		Meters['sFeed' .. index].Text = feed.id
 		Meters['sFeed' .. index].LeftMouseUpAction = '[!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
 		Meters['sFeed' .. index].update()
-
+		print(index)
 		stopPoint = index
 	end
 
 	-- clear old feeds
+	stopPoint = stopPoint + 1
 	while Meters['sFeed' .. stopPoint].isMeter() do
 		Meters['sFeed' .. stopPoint].hide()
+		Meters['sFeed' .. stopPoint].update()
 
 		stopPoint = stopPoint + 1
 	end
@@ -125,7 +129,7 @@ function shiftCategory(offset)
 
 	-- check if it can even offset more
 	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - 30))
-	if SCROLL_OFFSET == newOffset return end
+	if SCROLL_OFFSET == newOffset then return end
 
 	SCROLL_OFFSET = newOffset
 		
@@ -182,6 +186,7 @@ function displayFeed(entryList)
 	end
 
 	-- clear everything which isnt used
+	stopPoint = stopPoint + 1
 	while Meters['sEntryTitle' .. stopPoint].isMeter() do
 		Meters['sEntryTitle' .. stopPoint].hide()
 		Meters['sEntryDesc' .. stopPoint].hide()

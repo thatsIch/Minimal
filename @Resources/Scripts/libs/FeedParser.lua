@@ -7,9 +7,6 @@ local FeedParser do
 		local char = string.char
 		local gsub = string.gsub
 
-		if string.find(string, 'Armut') then
-			print(string)
-		end
 		-- CONVERT TABLE
 		local generalConvertTable = {
 			[char(226,128,153)] = char(39), -- '

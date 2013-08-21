@@ -6,9 +6,41 @@ function Initialize()
 	-- url: url to the feed to be parsed
 	-- pin (optional): if true it has higher priority and is as most top as possible
 	local feedUrlList = {
-		{'Nachrichten', 'Spiegel Online', 'http://www.spiegel.de/schlagzeilen/tops/index.rss', true},
+		{'Nachrichten', 'Spiegel Online', 'http://www.spiegel.de/schlagzeilen/tops/index.rss'},
 		{'Backen', 'Cupcake Queen', 'http://cupcakequeen.de/feed/'},	
 		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Spiegel Online', 'http://www.spiegel.de/schlagzeilen/tops/index.rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+		{'Nachrichten', 'Die Welt LAST', 'http://www.welt.de/?service=Rss', true},
 	}
 
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
@@ -20,12 +52,13 @@ function Initialize()
 	SORTED_URL_LIST, CATEGORY_ORDER = sortFeedUrlList(feedUrlList)
 	displayCategories(CATEGORY_ORDER)
 
+	SCROLL_OFFSET = 0
 	-- test
-	local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
-	local rawFeed = FileReader(uri)
-	local entryList = FeedParser(rawFeed, getEntryCount())
+	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
+	-- local rawFeed = FileReader(uri)
+	-- local entryList = FeedParser(rawFeed, getEntryCount())
 
-	displayFeed(entryList)
+	-- displayFeed(entryList)
 end
 
 -- @param rawList string
@@ -70,6 +103,7 @@ end
 
 -- @param categories {string}
 function displayCategories(categories)
+
 	for i, category in pairs(categories) do
 		-- break loop if too many categories
 		if not Meters['sCategorySelectorDropdown' .. i].isMeter() then break end
@@ -94,6 +128,10 @@ function displayCategory(category)
 		index = index + 1
 	end
 
+	-- change scrollbar size
+	Meters.iScrollbarBarArea.H = 717 * math.min(30 / #SORTED_URL_LIST[category], 1)
+	Meters.iScrollbarBarArea.update()
+
 	-- write onto meter
 	Meters.sCategorySelectorText.Text = category
 	Meters.sCategorySelectorText.update()
@@ -109,6 +147,30 @@ function displayCategory(category)
 	end
 
 	Meters.toggleGroup('DropDown')
+	Meters.redraw()
+end
+
+function shiftCategory(offset)
+	SCROLL_OFFSET = SCROLL_OFFSET + offset	
+	-- check if it can even offset more
+	local currentCategory = Meters.sCategorySelectorText.Text
+	
+
+	-- change scrollbar position
+	Meters.iScrollbarBarArea.Y = 83 + SCROLL_OFFSET * math.ceil(717 / #SORTED_URL_LIST[currentCategory])
+	Meters.iScrollbarBarArea.update()
+
+	---[[
+	for index = SCROLL_OFFSET + 1, #SORTED_URL_LIST[currentCategory], 1 do 
+		if not Meters['sFeed' .. index - SCROLL_OFFSET + 1].isMeter() then break end
+
+		Meters['sFeed' .. index - SCROLL_OFFSET].show()
+		Meters['sFeed' .. index - SCROLL_OFFSET].Text = SORTED_URL_LIST[currentCategory][index].id
+		Meters['sFeed' .. index - SCROLL_OFFSET].LeftMouseUpAction = '[!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. SORTED_URL_LIST[currentCategory][index].url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
+		Meters['sFeed' .. index - SCROLL_OFFSET].update()
+	end
+	--]]
+
 	Meters.redraw()
 end
 

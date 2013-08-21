@@ -7,19 +7,16 @@
 ; Up
 [sScrollbarArrowUp]
 Meter = String
-MeterStyle = yScrollBarArrows
-Y = 70
-Text = "5"
+MeterStyle = yScrollBarArrows | yScrollUpArrow
+LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(-1)" "#CURRENTCONFIG#"]
 
 ; Down
 [sScrollbarArrowDown]
 Meter = String
-MeterStyle = yScrollBarArrows
-Y = 800
-AntiAlias = 1
-Text = "6"
+MeterStyle = yScrollBarArrows | yScrollDownArrow
+LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(1)" "#CURRENTCONFIG#"]
 
 ; Area
-[meterFeedReaderScrollbarBar]
+[iScrollbarBarArea]
 Meter = Image
 MeterStyle = yScrollBarArea

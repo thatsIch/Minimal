@@ -36,6 +36,13 @@ return function(SKIN)
 			elseif key == 'show' and SKIN:GetMeter(table.__sectionname) then
 				return function() SKIN:Bang('!ShowMeter',table.__sectionname, SKIN:GetVariable('CURRENTCONFIG')) end
 
+			-- catch X
+			elseif key == 'X' and SKIN:GetMeter(table.__sectionname) then
+				return SKIN:GetMeter(table.__sectionname):GetX()
+
+			elseif key == 'Y' and SKIN:GetMeter(table.__sectionname) then
+				return SKIN:GetMeter(table.__sectionname):GetY()
+
 			-- catch Rainmeter Native Build-In functions
 			-- Show, Hide, SetXYWH, GetXYWH, GetName, GetOption (though special case), Enable, Disable, GetValueRange, GetRelativeValue, GetMaxValue, 
 			elseif table.__section[key] then 

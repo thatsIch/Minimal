@@ -1,0 +1,42 @@
+-- {category, identifier, url [, pin]}
+-- category: the category the feed is saved under, can be choosen later on from the drop down menu
+-- identifier: displayed name of the link to the Feed
+-- url: url to the feed to be parsed
+-- pin (optional): if true it has higher priority and is as most top as possible
+return {
+	{'Nachrichten', 'Spiegel Online', 'http://www.spiegel.de/schlagzeilen/tops/index.rss'},
+	{'Backen', 'Cupcake Queen', 'http://cupcakequeen.de/feed/'},	
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Spiegel Online', 'http://www.spiegel.de/schlagzeilen/tops/index.rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Nachrichten', 'Die Welt LAST', 'http://www.welt.de/?service=Rss', true},
+}

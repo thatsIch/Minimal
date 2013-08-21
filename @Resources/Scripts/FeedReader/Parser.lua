@@ -1,55 +1,16 @@
 
 function Initialize()
-	-- {category, identifier, url [, pin]}
-	-- category: the category the feed is saved under, can be choosen later on from the drop down menu
-	-- identifier: displayed name of the link to the Feed
-	-- url: url to the feed to be parsed
-	-- pin (optional): if true it has higher priority and is as most top as possible
-	local feedUrlList = {
-		{'Nachrichten', 'Spiegel Online', 'http://www.spiegel.de/schlagzeilen/tops/index.rss'},
-		{'Backen', 'Cupcake Queen', 'http://cupcakequeen.de/feed/'},	
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Spiegel Online', 'http://www.spiegel.de/schlagzeilen/tops/index.rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
-		{'Nachrichten', 'Die Welt LAST', 'http://www.welt.de/?service=Rss', true},
-	}
-
+	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
-	PrettyPrint = dofile(SKIN:GetVariable('@').."Scripts\\Libs\\PrettyPrint.lua")
-	FeedParser = dofile(SKIN:GetVariable('@').."Scripts\\Libs\\FeedParser.lua")
-	FileReader = dofile(SKIN:GetVariable('@').."Scripts\\Libs\\FileReader.lua")
+	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
+	FeedParser = dofile(Variables['@'].."Scripts\\Libs\\FeedParser.lua")
+	FileReader = dofile(Variables['@'].."Scripts\\Libs\\FileReader.lua")
 	
+	-- Database
+	local FeedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
+
 	-- SORTED_URL_LIST[category][id/url] = value
-	SORTED_URL_LIST, CATEGORY_ORDER = sortFeedUrlList(feedUrlList)
+	SORTED_URL_LIST, CATEGORY_ORDER = sortFeedUrlList(FeedList)
 	displayCategories(CATEGORY_ORDER)
 
 	SCROLL_OFFSET = 0
@@ -187,9 +148,9 @@ function onFinishActionWebParser()
 	displayFeed(entryList)
 end
 
+-- @param entryList {{title, link, cont, img}}
 function displayFeed(entryList)
 
-	-- entry = {title, link, cont, img}
 	local stopPoint = 0
 	for index, entry in pairs(entryList) do
 		if not Meters['sEntryTitle' .. index].isMeter() then break end

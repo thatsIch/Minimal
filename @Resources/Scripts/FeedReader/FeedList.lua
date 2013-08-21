@@ -11,6 +11,6 @@ return {
 	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
 	{'Computer', 'Rainmeter', 'http://rainmeter.net/forum/feed.php', true},
 	{'Computer', 'Golem.IT', 'http://golem.de.dynamic.feedsportal.com/pf/578068/http://rss.golem.de/rss.php?feed=RSS2.0', true},
-	{'Kochen und Backen - Englisch', "Zizi's Adventures", 'http://feeds.feedburner.com/ziziadventures', },
-	{'Backen', 'Zimtzauber & Zuckernebel', 'http://zuckernebel.blogspot.com/feeds/posts/default', },
+	{'Kochen und Backen - Englisch', "Zizi's Adventures", 'http://feeds.feedburner.com/ziziadventures'},
+	{'Backen', 'Zimtzauber & Zuckernebel', 'http://zuckernebel.blogspot.com/feeds/posts/default'},
 }

@@ -7,6 +7,9 @@ local FeedParser do
 		local char = string.char
 		local gsub = string.gsub
 
+		-- REMOVE CDATA
+		string = string.gsub(string, '<!%[CDATA%[(.-)%]%]>', "%1")
+
 		-- CONVERT TABLE
 		local generalConvertTable = {
 			[char(226,128,153)] = char(39), -- '
@@ -15,6 +18,7 @@ local FeedParser do
 			[char(226,128,142)] = '',
 			[char(226,128,158)] = '', -- bot "
 			[char(226,128,140)] = '', -- top "
+			[char(226,128,162)] = '', -- >> or something
 		}
 		
 		-- ITERATE THROUGH ALL ENTRIES AND REPLACE
@@ -149,10 +153,10 @@ local FeedParser do
 	-- @return parsedEntries table of {title, link, cont, img}
 	function FeedParser(rawFeed, maxEntryCount)
 		local parsedEntries = {}
-
+		rawFeed = StringReplaceByTable(rawFeed)
 		-- RSS
 		for entry in string.gmatch(rawFeed, '<item.->(.-)</item>') do
-			entry = StringReplaceByTable(entry)
+			-- entry = StringReplaceByTable(entry)
 			table.insert(parsedEntries, {
 				title = getRSSTitle(entry);
 				link = getRSSLink(entry);
@@ -164,7 +168,7 @@ local FeedParser do
 
 		-- ATOM
 		for entry in string.gmatch(rawFeed, '<entry.->(.-)</entry>') do
-			entry = StringReplaceByTable(entry)
+			-- entry = StringReplaceByTable(entry)
 			table.insert(parsedEntries, {
 				title = getAtomTitle(entry);
 				link = getAtomLink(entry);

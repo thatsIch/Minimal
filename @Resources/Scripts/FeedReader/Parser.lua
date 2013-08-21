@@ -177,14 +177,19 @@ function displayFeed(entryList)
 		Meters['sEntryDesc' .. index].show()
 		Meters['sEntryDesc' .. index].update()
 		
+		Meters['iEntryImage' .. index].show()
+		print(index .. ': ' .. (entry.img or ''))
 		if Measures['mEntryImageReader' .. index].isMeasure() and entry.img then
-			Meters['iEntryImage' .. index].show()
 			Measures['mEntryImageReader' .. index].Url = entry.img
 			Measures['mEntryImageReader' .. index].Disabled = 0
+
+			Meters['iEntryImage' .. index].MeasureName = 'mEntryImageReader' .. index
+			-- Meters['iEntryImage' .. index].update()
+
 			Measures['mEntryImageReader' .. index].forceUpdate()
 		else
-			Meters['iEntryImage' .. index].show()
-			Meters['iEntryImage' .. index].ImageName = ""
+			Meters['iEntryImage' .. index].MeasureName = ""
+			Meters['iEntryImage' .. index].DynamicVariables = 1
 			Meters['iEntryImage' .. index].update()
 		end
 

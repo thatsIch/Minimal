@@ -29,5 +29,5 @@ BarColorLow = 646464FF
 ; ==================================================
 SeperatorColor = E1E1E123
 Transparent = 00000001
-OpaqueWhite = FFFFFFFF
-OpaqueBlack = 000000FF
+OpaqueWhite = FFFFFF
+OpaqueBlack = 000000

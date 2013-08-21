@@ -44,9 +44,9 @@ function Initialize()
 	}
 
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
-	PrettyPrint = dofile(SKIN:GetVariable('@').."Scripts\\libs\\PrettyPrint.lua")
-	FeedParser = dofile(SKIN:GetVariable('@').."Scripts\\libs\\FeedParser.lua")
-	FileReader = dofile(SKIN:GetVariable('@').."Scripts\\libs\\FileReader.lua")
+	PrettyPrint = dofile(SKIN:GetVariable('@').."Scripts\\Libs\\PrettyPrint.lua")
+	FeedParser = dofile(SKIN:GetVariable('@').."Scripts\\Libs\\FeedParser.lua")
+	FileReader = dofile(SKIN:GetVariable('@').."Scripts\\Libs\\FileReader.lua")
 	
 	-- SORTED_URL_LIST[category][id/url] = value
 	SORTED_URL_LIST, CATEGORY_ORDER = sortFeedUrlList(feedUrlList)
@@ -189,17 +189,8 @@ end
 
 function displayFeed(entryList)
 
-	-- clear everything
-	local index = 1
-	while Meters['sEntryTitle' .. index].isMeter() do
-		Meters['sEntryTitle' .. index].hide()
-		Meters['sEntryDesc' .. index].hide()
-		Meters['iEntryImage' .. index].hide()
-
-		index = index + 1
-	end
-
 	-- entry = {title, link, cont, img}
+	local stopPoint = 0
 	for index, entry in pairs(entryList) do
 		if not Meters['sEntryTitle' .. index].isMeter() then break end
 
@@ -218,6 +209,17 @@ function displayFeed(entryList)
 			Measures['mEntryImageReader' .. index].Disabled = 0
 			Measures['mEntryImageReader' .. index].forceUpdate()
 		end
+
+		stopPoint = index
+	end
+
+	-- clear everything which isnt used
+	while Meters['sEntryTitle' .. stopPoint].isMeter() do
+		Meters['sEntryTitle' .. stopPoint].hide()
+		Meters['sEntryDesc' .. stopPoint].hide()
+		Meters['iEntryImage' .. stopPoint].hide()
+
+		stopPoint = stopPoint + 1
 	end
 
 	Meters.redraw()

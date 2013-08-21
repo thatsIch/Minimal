@@ -7,13 +7,15 @@ function Initialize()
 	FileReader = dofile(Variables['@'].."Scripts\\Libs\\FileReader.lua")
 	
 	-- Database
-	local FeedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
+	local feedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
 
 	-- SORTED_URL_LIST[category][id/url] = value
-	SORTED_URL_LIST, CATEGORY_ORDER = sortFeedUrlList(FeedList)
-	displayCategories(CATEGORY_ORDER)
+	local sortedFeedList, categoryOrder = sortFeedList(feedList)
+	SORTED_URL_LIST = sortedFeedList
+	displayCategories(categoryOrder)
 
 	SCROLL_OFFSET = 0
+
 	-- test
 	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
 	-- local rawFeed = FileReader(uri)
@@ -24,7 +26,7 @@ end
 
 -- @param rawList string
 -- @return sortedResult, categoryOrder = {category = {{id, url}}}, {string}
-function sortFeedUrlList(rawList)
+function sortFeedList(rawList)
 	local sortedResult = {}
 	local tempAlphaSorted = {}
 	local categoryOrder = {}
@@ -185,10 +187,6 @@ function displayFeed(entryList)
 
 	Meters.redraw()
 end
-
--- IO
--- ==================================================
-
 
 -- BASIC
 -- ==================================================

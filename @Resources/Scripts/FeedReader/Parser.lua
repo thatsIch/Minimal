@@ -86,14 +86,6 @@ function displayCategory(category)
 	-- reset offset
 	SCROLL_OFFSET = 0
 
-	-- clear old feeds
-	local index = 1
-	while Meters['sFeed' .. index].isMeter() do
-		Meters['sFeed' .. index].hide()
-
-		index = index + 1
-	end
-
 	-- change scrollbar size
 	Meters.iScrollbarBarArea.Y = 83
 	Meters.iScrollbarBarArea.H = 717 * math.min(30 / #SORTED_URL_LIST[category], 1)
@@ -103,6 +95,7 @@ function displayCategory(category)
 	Meters.sCategorySelectorText.Text = category
 	Meters.sCategorySelectorText.update()
 	
+	local stopPoint = 0
 	for index, feed in pairs(SORTED_URL_LIST[category]) do
 		-- not enough _meters to display
 		if not Meters['sFeed' .. index].isMeter() then break end
@@ -111,6 +104,15 @@ function displayCategory(category)
 		Meters['sFeed' .. index].Text = feed.id
 		Meters['sFeed' .. index].LeftMouseUpAction = '[!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
 		Meters['sFeed' .. index].update()
+
+		stopPoint = index
+	end
+
+	-- clear old feeds
+	while Meters['sFeed' .. stopPoint].isMeter() do
+		Meters['sFeed' .. stopPoint].hide()
+
+		stopPoint = stopPoint + 1
 	end
 
 	Meters.toggleGroup('DropDown')
@@ -122,7 +124,10 @@ function shiftCategory(offset)
 	local feedCount = #SORTED_URL_LIST[currentCategory]
 
 	-- check if it can even offset more
-	SCROLL_OFFSET = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - 30))
+	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - 30))
+	if SCROLL_OFFSET == newOffset return end
+
+	SCROLL_OFFSET = newOffset
 		
 	-- change scrollbar position
 	Meters.iScrollbarBarArea.Y = 83 + SCROLL_OFFSET * math.ceil(717 / #SORTED_URL_LIST[currentCategory])

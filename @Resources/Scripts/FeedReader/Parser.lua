@@ -151,18 +151,19 @@ function displayCategory(category)
 end
 
 function shiftCategory(offset)
-	SCROLL_OFFSET = SCROLL_OFFSET + offset	
-	-- check if it can even offset more
 	local currentCategory = Meters.sCategorySelectorText.Text
-	
+	local feedCount = #SORTED_URL_LIST[currentCategory]
 
+	-- check if it can even offset more
+	SCROLL_OFFSET = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - 30))
+		
 	-- change scrollbar position
 	Meters.iScrollbarBarArea.Y = 83 + SCROLL_OFFSET * math.ceil(717 / #SORTED_URL_LIST[currentCategory])
 	Meters.iScrollbarBarArea.update()
 
 	---[[
 	for index = SCROLL_OFFSET + 1, #SORTED_URL_LIST[currentCategory], 1 do 
-		if not Meters['sFeed' .. index - SCROLL_OFFSET + 1].isMeter() then break end
+		if not Meters['sFeed' .. index - SCROLL_OFFSET].isMeter() then break end
 
 		Meters['sFeed' .. index - SCROLL_OFFSET].show()
 		Meters['sFeed' .. index - SCROLL_OFFSET].Text = SORTED_URL_LIST[currentCategory][index].id

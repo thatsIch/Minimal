@@ -8,15 +8,22 @@
 [sScrollbarArrowUp]
 Meter = String
 MeterStyle = yScrollBarArrows | yScrollUpArrow
-LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(-1)" "#CURRENTCONFIG#"]
+LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(-30)" "#CURRENTCONFIG#"]
 
 ; Down
 [sScrollbarArrowDown]
 Meter = String
 MeterStyle = yScrollBarArrows | yScrollDownArrow
-LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(1)" "#CURRENTCONFIG#"]
+LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(30)" "#CURRENTCONFIG#"]
 
 ; Area
 [iScrollbarBarArea]
 Meter = Image
 MeterStyle = yScrollBarArea
+
+[iScrollbarBarAreaBG]
+Meter = Image
+MeterStyle = yScrollBarArea
+SolidColor = #Transparent#
+MouseScrollUpAction = [!CommandMeasure "mParser" "shiftCategory(-1)" "#CURRENTCONFIG#"]
+MouseScrollDownAction = [!CommandMeasure "mParser" "shiftCategory(1)" "#CURRENTCONFIG#"]

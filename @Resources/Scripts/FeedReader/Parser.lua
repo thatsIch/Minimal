@@ -103,7 +103,7 @@ function displayCategory(category)
 
 		Meters['sFeed' .. index].show()
 		Meters['sFeed' .. index].Text = feed.id
-		Meters['sFeed' .. index].LeftMouseUpAction = '[!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
+		Meters['sFeed' .. index].LeftMouseUpAction = '[!SetOption "sFeed' .. index..'" "FontColor" "#LinkColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "sFeed' .. index..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
 		Meters['sFeed' .. index].update()
 		
 		stopPoint = index
@@ -138,12 +138,14 @@ function shiftCategory(offset)
 
 	---[[
 	for index = SCROLL_OFFSET + 1, #SORTED_URL_LIST[currentCategory], 1 do 
-		if not Meters['sFeed' .. index - SCROLL_OFFSET].isMeter() then break end
+		local iString = 'sFeed' .. (index - SCROLL_OFFSET)
 
-		Meters['sFeed' .. index - SCROLL_OFFSET].show()
-		Meters['sFeed' .. index - SCROLL_OFFSET].Text = SORTED_URL_LIST[currentCategory][index].id
-		Meters['sFeed' .. index - SCROLL_OFFSET].LeftMouseUpAction = '[!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. SORTED_URL_LIST[currentCategory][index].url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
-		Meters['sFeed' .. index - SCROLL_OFFSET].update()
+		if not Meters[iString].isMeter() then break end
+
+		Meters[iString].show()
+		Meters[iString].Text = SORTED_URL_LIST[currentCategory][index].id
+		Meters[iString].LeftMouseUpAction = '[!SetOption "'..iString..'" "FontColor" "#LinkColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "'..iString..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. SORTED_URL_LIST[currentCategory][index].url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
+		Meters[iString].update()
 	end
 	--]]
 

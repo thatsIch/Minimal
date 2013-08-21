@@ -115,7 +115,13 @@ local FeedParser do
 	-- @param entry string
 	-- @return _ string
 	function getAtomLink(entry)
-		return string.match(entry, "<link.-href=[\"'](.-)[\"']") or "(no link)"
+		local link = 
+		string.match(entry, "<link.-rel=[\"']alternate[\"'].-href=[\"'](.-)[\"']") or 
+		string.match(entry, "<link.-href=[\"'](.-)[\"'].-rel=[\"']alternate[\"']") or
+		string.match(entry, "<link.-href=[\"'](.-)[\"']") or
+		"(no link)"
+
+		return link
 	end
 
 	-- @param entry string

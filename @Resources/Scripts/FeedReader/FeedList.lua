@@ -6,7 +6,7 @@
 return {
 	{'Nachrichten', 'Spiegel Online', 'http://www.spiegel.de/schlagzeilen/tops/index.rss'},
 	{'Backen', 'Cupcake Queen', 'http://cupcakequeen.de/feed/'},	
-	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
+	{'Süßes', 'Fabelhafte Zuckerwelt', 'http://fabelhaftezuckerwelt.blogspot.com/feeds/posts/default'},
 	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
 	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},
 	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss', true},

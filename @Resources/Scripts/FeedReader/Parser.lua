@@ -182,6 +182,10 @@ function displayFeed(entryList)
 			Measures['mEntryImageReader' .. index].Url = entry.img
 			Measures['mEntryImageReader' .. index].Disabled = 0
 			Measures['mEntryImageReader' .. index].forceUpdate()
+		else
+			Meters['iEntryImage' .. index].show()
+			Meters['iEntryImage' .. index].ImageName = ""
+			Meters['iEntryImage' .. index].update()
 		end
 
 		stopPoint = index

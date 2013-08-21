@@ -12,6 +12,14 @@ FontColorHigh = FFFFFFFF
 FontColorLow = AAAAAAFF
 FontEffectColor = 00000014
 
+LinkColorHighDefault = CCCCCC
+LinkColorHighHover = FFFFFF
+LinkColorHighClick = 999999
+
+LinkColorLowDefault = 333333
+LinkColorLowHover = 000000
+LinkColorLowClick = 666666
+
 ; Bars
 ; ==================================================
 BarColorHigh = 19A2DEFF

@@ -11,9 +11,10 @@ local FeedParser do
 		local generalConvertTable = {
 			[char(226,128,153)] = char(39), -- '
 			[char(226,128,147)] = char(150), -- thinkline
-			[char(226,128,156)] = char(134), -- bottom "
+			[char(226,128,156)] = '', -- bottom "
 			[char(226,128,142)] = '',
-			[char(226,128,158)] = char(147), -- "
+			[char(226,128,158)] = '', -- bot "
+			[char(226,128,140)] = '', -- top "
 		}
 		
 		-- ITERATE THROUGH ALL ENTRIES AND REPLACE

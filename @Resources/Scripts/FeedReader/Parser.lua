@@ -120,6 +120,9 @@ end
 -- @param category string
 function displayCategory(category)
 
+	-- reset offset
+	SCROLL_OFFSET = 0
+
 	-- clear old feeds
 	local index = 1
 	while Meters['sFeed' .. index].isMeter() do
@@ -129,6 +132,7 @@ function displayCategory(category)
 	end
 
 	-- change scrollbar size
+	Meters.iScrollbarBarArea.Y = 83
 	Meters.iScrollbarBarArea.H = 717 * math.min(30 / #SORTED_URL_LIST[category], 1)
 	Meters.iScrollbarBarArea.update()
 

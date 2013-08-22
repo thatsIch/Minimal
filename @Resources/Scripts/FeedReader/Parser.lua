@@ -218,8 +218,6 @@ function displayDownloadProgress()
 	local right = Meters.iLoadBarRightAnchor.X
 	local maxWidth = right - left
 
-	print(LOAD_PROCESS .. ' / ' .. MAX_PROCESS)
-
 	Meters.iLoadBar.W = maxWidth - math.ceil(LOAD_PROCESS / MAX_PROCESS) * maxWidth
 	Meters.iLoadBar.update()
 	Meters.redraw()

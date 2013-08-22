@@ -16,6 +16,8 @@ function Initialize()
 	prepareCategories(categoryOrder)
 
 	SCROLL_OFFSET = 0
+	LOAD_PROCESS = 0
+	MAX_PROCESS = 0
 
 	-- test
 	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
@@ -205,10 +207,35 @@ function onFinishActionWebParser()
 	displayFeed(entryList)
 end
 
+function onFinishActionImageParser()
+	displayDownloadProgress()
+end
+
+function displayDownloadProgress()
+	LOAD_PROCESS = LOAD_PROCESS - 1
+
+	local left = Meters.iLoadBarLeftAnchor.X
+	local right = Meters.iLoadBarRightAnchor.X
+	local maxWidth = right - left
+
+	print(LOAD_PROCESS .. ' / ' .. MAX_PROCESS)
+
+	Meters.iLoadBar.W = maxWidth - math.ceil(LOAD_PROCESS / MAX_PROCESS) * maxWidth
+	Meters.iLoadBar.update()
+	Meters.redraw()
+end
+
 -- @param entryList {{title, link, cont, img}}
 function displayFeed(entryList)
 
 	local stopPoint = 0
+	local process = 0
+	MAX_PROCESS = 0
+	LOAD_PROCESS = 0
+	Meters.iLoadBar.W = 0
+	Meters.iLoadBar.update()
+	Meters.redraw()
+
 	for index, entry in pairs(entryList) do
 		if index > getMaxEntryCount() then break end
 
@@ -224,6 +251,8 @@ function displayFeed(entryList)
 		Meters['iEntryImage' .. index].show()
 
 		if Measures['mEntryImageReader' .. index].isMeasure() and entry.img then
+			process = process + 1
+			LOAD_PROCESS = LOAD_PROCESS + 1
 			Meters['iEntryImage' .. index].MeasureName = 'mEntryImageReader' .. index
 			Measures['mEntryImageReader' .. index].Url = entry.img
 			Measures['mEntryImageReader' .. index].Disabled = 0
@@ -235,6 +264,8 @@ function displayFeed(entryList)
 
 		stopPoint = index
 	end
+
+	MAX_PROCESS = process
 
 	-- clear everything which isnt used
 	stopPoint = stopPoint + 1

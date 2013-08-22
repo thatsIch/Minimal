@@ -2,9 +2,16 @@ return function(SKIN)
 	local ms = {
 		__index = function(table,key) 
 
-			print(key)
+			-- catch isMeter()
+			if key == 'isMeter' then
+				return function() return SKIN:GetMeter(table.__sectionname) and true or false end
+
+			-- catch isMeter()
+			elseif key == 'isMeasure' then
+				return function() return SKIN:GetMeasure(table.__sectionname) and true or false end
+
 			-- catch recursive call		
-			if key == '__section' then
+			elseif key == '__section' then
 				return false
 
 			elseif key == '__sectionname' then
@@ -21,14 +28,6 @@ return function(SKIN)
 			-- catch Meters.update()	
 			elseif key == 'update' and table.__sectionname and SKIN:GetMeter(table.__sectionname) then 
 				return function() SKIN:Bang('!UpdateMeter',table.__sectionname, SKIN:GetVariable('CURRENTCONFIG')) end 
-
-			-- catch isMeter()
-			elseif key == 'isMeter' then
-				return function() return SKIN:GetMeter(table.__sectionname) and true or false end
-
-			-- catch isMeter()
-			elseif key == 'isMeasure' then
-				return function() return SKIN:GetMeasure(table.__sectionname) and true or false end
 
 			-- catch hide()
 			elseif key == 'hide' and SKIN:GetMeter(table.__sectionname) then
@@ -74,11 +73,14 @@ return function(SKIN)
 				sections[key] = {}
 
 				-- store meter/measure
-				sections[key].__section = assert(SKIN:GetMeasure(key) or SKIN:GetMeter(key), "Missing Meter/Measure "..key..". Please check if you have typed the correct name.")
+				sections[key].__section = SKIN:GetMeasure(key) or SKIN:GetMeter(key) or false
+				-- if not sections[key].__section then
+				-- 	print("Missing Meter/Measure "..key..". Please check if you have typed the correct name.")
+				-- end
 				
 				-- store meter/measurename
 				sections[key].__sectionname = key 
-				setmetatable(sections[key],ms) 
+				setmetatable(sections[key],ms)
 
 				return sections[key]
 			end

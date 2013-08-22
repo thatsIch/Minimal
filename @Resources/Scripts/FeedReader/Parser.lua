@@ -13,7 +13,7 @@ function Initialize()
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	SORTED_URL_LIST = sortedFeedList
 
-	displayCategories(categoryOrder)
+	prepareCategories(categoryOrder)
 
 	SCROLL_OFFSET = 0
 
@@ -23,6 +23,24 @@ function Initialize()
 	-- local entryList = FeedParser(rawFeed, getEntryCount())
 
 	-- displayFeed(entryList)
+end
+
+-- @return count number
+function getMaxFeedCount()
+	local count = 1
+	while Meters['sFeed' .. count].isMeter() do
+
+		Meters['sFeed' .. count].MeterStyle = 'yFeedItem'
+		Meters['sFeed' .. count].update()
+
+		if Meters.iScrollBarBotAnchor.Y > Meters['sFeed' .. count].Y then count = count + 1 else break end
+	end
+
+	getMaxFeedCount = function()
+		return count - 1
+	end
+
+	return count - 1
 end
 
 -- @param rawList string
@@ -66,12 +84,12 @@ function sortFeedList(rawList)
 end
 
 -- @param categories {string}
-function displayCategories(categories)
+function prepareCategories(categories)
 
 	for i, category in pairs(categories) do
 		-- break loop if too many categories
-		if not Meters['sCategorySelectorDropdown' .. i].isMeter() then break end
-
+		if i > getMaxFeedCount() then break end
+		
 		Meters['sCategorySelectorDropdown' .. i].MeterStyle = 'yCategorySelectorDropdown'
 		Meters['sCategorySelectorDropdown' .. i].Text = category
 		Meters['sCategorySelectorDropdown' .. i].LeftMouseUpAction = '[!CommandMeasure "mParser" "displayCategory(\''.. category ..'\')" "#CURRENTCONFIG#"]'
@@ -86,29 +104,26 @@ function displayCategory(category)
 	-- reset offset
 	SCROLL_OFFSET = 0
 
-	local feedCount = 25
-
 	-- change scrollbar size
 	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y
-	Meters.iScrollbarBarArea.H = (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) * math.min(feedCount / #SORTED_URL_LIST[category], 1)
+	Meters.iScrollbarBarArea.H = (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) * math.min(getMaxFeedCount() / #SORTED_URL_LIST[category], 1)
 	Meters.iScrollbarBarArea.update()
 
 	-- write onto meter
-	Meters.sCategorySelecterText.Text = category
-	print(SKIN:GetMeter('sCategorySelecterText'))
-	-- Meters.sCategorySelectorText.update()
+	Meters.sCategorySelectorText.Text = category
+	Meters.sCategorySelectorText.update()
 
 	local stopPoint = 0
 	for index, feed in pairs(SORTED_URL_LIST[category]) do
 
 		-- not enough _meters to display
-		if not Meters['sFeed' .. index].isMeter() then break end
+		if index > getMaxFeedCount() then break end
 
 		Meters['sFeed' .. index].show()
 		Meters['sFeed' .. index].Text = feed.id
-		Meters['sFeed' .. index].LeftMouseUpAction = '[!SetOption "sFeed' .. index..'" "FontColor" "#LinkColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "sFeed' .. index..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
+		Meters['sFeed' .. index].LeftMouseUpAction = '[!SetOption "sFeed' .. index..'" "FontColor" "#ColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "sFeed' .. index..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
 		Meters['sFeed' .. index].update()
-		
+
 		stopPoint = index
 	end
 
@@ -130,13 +145,13 @@ function shiftCategory(offset)
 	local feedCount = #SORTED_URL_LIST[currentCategory]
 
 	-- check if it can even offset more
-	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - 30))
+	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - getMaxFeedCount()))
 	if SCROLL_OFFSET == newOffset then return end
 
 	SCROLL_OFFSET = newOffset
 		
 	-- change scrollbar position
-	Meters.iScrollbarBarArea.Y = 83 + SCROLL_OFFSET * math.ceil(717 / #SORTED_URL_LIST[currentCategory])
+	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y + SCROLL_OFFSET * math.ceil((Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) / #SORTED_URL_LIST[currentCategory])
 	Meters.iScrollbarBarArea.update()
 
 	---[[
@@ -147,7 +162,7 @@ function shiftCategory(offset)
 
 		Meters[iString].show()
 		Meters[iString].Text = SORTED_URL_LIST[currentCategory][index].id
-		Meters[iString].LeftMouseUpAction = '[!SetOption "'..iString..'" "FontColor" "#LinkColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "'..iString..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. SORTED_URL_LIST[currentCategory][index].url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
+		Meters[iString].LeftMouseUpAction = '[!SetOption "'..iString..'" "FontColor" "#ColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "'..iString..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. SORTED_URL_LIST[currentCategory][index].url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
 		Meters[iString].update()
 	end
 	--]]

@@ -52,6 +52,9 @@ function prepareEntries()
 		Meters['iEntryImage' .. index].LeftMouseUpAction = hide(index)
 		Meters['sEntryDesc' .. index].LeftMouseUpAction = show(index)
 	end
+
+	-- only run-once function
+	prepareEntries = nil
 end
 
 -- get maximal count of the feeds

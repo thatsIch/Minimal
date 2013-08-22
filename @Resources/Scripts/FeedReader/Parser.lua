@@ -32,6 +32,7 @@ function getMaxFeedCount()
 
 		Meters['sFeed' .. count].MeterStyle = 'yFeedItem'
 		Meters['sFeed' .. count].update()
+		Meters['sFeed' .. count].hide()
 
 		if Meters.iScrollBarBotAnchor.Y > Meters['sFeed' .. count].Y then count = count + 1 else break end
 	end
@@ -43,7 +44,13 @@ function getMaxFeedCount()
 	return count - 1
 end
 
+-- @return count number
 function getMaxEntryCount()
+	local count = 1
+	while Meters['sEntryTitle' .. count].isMeter() do
+
+	end
+
 	return 12
 end
 
@@ -145,8 +152,14 @@ function displayCategory(category)
 	Meters.redraw()
 end
 
+-- @param offset number
+-- @return void
 function shiftCategory(offset)
 	local currentCategory = Meters.sCategorySelectorText.Text
+
+	-- just ignore if no category is selected
+	if SORTED_URL_LIST[currentCategory] then return end
+	
 	local feedCount = #SORTED_URL_LIST[currentCategory]
 
 	-- check if it can even offset more

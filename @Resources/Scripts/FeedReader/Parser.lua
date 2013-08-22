@@ -1,6 +1,9 @@
 local Parser do
 
 -- TODO database on update
+-- TODO loading bar for database
+-- TODO mouse over scrollbar
+-- TODO link marker of current feed
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
@@ -38,10 +41,12 @@ end
 -- TODO algin elements in future
 -- TODO dont forget to realign the bar
 function prepareEntries()
+	local meters = Meters
 	local maxEntryCount = getMaxEntryCount()
 	local config = Variables.CURRENTCONFIG
 
-	local desc = Meters.sEntryDesc1
+
+	local desc = meters.sEntryDesc1
 	
 	local originX, originY = desc.X, desc.Y
 	local entryW, entryH, entryP = Variables.EntryWidth, Variables.EntryHeight, Variables.EntryPadding
@@ -60,9 +65,9 @@ function prepareEntries()
 	end
 
 	for index = 1, maxEntryCount, 1 do
-		Meters['sEntryTitle' .. index].LeftMouseUpAction = hide(index)
-		Meters['iEntryImage' .. index].LeftMouseUpAction = hide(index)
-		Meters['sEntryDesc' .. index].LeftMouseUpAction = show(index)
+		meters['sEntryTitle' .. index].LeftMouseUpAction = hide(index)
+		meters['iEntryImage' .. index].LeftMouseUpAction = hide(index)
+		meters['sEntryDesc' .. index].LeftMouseUpAction = show(index)
 	end
 
 	-- only run-once function
@@ -72,23 +77,30 @@ end
 -- get maximal count of the feeds
 -- @return count number
 function getMaxFeedCount()
+	local meters = Meters
+	local iScrollBarBotAnchor = meters.iScrollBarBotAnchor
 	local count = 1
 
-	while Meters['sFeed' .. count].isMeter() do
+	-- check if meter is there and if they dont crash the window limit
+	while meters['sFeed' .. count].isMeter() do
+		local sFeed = meters['sFeed' .. count]
+		sFeed.MeterStyle = 'yFeedItem'
+		sFeed.update()
 
-		Meters['sFeed' .. count].MeterStyle = 'yFeedItem'
-		Meters['sFeed' .. count].update()
-
-		if Meters.iScrollBarBotAnchor.Y > Meters['sFeed' .. count].Y then count = count + 1 else break end
+		if iScrollBarBotAnchor.Y > sFeed.Y then count = count + 1 else break end
 	end
 
+	-- hide all again 
 	for i = 1, count - 1, 1 do
-		Meters['sFeed' .. count].hide()
-		Meters['sFeed' .. count].update()
+		local sFeed = meters['sFeed' .. count]
+		
+		sFeed.hide()
+		sFeed.update()
 	end
 
-	Meters.redraw()
+	meters.redraw()
 
+	-- value wont change anymore
 	getMaxFeedCount = function()
 		return count - 1
 	end
@@ -99,8 +111,9 @@ end
 -- An Entry is a section/entry/item of a feed most times found by parsing <entry></entry> etc
 -- @return count number
 function getMaxEntryCount()
+	local meters = Meters
 	local count = 1
-	while Meters['sEntryTitle' .. count].isMeter() do
+	while meters['sEntryTitle' .. count].isMeter() do
 		count = count + 1
 	end
 	count = math.min(count - 1, Variables.Cols * Variables.Rows)
@@ -158,19 +171,22 @@ end
 
 -- @param categories {string}
 function prepareCategories(categories)
+	local meters = Meters
 	local maxFeedCount = getMaxEntryCount()
+
 
 	for i, category in pairs(categories) do
 		-- break loop if too many categories
 		if i > maxFeedCount then break end
 
-		Meters['sCategorySelectorDropdown' .. i].MeterStyle = 'yCategorySelectorDropdown'
-		Meters['sCategorySelectorDropdown' .. i].Text = category
-		Meters['sCategorySelectorDropdown' .. i].LeftMouseUpAction = '[!CommandMeasure "mParser" "displayCategory(\''.. category ..'\')" "#CURRENTCONFIG#"]'
-		Meters['sCategorySelectorDropdown' .. i].update()
+		local sCategorySelectorDropdown = meters['sCategorySelectorDropdown' .. i]
+		sCategorySelectorDropdown.MeterStyle = 'yCategorySelectorDropdown'
+		sCategorySelectorDropdown.Text = category
+		sCategorySelectorDropdown.LeftMouseUpAction = '[!CommandMeasure "mParser" "displayCategory(\''.. category ..'\')" "#CURRENTCONFIG#"]'
+		sCategorySelectorDropdown.update()
 	end
 
-	Meters.redraw()
+	meters.redraw()
 
 	-- run-once function
 	prepareCategories = nil
@@ -179,44 +195,51 @@ end
 -- @param category string
 function displayCategory(category)
 	local maxFeedCount = getMaxFeedCount()
+	local meters = Meters
+	local iScrollbarBarArea = meters.iScrollbarBarArea
+	local iScrollBarTopAnchor = meters.iScrollBarTopAnchor
+	local iScrollBarBotAnchor = meters.iScrollBarBotAnchor
+	local sCategorySelectorText = meters.sCategorySelectorText
+	local feedListOfCategory = SORTED_URL_LIST[category]
 
 	-- reset offset
 	SCROLL_OFFSET = 0
 
 	-- change scrollbar size
-	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y
-	Meters.iScrollbarBarArea.H = (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) * math.min(maxFeedCount / #SORTED_URL_LIST[category], 1)
-	Meters.iScrollbarBarArea.update()
+	iScrollbarBarArea.Y = iScrollBarTopAnchor.Y
+	iScrollbarBarArea.H = (iScrollBarBotAnchor.Y - iScrollBarTopAnchor.Y) * math.min(maxFeedCount / #feedListOfCategory, 1)
+	iScrollbarBarArea.update()
 
 	-- write onto meter
-	Meters.sCategorySelectorText.Text = category
-	Meters.sCategorySelectorText.update()
+	sCategorySelectorText.Text = category
+	sCategorySelectorText.update()
 
 	local stopPoint = 0
-	for index, feed in pairs(SORTED_URL_LIST[category]) do
+	for index, feed in pairs(feedListOfCategory) do
 
 		-- not enough _meters to display
 		if index > maxFeedCount then break end
 
-		Meters['sFeed' .. index].show()
-		Meters['sFeed' .. index].Text = feed.id
-		Meters['sFeed' .. index].LeftMouseUpAction = '[!SetOption "sFeed' .. index..'" "FontColor" "#ColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "sFeed' .. index..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
-		Meters['sFeed' .. index].update()
+		local meter = meters['sFeed' .. index]
+		meter.show()
+		meter.Text = feed.id
+		meter.LeftMouseUpAction = '[!SetOption "sFeed' .. index..'" "FontColor" "#ColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "sFeed' .. index..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
+		meter.update()
 
 		stopPoint = index
 	end
 
 	-- clear old feeds
 	stopPoint = stopPoint + 1
-	while Meters['sFeed' .. stopPoint].isMeter() and stopPoint < maxFeedCount do
-		Meters['sFeed' .. stopPoint].hide()
-		Meters['sFeed' .. stopPoint].update()
+	while meters['sFeed' .. stopPoint].isMeter() and stopPoint < maxFeedCount do
+		meters['sFeed' .. stopPoint].hide()
+		meters['sFeed' .. stopPoint].update()
 
 		stopPoint = stopPoint + 1
 	end
 
-	Meters.toggleGroup('DropDown')
-	Meters.redraw()
+	meters.toggleGroup('DropDown')
+	meters.redraw()
 end
 
 function shiftOnePageInCategory(direction)
@@ -226,13 +249,18 @@ end
 -- @param offset number
 -- @return void
 function shiftCategory(offset)
-	local currentCategory = Meters.sCategorySelectorText.Text
+	local meters = Meters
+	local currentCategory = meters.sCategorySelectorText.Text
+	local iScrollbarBarArea = meters.iScrollbarBarArea
+	local iScrollBarTopAnchor = meters.iScrollBarTopAnchor
+	local iScrollBarBotAnchor = meters.iScrollBarBotAnchor
 	local maxFeedCount = getMaxFeedCount()
+	local feedListOfCategory = SORTED_URL_LIST[currentCategory]
+	local config = Variables.CURRENTCONFIG
 
 	-- just ignore if no category is selected
-	if not SORTED_URL_LIST[currentCategory] then return end
-	
-	local feedCount = #SORTED_URL_LIST[currentCategory]
+	if not feedListOfCategory then return end
+	local feedCount = #feedListOfCategory
 
 	-- check if it can even offset more
 	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - maxFeedCount))
@@ -241,33 +269,41 @@ function shiftCategory(offset)
 	SCROLL_OFFSET = newOffset
 		
 	-- change scrollbar position
-	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y + SCROLL_OFFSET * (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) / feedCount
-	Meters.iScrollbarBarArea.update()
+	iScrollbarBarArea.Y = iScrollBarTopAnchor.Y + SCROLL_OFFSET * (iScrollBarBotAnchor.Y - iScrollBarTopAnchor.Y) / feedCount
+	iScrollbarBarArea.update()
 
 	for index = SCROLL_OFFSET + 1, feedCount, 1 do 
-		local iString = 'sFeed' .. (index - SCROLL_OFFSET)
-
 		if (index - SCROLL_OFFSET) > maxFeedCount then break end
+			local iString = 'sFeed' .. (index - SCROLL_OFFSET)
+			local meter = meters[iString]
 
-		Meters[iString].Text = SORTED_URL_LIST[currentCategory][index].id
-		Meters[iString].LeftMouseUpAction = '[!SetOption "'..iString..'" "FontColor" "#ColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "'..iString..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. SORTED_URL_LIST[currentCategory][index].url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
-		Meters[iString].update()
+		meter.Text = feedListOfCategory[index].id
+		meter.LeftMouseUpAction = 
+			'[!SetOption "'..iString..'" "FontColor" "#ColorLowDefault#" "'..config..'"] '..
+			'[!UpdateMeter "'..iString..'" "'..config..'"] '..
+			'[!Redraw "'..config..'"] '..
+			'[!SetOption "mWebParser" "Disabled" "0"] '..
+			'[!SetOption "mWebParser" "Url" "'.. feedListOfCategory[index].url ..'" "'.. config ..'"] '..
+			'[!CommandMeasure "mWebParser" "Update" "'.. config ..'"]'
+		meter.update()
 	end
 
-	Meters.redraw()
+	meters.redraw()
 end
 
 
 
 function renderDownloadProgress(progress)
-	Measures.mLoadBar.Formula = progress
-	Measures.mLoadBar.update()
+	local mLoadBar = Measures.mLoadBar
+	mLoadBar.Formula = progress
+	mLoadBar.update()
 end
 
 -- renders an entry list
 -- @param entryList {{title, link, cont, img}}
 function renderEntryList(entryList)
-
+	local meters = Meters
+	local measures = Measures
 	local stopPoint = 0
 	local process = 0
 	local maxEntryCount = getMaxEntryCount()
@@ -277,27 +313,34 @@ function renderEntryList(entryList)
 	for index, entry in pairs(entryList) do
 		if index > maxEntryCount then break end
 
-		Meters['sEntryTitle' .. index].Text = entry.title
-		Meters['sEntryTitle' .. index].show()
-		Meters['sEntryTitle' .. index].update()
+		local sEntryTitle = meters['sEntryTitle' .. index]
+		local sEntryDesc = meters['sEntryDesc' .. index]
+		local iEntryImage = meters['iEntryImage' .. index]
 
-		Meters['sEntryDesc' .. index].Text = entry.cont
-		Meters['sEntryDesc' .. index].RightMouseUpAction = entry.link
-		Meters['sEntryDesc' .. index].show()
-		Meters['sEntryDesc' .. index].update()
+		sEntryTitle.Text = entry.title
+		sEntryTitle.show()
+		sEntryTitle.update()
+
+		sEntryDesc.Text = entry.cont
+		sEntryDesc.RightMouseUpAction = entry.link
+		sEntryDesc.show()
+		sEntryDesc.update()
 		
-		Meters['iEntryImage' .. index].show()
+		iEntryImage.show()
 
 		if entry.img then
+			local mEntryImageReader = measures['mEntryImageReader' .. index]
+
 			process = process + 1
 			LOAD_PROCESS = LOAD_PROCESS + 1
-			Meters['iEntryImage' .. index].MeasureName = 'mEntryImageReader' .. index
-			Measures['mEntryImageReader' .. index].Url = entry.img
-			Measures['mEntryImageReader' .. index].Disabled = 0
-			Measures['mEntryImageReader' .. index].forceUpdate()
+
+			iEntryImage.MeasureName = 'mEntryImageReader' .. index
+			mEntryImageReader.Url = entry.img
+			mEntryImageReader.Disabled = 0
+			mEntryImageReader.forceUpdate()
 		else
-			Meters['iEntryImage' .. index].MeasureName = ""
-			Meters['iEntryImage' .. index].update()
+			iEntryImage.MeasureName = ""
+			iEntryImage.update()
 		end
 
 		stopPoint = index
@@ -307,15 +350,15 @@ function renderEntryList(entryList)
 
 	-- clear everything which isnt used
 	stopPoint = stopPoint + 1
-	while Meters['sEntryTitle' .. stopPoint].isMeter() do
-		Meters['sEntryTitle' .. stopPoint].hide()
-		Meters['sEntryDesc' .. stopPoint].hide()
-		Meters['iEntryImage' .. stopPoint].hide()
+	while meters['sEntryTitle' .. stopPoint].isMeter() do
+		meters['sEntryTitle' .. stopPoint].hide()
+		meters['sEntryDesc' .. stopPoint].hide()
+		meters['iEntryImage' .. stopPoint].hide()
 
 		stopPoint = stopPoint + 1
 	end
 
-	Meters.redraw()
+	meters.redraw()
 end
 
 -- I/O TO SCRIPT

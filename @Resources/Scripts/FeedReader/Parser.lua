@@ -28,6 +28,11 @@ function Initialize()
 	-- displayFeed(entryList)
 end
 
+function test()
+	test = nil
+	return 0
+end
+
 -- Gives all entries the left and rightclick properties
 -- TODO algin elements in future
 function prepareEntries()
@@ -137,6 +142,9 @@ function sortFeedList(rawList)
 			table.insert(sortedResult[category], feed)
 		end
 	end
+
+	-- run-once function
+	sortFeedList = nil
 
 	return sortedResult, categoryOrder
 end

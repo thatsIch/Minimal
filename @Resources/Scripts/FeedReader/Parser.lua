@@ -2,20 +2,22 @@
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
-	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
 	FeedParser = dofile(Variables['@'].."Scripts\\Libs\\FeedParser.lua")
 	FileReader = dofile(Variables['@'].."Scripts\\Libs\\FileReader.lua")
 	
 	-- -- Database
 	local feedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
 
-	-- SORTED_URL_LIST[category][id/url] = value
+	-- Debug
+	-- PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
+
+	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
-	SORTED_URL_LIST = sortedFeedList
-	
 	prepareCategories(categoryOrder)
 	prepareEntries()
 
+	-- GLOBAL VARIABLES
+	SORTED_URL_LIST = sortedFeedList
 	SCROLL_OFFSET = 0
 	LOAD_PROCESS = 0
 	MAX_PROCESS = 0
@@ -26,11 +28,6 @@ function Initialize()
 	-- local entryList = FeedParser(rawFeed, getEntryCount())
 
 	-- displayFeed(entryList)
-end
-
-function test()
-	test = nil
-	return 0
 end
 
 -- Gives all entries the left and rightclick properties
@@ -265,13 +262,8 @@ end
 function displayDownloadProgress()
 	LOAD_PROCESS = LOAD_PROCESS - 1
 
-	local left = Meters.iLoadBarLeftAnchor.X
-	local right = Meters.iLoadBarRightAnchor.X
-	local maxWidth = right - left
-
-	Meters.iLoadBar.W = maxWidth - LOAD_PROCESS / MAX_PROCESS * maxWidth
-	Meters.iLoadBar.update()
-	Meters.redraw()
+	Measures.mLoadBar.Formula = 1 - LOAD_PROCESS / MAX_PROCESS 
+	Measures.mLoadBar.update()
 end
 
 -- @param entryList {{title, link, cont, img}}
@@ -282,9 +274,6 @@ function displayFeed(entryList)
 	local maxEntryCount = getMaxEntryCount()
 	MAX_PROCESS = 0
 	LOAD_PROCESS = 0
-	Meters.iLoadBar.W = 0
-	Meters.iLoadBar.update()
-	Meters.redraw()
 
 	for index, entry in pairs(entryList) do
 		if index > maxEntryCount then break end

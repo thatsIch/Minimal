@@ -2,45 +2,40 @@
 ; ==================================================
 [iBackgroundTL]
 Meter = Roundline
-MeterStyle = yForegroundCorner|yForegroundCornerTopLeft
+MeterStyle = yBackgroundCorner | yBackgroundTL
 
 [iBackgroundT]
 Meter = Image
-MeterStyle = yForegroundEdge|yForegroundEdgeTop
+MeterStyle = yBackgroundEdge | yBackgroundT
 
 [iBackgroundTR]
 Meter = Roundline
-MeterStyle = yForegroundCorner|yForegroundCornerTopRight
+MeterStyle = yBackgroundCorner | yBackgroundTR
 
 ; Center
 ; ==================================================
-[iForegroundLeft]
+[iBackgroundL]
 Meter = Image
-MeterStyle = yForegroundEdge|yForegroundEdgeLeft
+MeterStyle = yBackgroundEdge | yBackgroundL
 
-[iForeground]
+[iBackground]
 Meter = Image
-MeterStyle = yForeground
+MeterStyle = yBackground
 
-[iForegroundRight]
+[iBackgroundR]
 Meter = Image
-MeterStyle = yForegroundEdge|yForegroundEdgeRight
+MeterStyle = yBackgroundEdge | yBackgroundR
 
 ; Bottom
 ; ==================================================
-[iForegroundCornerBottomLeft]
+[iBackgroundBL]
 Meter = Roundline
-MeterStyle = yForegroundCorner|yForegroundCornerBottomLeft
+MeterStyle = yBackgroundCorner | yBackgroundBL
 
-[iForegroundBottom]
+[iBackgroundB]
 Meter = Image
-MeterStyle = yForegroundEdge|yForegroundEdgeBottom
+MeterStyle = yBackgroundEdge | yBackgroundB
 
-[iForegroundCornerBottomRight]
+[iBackgroundBR]
 Meter = Roundline
-MeterStyle = yForegroundCorner|yForegroundCornerBottomRight
-
-
-
-
-
+MeterStyle = yBackgroundCorner | yBackgroundBR

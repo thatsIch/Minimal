@@ -28,7 +28,7 @@ end
 -- @return count number
 function getMaxFeedCount()
 	local count = 1
-	
+
 	while Meters['sFeed' .. count].isMeter() do
 
 
@@ -50,7 +50,7 @@ end
 function getMaxEntryCount()
 	local count = 1
 	while Meters['sEntryTitle' .. count].isMeter() do
-
+		count = count + 1
 	end
 
 	return 12
@@ -204,7 +204,7 @@ function displayFeed(entryList)
 
 	local stopPoint = 0
 	for index, entry in pairs(entryList) do
-		if index > getMaxFeedCount() then break end
+		if index > getMaxEntryCount() then break end
 
 		Meters['sEntryTitle' .. index].Text = entry.title
 		Meters['sEntryTitle' .. index].show()

@@ -1,7 +1,7 @@
 return function(SKIN)
 	local ms = {
 		__index = function(table,key) 
-
+		
 			-- catch isMeter()
 			if key == 'isMeter' then
 				return function() return SKIN:GetMeter(table.__sectionname) and true or false end
@@ -59,7 +59,7 @@ return function(SKIN)
 			
 			-- unknown case
 			else
-				print('Unkown Section Case: ' .. key) 
+				print('Name: ' .. table.__sectionname .. ', key: ' .. key) 
 				return
 			end 
 		end, 

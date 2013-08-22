@@ -11,9 +11,17 @@ MeterStyle = yScrollBarArrows | yScrollUpArrow
 LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(-30)" "#CURRENTCONFIG#"]
 
 ; Area
+[iScrollBarTopAnchor]
+Meter = Image
+MeterStyle = yScrollBarTopAnchor
+
 [iScrollbarBarArea]
 Meter = Image
 MeterStyle = yScrollBarArea
+
+[iScrollBarBotAnchor]
+Meter = Image
+MeterStyle = yScrollBarBotAnchor
 
 [iScrollbarBarAreaBG]
 Meter = Image

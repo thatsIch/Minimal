@@ -54,61 +54,7 @@ function prepareEntries()
 	end
 end
 
--- -- @param entryList {{title, link, cont, img}}
--- function displayFeed(entryList)
-
--- 	local stopPoint = 0
--- 	local process = 0
--- 	local maxEntryCount = getMaxEntryCount()
--- 	MAX_PROCESS = 0
--- 	LOAD_PROCESS = 0
--- 	Meters.iLoadBar.W = 0
--- 	Meters.iLoadBar.update()
--- 	Meters.redraw()
-
--- 	for index, entry in pairs(entryList) do
--- 		if index > maxEntryCount then break end
-
--- 		Meters['sEntryTitle' .. index].Text = entry.title
--- 		Meters['sEntryTitle' .. index].show()
--- 		Meters['sEntryTitle' .. index].update()
-
--- 		Meters['sEntryDesc' .. index].Text = entry.cont
--- 		Meters['sEntryDesc' .. index].RightMouseUpAction = entry.link
--- 		Meters['sEntryDesc' .. index].show()
--- 		Meters['sEntryDesc' .. index].update()
-		
--- 		Meters['iEntryImage' .. index].show()
-
--- 		if Measures['mEntryImageReader' .. index].isMeasure() and entry.img then
--- 			process = process + 1
--- 			LOAD_PROCESS = LOAD_PROCESS + 1
--- 			Meters['iEntryImage' .. index].MeasureName = 'mEntryImageReader' .. index
--- 			Measures['mEntryImageReader' .. index].Url = entry.img
--- 			Measures['mEntryImageReader' .. index].Disabled = 0
--- 			Measures['mEntryImageReader' .. index].forceUpdate()
--- 		else
--- 			Meters['iEntryImage' .. index].MeasureName = ""
--- 			Meters['iEntryImage' .. index].update()
--- 		end
-
--- 		stopPoint = index
--- 	end
-
--- 	MAX_PROCESS = process
-
--- 	-- clear everything which isnt used
--- 	stopPoint = stopPoint + 1
--- 	while Meters['sEntryTitle' .. stopPoint].isMeter() do
--- 		Meters['sEntryTitle' .. stopPoint].hide()
--- 		Meters['sEntryDesc' .. stopPoint].hide()
--- 		Meters['iEntryImage' .. stopPoint].hide()
-
--- 		stopPoint = stopPoint + 1
--- 	end
-
--- end
-
+-- get maximal count of the feeds
 -- @return count number
 function getMaxFeedCount()
 	local count = 1

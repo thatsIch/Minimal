@@ -155,6 +155,9 @@ function prepareCategories(categories)
 	end
 
 	Meters.redraw()
+
+	-- run-once function
+	prepareCategories = nil
 end
 
 -- @param category string

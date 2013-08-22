@@ -230,18 +230,15 @@ function shiftCategory(offset)
 	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y + SCROLL_OFFSET * (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) / feedCount
 	Meters.iScrollbarBarArea.update()
 
-	---[[
 	for index = SCROLL_OFFSET + 1, feedCount, 1 do 
 		local iString = 'sFeed' .. (index - SCROLL_OFFSET)
 
 		if (index - SCROLL_OFFSET) > getMaxFeedCount() then break end
 
-		Meters[iString].show()
 		Meters[iString].Text = SORTED_URL_LIST[currentCategory][index].id
 		Meters[iString].LeftMouseUpAction = '[!SetOption "'..iString..'" "FontColor" "#ColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "'..iString..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. SORTED_URL_LIST[currentCategory][index].url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
 		Meters[iString].update()
 	end
-	--]]
 
 	Meters.redraw()
 end

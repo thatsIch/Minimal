@@ -36,12 +36,16 @@ end
 
 -- Gives all entries the left and rightclick properties
 -- TODO algin elements in future
+-- TODO dont forget to realign the bar
 function prepareEntries()
 	local maxEntryCount = getMaxEntryCount()
 	local config = Variables.CURRENTCONFIG
+
+	local desc = Meters.sEntryDesc1
 	
-	local originX, originY = Meters.sEntryDesc1.X, Meters.sEntryDesc1.Y
+	local originX, originY = desc.X, desc.Y
 	local entryW, entryH, entryP = Variables.EntryWidth, Variables.EntryHeight, Variables.EntryPadding
+
 
 	local hide = function(index) return 
 		'[!HideMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
@@ -154,11 +158,12 @@ end
 
 -- @param categories {string}
 function prepareCategories(categories)
+	local maxFeedCount = getMaxEntryCount()
 
 	for i, category in pairs(categories) do
 		-- break loop if too many categories
-		if i > getMaxFeedCount() then break end
-		
+		if i > maxFeedCount then break end
+
 		Meters['sCategorySelectorDropdown' .. i].MeterStyle = 'yCategorySelectorDropdown'
 		Meters['sCategorySelectorDropdown' .. i].Text = category
 		Meters['sCategorySelectorDropdown' .. i].LeftMouseUpAction = '[!CommandMeasure "mParser" "displayCategory(\''.. category ..'\')" "#CURRENTCONFIG#"]'
@@ -173,12 +178,14 @@ end
 
 -- @param category string
 function displayCategory(category)
+	local maxFeedCount = getMaxFeedCount()
+
 	-- reset offset
 	SCROLL_OFFSET = 0
 
 	-- change scrollbar size
 	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y
-	Meters.iScrollbarBarArea.H = (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) * math.min(getMaxFeedCount() / #SORTED_URL_LIST[category], 1)
+	Meters.iScrollbarBarArea.H = (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) * math.min(maxFeedCount / #SORTED_URL_LIST[category], 1)
 	Meters.iScrollbarBarArea.update()
 
 	-- write onto meter
@@ -189,7 +196,7 @@ function displayCategory(category)
 	for index, feed in pairs(SORTED_URL_LIST[category]) do
 
 		-- not enough _meters to display
-		if index > getMaxFeedCount() then break end
+		if index > maxFeedCount then break end
 
 		Meters['sFeed' .. index].show()
 		Meters['sFeed' .. index].Text = feed.id
@@ -201,7 +208,7 @@ function displayCategory(category)
 
 	-- clear old feeds
 	stopPoint = stopPoint + 1
-	while Meters['sFeed' .. stopPoint].isMeter() and stopPoint < getMaxFeedCount() do
+	while Meters['sFeed' .. stopPoint].isMeter() and stopPoint < maxFeedCount do
 		Meters['sFeed' .. stopPoint].hide()
 		Meters['sFeed' .. stopPoint].update()
 
@@ -220,6 +227,7 @@ end
 -- @return void
 function shiftCategory(offset)
 	local currentCategory = Meters.sCategorySelectorText.Text
+	local maxFeedCount = getMaxFeedCount()
 
 	-- just ignore if no category is selected
 	if not SORTED_URL_LIST[currentCategory] then return end
@@ -227,7 +235,7 @@ function shiftCategory(offset)
 	local feedCount = #SORTED_URL_LIST[currentCategory]
 
 	-- check if it can even offset more
-	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - getMaxFeedCount()))
+	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - maxFeedCount))
 	if SCROLL_OFFSET == newOffset then return end
 
 	SCROLL_OFFSET = newOffset
@@ -239,7 +247,7 @@ function shiftCategory(offset)
 	for index = SCROLL_OFFSET + 1, feedCount, 1 do 
 		local iString = 'sFeed' .. (index - SCROLL_OFFSET)
 
-		if (index - SCROLL_OFFSET) > getMaxFeedCount() then break end
+		if (index - SCROLL_OFFSET) > maxFeedCount then break end
 
 		Meters[iString].Text = SORTED_URL_LIST[currentCategory][index].id
 		Meters[iString].LeftMouseUpAction = '[!SetOption "'..iString..'" "FontColor" "#ColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "'..iString..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. SORTED_URL_LIST[currentCategory][index].url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'

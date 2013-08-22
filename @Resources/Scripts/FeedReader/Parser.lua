@@ -46,14 +46,20 @@ function getMaxFeedCount()
 	return count - 1
 end
 
+-- An Entry is a section/entry/item of a feed most times found by parsing <entry></entry> etc
 -- @return count number
 function getMaxEntryCount()
 	local count = 1
 	while Meters['sEntryTitle' .. count].isMeter() do
 		count = count + 1
 	end
+	count = math.min(count - 1, Variables.Cols * Variables.Rows)
 
-	return 12
+	getMaxEntryCount = function()
+		return count
+	end
+
+	return count
 end
 
 

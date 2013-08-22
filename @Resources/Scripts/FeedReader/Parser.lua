@@ -28,7 +28,9 @@ end
 -- @return count number
 function getMaxFeedCount()
 	local count = 1
+	
 	while Meters['sFeed' .. count].isMeter() do
+
 
 		Meters['sFeed' .. count].MeterStyle = 'yFeedItem'
 		Meters['sFeed' .. count].update()
@@ -173,7 +175,7 @@ function shiftCategory(offset)
 	Meters.iScrollbarBarArea.update()
 
 	---[[
-	for index = SCROLL_OFFSET + 1, #SORTED_URL_LIST[currentCategory], 1 do 
+	for index = SCROLL_OFFSET + 1, feedCount, 1 do 
 		local iString = 'sFeed' .. (index - SCROLL_OFFSET)
 
 		if not Meters[iString].isMeter() then break end
@@ -202,7 +204,7 @@ function displayFeed(entryList)
 
 	local stopPoint = 0
 	for index, entry in pairs(entryList) do
-		if not Meters['sEntryTitle' .. index].isMeter() then break end
+		if index > getMaxFeedCount() then break end
 
 		Meters['sEntryTitle' .. index].Text = entry.title
 		Meters['sEntryTitle' .. index].show()

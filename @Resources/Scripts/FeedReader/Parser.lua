@@ -1,3 +1,5 @@
+local Parser do
+
 -- TODO database on update
 function Initialize()
 	-- Libs
@@ -26,8 +28,9 @@ function Initialize()
 	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
 	-- local rawFeed = FileReader(uri)
 	-- local entryList = FeedParser(rawFeed, getEntryCount())
-
 	-- renderEntryList(entryList)
+
+	-- run-once function
 	Initialize = nil
 end
 
@@ -37,6 +40,9 @@ function prepareEntries()
 	local maxEntryCount = getMaxEntryCount()
 	local config = Variables.CURRENTCONFIG
 	
+	local originX, originY = Meters.sEntryDesc1.X, Meters.sEntryDesc1.Y
+	local entryW, entryH, entryP = Variables.EntryWidth, Variables.EntryHeight, Variables.EntryPadding
+
 	local hide = function(index) return 
 		'[!HideMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
 		'[!HideMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
@@ -245,10 +251,8 @@ end
 
 
 
-function displayDownloadProgress()
-	LOAD_PROCESS = LOAD_PROCESS - 1
-
-	Measures.mLoadBar.Formula = 1 - LOAD_PROCESS / MAX_PROCESS 
+function renderDownloadProgress(progress)
+	Measures.mLoadBar.Formula = progress
 	Measures.mLoadBar.update()
 end
 
@@ -317,5 +321,9 @@ function onFinishActionWebParser()
 end
 
 function onFinishActionImageParser()
-	displayDownloadProgress()
+	LOAD_PROCESS = LOAD_PROCESS - 1
+
+	renderDownloadProgress(1 - LOAD_PROCESS / MAX_PROCESS )
 end
+
+end -- local Parser

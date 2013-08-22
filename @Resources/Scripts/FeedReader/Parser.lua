@@ -49,7 +49,7 @@ function getMaxFeedCount()
 	getMaxFeedCount = function()
 		return count - 1
 	end
-	
+
 	return count - 1
 end
 
@@ -165,6 +165,10 @@ function displayCategory(category)
 
 	Meters.toggleGroup('DropDown')
 	Meters.redraw()
+end
+
+function shiftOnePageInCategory(direction)
+	shiftCategory(direction * getMaxFeedCount())
 end
 
 -- @param offset number

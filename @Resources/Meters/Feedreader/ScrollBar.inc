@@ -8,7 +8,7 @@
 [sScrollbarArrowUp]
 Meter = String
 MeterStyle = yScrollBarArrows | yScrollUpArrow
-LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(-30)" "#CURRENTCONFIG#"]
+LeftMouseUpAction = [!CommandMeasure "mParser" "shiftOnePageInCategory(-1)" "#CURRENTCONFIG#"]
 
 ; Area
 [iScrollBarTopAnchor]
@@ -33,4 +33,4 @@ MeterStyle = yScrollBarBotAnchor
 [sScrollbarArrowDown]
 Meter = String
 MeterStyle = yScrollBarArrows | yScrollDownArrow
-LeftMouseUpAction = [!CommandMeasure "mParser" "shiftCategory(30)" "#CURRENTCONFIG#"]
+LeftMouseUpAction = [!CommandMeasure "mParser" "shiftOnePageInCategory(1)" "#CURRENTCONFIG#"]

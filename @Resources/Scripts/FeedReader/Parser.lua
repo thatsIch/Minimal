@@ -43,6 +43,11 @@ function getMaxFeedCount()
 	return count - 1
 end
 
+function getMaxEntryCount()
+	return 12
+end
+
+
 -- @param rawList string
 -- @return sortedResult, categoryOrder = {category = {{id, url}}}, {string}
 function sortFeedList(rawList)
@@ -174,7 +179,7 @@ function onFinishActionWebParser()
 	local filePath = Measures.mWebParser:GetStringValue()
 
 	local rawFeed = FileReader(filePath)
-	local entryList = FeedParser(rawFeed, getEntryCount())
+	local entryList = FeedParser(rawFeed, getMaxEntryCount())
 
 	displayFeed(entryList)
 end
@@ -222,8 +227,3 @@ function displayFeed(entryList)
 
 	Meters.redraw()
 end
-
--- BASIC
--- ==================================================
--- @return _ number
-function getEntryCount() return Variables.FeedReaderColCount * Variables.FeedReaderRowCount end

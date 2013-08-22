@@ -12,8 +12,9 @@ function Initialize()
 	-- SORTED_URL_LIST[category][id/url] = value
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	SORTED_URL_LIST = sortedFeedList
-
+	
 	prepareCategories(categoryOrder)
+	prepareEntries()
 
 	SCROLL_OFFSET = 0
 	LOAD_PROCESS = 0
@@ -26,6 +27,87 @@ function Initialize()
 
 	-- displayFeed(entryList)
 end
+
+-- Gives all entries the left and rightclick properties
+-- TODO algin elements in future
+function prepareEntries()
+	local maxEntryCount = getMaxEntryCount()
+	local config = Variables.CURRENTCONFIG
+	local hide = function(index)
+		return 
+			'[!HideMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
+			'[!HideMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
+			'[!Redraw "'.. config ..'"]'
+	end
+
+	local show = function(index)
+		return 
+			'[!ShowMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
+			'[!ShowMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
+			'[!Redraw "'.. config ..'"]'
+	end
+
+	for index = 1, maxEntryCount, 1 do
+		Meters['sEntryTitle' .. index].LeftMouseUpAction = hide(index)
+		Meters['iEntryImage' .. index].LeftMouseUpAction = hide(index)
+		Meters['sEntryDesc' .. index].LeftMouseUpAction = show(index)
+	end
+end
+
+-- -- @param entryList {{title, link, cont, img}}
+-- function displayFeed(entryList)
+
+-- 	local stopPoint = 0
+-- 	local process = 0
+-- 	local maxEntryCount = getMaxEntryCount()
+-- 	MAX_PROCESS = 0
+-- 	LOAD_PROCESS = 0
+-- 	Meters.iLoadBar.W = 0
+-- 	Meters.iLoadBar.update()
+-- 	Meters.redraw()
+
+-- 	for index, entry in pairs(entryList) do
+-- 		if index > maxEntryCount then break end
+
+-- 		Meters['sEntryTitle' .. index].Text = entry.title
+-- 		Meters['sEntryTitle' .. index].show()
+-- 		Meters['sEntryTitle' .. index].update()
+
+-- 		Meters['sEntryDesc' .. index].Text = entry.cont
+-- 		Meters['sEntryDesc' .. index].RightMouseUpAction = entry.link
+-- 		Meters['sEntryDesc' .. index].show()
+-- 		Meters['sEntryDesc' .. index].update()
+		
+-- 		Meters['iEntryImage' .. index].show()
+
+-- 		if Measures['mEntryImageReader' .. index].isMeasure() and entry.img then
+-- 			process = process + 1
+-- 			LOAD_PROCESS = LOAD_PROCESS + 1
+-- 			Meters['iEntryImage' .. index].MeasureName = 'mEntryImageReader' .. index
+-- 			Measures['mEntryImageReader' .. index].Url = entry.img
+-- 			Measures['mEntryImageReader' .. index].Disabled = 0
+-- 			Measures['mEntryImageReader' .. index].forceUpdate()
+-- 		else
+-- 			Meters['iEntryImage' .. index].MeasureName = ""
+-- 			Meters['iEntryImage' .. index].update()
+-- 		end
+
+-- 		stopPoint = index
+-- 	end
+
+-- 	MAX_PROCESS = process
+
+-- 	-- clear everything which isnt used
+-- 	stopPoint = stopPoint + 1
+-- 	while Meters['sEntryTitle' .. stopPoint].isMeter() do
+-- 		Meters['sEntryTitle' .. stopPoint].hide()
+-- 		Meters['sEntryDesc' .. stopPoint].hide()
+-- 		Meters['iEntryImage' .. stopPoint].hide()
+
+-- 		stopPoint = stopPoint + 1
+-- 	end
+
+-- end
 
 -- @return count number
 function getMaxFeedCount()
@@ -40,7 +122,7 @@ function getMaxFeedCount()
 	end
 
 	for i = 1, count - 1, 1 do
-		Meters['sFeed'..count].hide()
+		Meters['sFeed' .. count].hide()
 		Meters['sFeed' .. count].update()
 	end
 
@@ -237,6 +319,7 @@ function displayFeed(entryList)
 
 	local stopPoint = 0
 	local process = 0
+	local maxEntryCount = getMaxEntryCount()
 	MAX_PROCESS = 0
 	LOAD_PROCESS = 0
 	Meters.iLoadBar.W = 0
@@ -244,7 +327,7 @@ function displayFeed(entryList)
 	Meters.redraw()
 
 	for index, entry in pairs(entryList) do
-		if index > getMaxEntryCount() then break end
+		if index > maxEntryCount then break end
 
 		Meters['sEntryTitle' .. index].Text = entry.title
 		Meters['sEntryTitle' .. index].show()

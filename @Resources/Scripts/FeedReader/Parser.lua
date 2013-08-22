@@ -27,7 +27,8 @@ function Initialize()
 	-- local rawFeed = FileReader(uri)
 	-- local entryList = FeedParser(rawFeed, getEntryCount())
 
-	-- displayFeed(entryList)
+	-- renderEntryList(entryList)
+	Initialize = nil
 end
 
 -- Gives all entries the left and rightclick properties
@@ -35,18 +36,17 @@ end
 function prepareEntries()
 	local maxEntryCount = getMaxEntryCount()
 	local config = Variables.CURRENTCONFIG
-	local hide = function(index)
-		return 
-			'[!HideMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
-			'[!HideMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
-			'[!Redraw "'.. config ..'"]'
+	
+	local hide = function(index) return 
+		'[!HideMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
+		'[!HideMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
+		'[!Redraw "'.. config ..'"]'
 	end
 
-	local show = function(index)
-		return 
-			'[!ShowMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
-			'[!ShowMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
-			'[!Redraw "'.. config ..'"]'
+	local show = function(index) return 
+		'[!ShowMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
+		'[!ShowMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
+		'[!Redraw "'.. config ..'"]'
 	end
 
 	for index = 1, maxEntryCount, 1 do
@@ -246,18 +246,7 @@ function shiftCategory(offset)
 	Meters.redraw()
 end
 
-function onFinishActionWebParser()
-	local filePath = Measures.mWebParser:GetStringValue()
 
-	local rawFeed = FileReader(filePath)
-	local entryList = FeedParser(rawFeed, getMaxEntryCount())
-
-	displayFeed(entryList)
-end
-
-function onFinishActionImageParser()
-	displayDownloadProgress()
-end
 
 function displayDownloadProgress()
 	LOAD_PROCESS = LOAD_PROCESS - 1
@@ -266,8 +255,9 @@ function displayDownloadProgress()
 	Measures.mLoadBar.update()
 end
 
+-- renders an entry list
 -- @param entryList {{title, link, cont, img}}
-function displayFeed(entryList)
+function renderEntryList(entryList)
 
 	local stopPoint = 0
 	local process = 0
@@ -289,7 +279,7 @@ function displayFeed(entryList)
 		
 		Meters['iEntryImage' .. index].show()
 
-		if Measures['mEntryImageReader' .. index].isMeasure() and entry.img then
+		if entry.img then
 			process = process + 1
 			LOAD_PROCESS = LOAD_PROCESS + 1
 			Meters['iEntryImage' .. index].MeasureName = 'mEntryImageReader' .. index
@@ -317,4 +307,18 @@ function displayFeed(entryList)
 	end
 
 	Meters.redraw()
+end
+
+-- I/O TO SCRIPT
+-- ==================================================
+function onFinishActionWebParser()
+	local filePath = Measures.mWebParser:GetStringValue()
+	local rawFeed = FileReader(filePath)
+	local entryList = FeedParser(rawFeed, getMaxEntryCount())
+
+	renderEntryList(entryList)
+end
+
+function onFinishActionImageParser()
+	displayDownloadProgress()
 end

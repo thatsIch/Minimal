@@ -86,15 +86,18 @@ function displayCategory(category)
 	-- reset offset
 	SCROLL_OFFSET = 0
 
+	local feedCount = 25
+
 	-- change scrollbar size
-	Meters.iScrollbarBarArea.Y = 83
-	Meters.iScrollbarBarArea.H = 717 * math.min(30 / #SORTED_URL_LIST[category], 1)
+	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y
+	Meters.iScrollbarBarArea.H = (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) * math.min(feedCount / #SORTED_URL_LIST[category], 1)
 	Meters.iScrollbarBarArea.update()
 
 	-- write onto meter
-	Meters.sCategorySelectorText.Text = category
-	Meters.sCategorySelectorText.update()
-	
+	Meters.sCategorySelecterText.Text = category
+	print(SKIN:GetMeter('sCategorySelecterText'))
+	-- Meters.sCategorySelectorText.update()
+
 	local stopPoint = 0
 	for index, feed in pairs(SORTED_URL_LIST[category]) do
 

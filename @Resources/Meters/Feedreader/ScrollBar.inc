@@ -19,15 +19,15 @@ MeterStyle = yScrollBarTopAnchor
 Meter = Image
 MeterStyle = yScrollBarArea
 
-[iScrollBarBotAnchor]
-Meter = Image
-MeterStyle = yScrollBarBotAnchor
-
 [iScrollbarBarAreaBG]
 Meter = Image
 MeterStyle = yScrollBarAreaBG
 MouseScrollUpAction = [!CommandMeasure "mParser" "shiftCategory(-1)" "#CURRENTCONFIG#"]
 MouseScrollDownAction = [!CommandMeasure "mParser" "shiftCategory(1)" "#CURRENTCONFIG#"]
+
+[iScrollBarBotAnchor]
+Meter = Image
+MeterStyle = yScrollBarBotAnchor
 
 ; Down
 [sScrollbarArrowDown]

@@ -1,23 +1,25 @@
 return function(SKIN)
 	local ms = {
 		__index = function(table,key) 
+
+			print(key)
 			-- catch recursive call		
-			if key == '__section' and #table < 2 then
-				return
+			if key == '__section' then
+				return false
 
-			elseif key == '__sectionname' and #table < 2 then
-				return
+			elseif key == '__sectionname' then
+				return false
 
-			-- catch update()
-			elseif key == 'update' and SKIN:GetMeasure(table.__sectionname) then 
+			-- catch Measure.update()
+			elseif key == 'update' and table.__sectionname and SKIN:GetMeasure(table.__sectionname) then 
 				return function() SKIN:Bang('!UpdateMeasure',table.__sectionname, SKIN:GetVariable('CURRENTCONFIG')) end 
 
-			-- catch forceUpdate()
-			elseif key == 'forceUpdate' and SKIN:GetMeasure(table.__sectionname) then 
+			-- catch Measure.forceUpdate()
+			elseif key == 'forceUpdate' and table.__sectionname and SKIN:GetMeasure(table.__sectionname) then 
 				return function() SKIN:Bang('!CommandMeasure',table.__sectionname, 'Update', SKIN:GetVariable('CURRENTCONFIG')) end 
 
-			-- catch update()	
-			elseif key == 'update' and SKIN:GetMeter(table.__sectionname) then 
+			-- catch Meters.update()	
+			elseif key == 'update' and table.__sectionname and SKIN:GetMeter(table.__sectionname) then 
 				return function() SKIN:Bang('!UpdateMeter',table.__sectionname, SKIN:GetVariable('CURRENTCONFIG')) end 
 
 			-- catch isMeter()
@@ -45,15 +47,15 @@ return function(SKIN)
 
 			-- catch Rainmeter Native Build-In functions
 			-- Show, Hide, SetXYWH, GetXYWH, GetName, GetOption (though special case), Enable, Disable, GetValueRange, GetRelativeValue, GetMaxValue, 
-			elseif table.__section[key] then 
+			elseif table.__section and table.__section[key] then 
 				return function(...) return table.__section[key](table.__section,...) end 
 			
 			-- catch meter options
-			elseif table.__section.GetOption then
+			elseif table.__section and table.__section.GetOption then
 				return table.__section:GetOption(key)
 
 			-- catch measure options
-			elseif table.__section.GetNumberOption then
+			elseif table.__section and table.__section.GetNumberOption then
 				return (table.__section.GetNumberOption and table.__section:GetNumberOption(key,nil))
 			
 			-- unknown case
@@ -64,7 +66,7 @@ return function(SKIN)
 		end, 
 		__newindex = function(table,key,value) SKIN:Bang('!SetOption',table.__sectionname,key,value,SKIN:GetVariable('CURRENTCONFIG')) end
 	}
-	sections = {
+	local sections = {
 		__index = function(table,key) 
 			if key == 'redraw' then
 				return function() SKIN:Bang('!Redraw', SKIN:GetVariable('CURRENTCONFIG')) end
@@ -72,7 +74,7 @@ return function(SKIN)
 				sections[key] = {}
 
 				-- store meter/measure
-				sections[key].__section = SKIN:GetMeasure(key) or SKIN:GetMeter(key)
+				sections[key].__section = assert(SKIN:GetMeasure(key) or SKIN:GetMeter(key), "Missing Meter/Measure "..key..". Please check if you have typed the correct name.")
 				
 				-- store meter/measurename
 				sections[key].__sectionname = key 

@@ -33,18 +33,23 @@ function getMaxFeedCount()
 
 	while Meters['sFeed' .. count].isMeter() do
 
-
 		Meters['sFeed' .. count].MeterStyle = 'yFeedItem'
 		Meters['sFeed' .. count].update()
-		Meters['sFeed' .. count].hide()
 
 		if Meters.iScrollBarBotAnchor.Y > Meters['sFeed' .. count].Y then count = count + 1 else break end
 	end
 
+	for i = 1, count - 1, 1 do
+		Meters['sFeed'..count].hide()
+		Meters['sFeed' .. count].update()
+	end
+
+	Meters.redraw()
+
 	getMaxFeedCount = function()
 		return count - 1
 	end
-
+	
 	return count - 1
 end
 
@@ -151,7 +156,7 @@ function displayCategory(category)
 
 	-- clear old feeds
 	stopPoint = stopPoint + 1
-	while Meters['sFeed' .. stopPoint].isMeter() do
+	while Meters['sFeed' .. stopPoint].isMeter() and stopPoint < getMaxFeedCount() do
 		Meters['sFeed' .. stopPoint].hide()
 		Meters['sFeed' .. stopPoint].update()
 
@@ -168,7 +173,7 @@ function shiftCategory(offset)
 	local currentCategory = Meters.sCategorySelectorText.Text
 
 	-- just ignore if no category is selected
-	if SORTED_URL_LIST[currentCategory] then return end
+	if not SORTED_URL_LIST[currentCategory] then return end
 	
 	local feedCount = #SORTED_URL_LIST[currentCategory]
 
@@ -179,14 +184,14 @@ function shiftCategory(offset)
 	SCROLL_OFFSET = newOffset
 		
 	-- change scrollbar position
-	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y + SCROLL_OFFSET * math.ceil((Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) / #SORTED_URL_LIST[currentCategory])
+	Meters.iScrollbarBarArea.Y = Meters.iScrollBarTopAnchor.Y + SCROLL_OFFSET * (Meters.iScrollBarBotAnchor.Y - Meters.iScrollBarTopAnchor.Y) / feedCount
 	Meters.iScrollbarBarArea.update()
 
 	---[[
 	for index = SCROLL_OFFSET + 1, feedCount, 1 do 
 		local iString = 'sFeed' .. (index - SCROLL_OFFSET)
 
-		if not Meters[iString].isMeter() then break end
+		if (index - SCROLL_OFFSET) > getMaxFeedCount() then break end
 
 		Meters[iString].show()
 		Meters[iString].Text = SORTED_URL_LIST[currentCategory][index].id
@@ -218,7 +223,7 @@ function displayDownloadProgress()
 	local right = Meters.iLoadBarRightAnchor.X
 	local maxWidth = right - left
 
-	Meters.iLoadBar.W = maxWidth - math.ceil(LOAD_PROCESS / MAX_PROCESS) * maxWidth
+	Meters.iLoadBar.W = maxWidth - LOAD_PROCESS / MAX_PROCESS * maxWidth
 	Meters.iLoadBar.update()
 	Meters.redraw()
 end

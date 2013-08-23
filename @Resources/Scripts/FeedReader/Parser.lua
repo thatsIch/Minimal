@@ -161,7 +161,6 @@ end
 -- get maximal count of the feeds
 -- @return count number
 function getMaxFeedCount()
-	print("getMaxFeedCount")
 	local meters = Meters
 	local iScrollBarBotAnchor = meters.iScrollBarBotAnchor
 	local count = 1
@@ -173,8 +172,6 @@ function getMaxFeedCount()
 		sFeed.update()
 
 		if iScrollBarBotAnchor.Y > sFeed.Y then count = count + 1 else break end
-
-		print(count)
 	end
 
 	-- hide all again 
@@ -190,7 +187,6 @@ function getMaxFeedCount()
 
 	-- value wont change anymore
 	getMaxFeedCount = function()
-		print(count - 1)
 		return count - 1
 	end
 

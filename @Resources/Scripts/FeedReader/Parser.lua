@@ -14,7 +14,7 @@ function Initialize()
 	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
 	
 	-- Prepare the Search Database
-	-- prepareSearchDataBase(feedList)
+	prepareSearchDataBase(feedList)
 
 	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)

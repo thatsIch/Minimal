@@ -8,7 +8,7 @@
 [sScrollbarArrowUp]
 Meter = String
 MeterStyle = yScrollBarArrows | yScrollUpArrow
-LeftMouseUpAction = [!CommandMeasure "mParser" "shiftOnePageInCategory(-1)" "#CURRENTCONFIG#"]
+LeftMouseUpAction = [!CommandMeasure "mParseScript" "shiftOnePageInCategory(-1)" "#CURRENTCONFIG#"]
 
 ; Area
 [iScrollBarTopAnchor]
@@ -22,8 +22,8 @@ MeterStyle = yScrollBarArea
 [iScrollbarBarAreaBG]
 Meter = Image
 MeterStyle = yScrollBarAreaBG
-MouseScrollUpAction = [!CommandMeasure "mParser" "shiftCategory(-1)" "#CURRENTCONFIG#"]
-MouseScrollDownAction = [!CommandMeasure "mParser" "shiftCategory(1)" "#CURRENTCONFIG#"]
+MouseScrollUpAction = [!CommandMeasure "mParseScript" "shiftCategory(-1)" "#CURRENTCONFIG#"]
+MouseScrollDownAction = [!CommandMeasure "mParseScript" "shiftCategory(1)" "#CURRENTCONFIG#"]
 MouseOverAction = [!SetOption "iScrollbarBarArea" "SolidColor" "#ColorMediumHover#" "#CURRENTCONFIG#"] [!UpdateMeter "iScrollbarBarArea" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"]
 MouseLeaveAction = [!SetOption "iScrollbarBarArea" "SolidColor" "#ColorMediumDefault#" "#CURRENTCONFIG#"] [!UpdateMeter "iScrollbarBarArea" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"]
 
@@ -35,4 +35,4 @@ MeterStyle = yScrollBarBotAnchor
 [sScrollbarArrowDown]
 Meter = String
 MeterStyle = yScrollBarArrows | yScrollDownArrow
-LeftMouseUpAction = [!CommandMeasure "mParser" "shiftOnePageInCategory(1)" "#CURRENTCONFIG#"]
+LeftMouseUpAction = [!CommandMeasure "mParseScript" "shiftOnePageInCategory(1)" "#CURRENTCONFIG#"]

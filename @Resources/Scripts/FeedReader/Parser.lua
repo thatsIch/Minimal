@@ -176,7 +176,6 @@ function getMaxFeedCount()
 
 	-- hide all again 
 	for i = 1, (count - 1), 1 do
-		-- print(i)
 		local sFeed = meters['sFeed' .. i]
 		
 		sFeed.hide()

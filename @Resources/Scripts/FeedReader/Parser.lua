@@ -14,7 +14,7 @@ function Initialize()
 	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
 	
 	-- Prepare the Search Database
-	prepareSearchDataBase(feedList)
+	-- prepareSearchDataBase(feedList)
 
 	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
@@ -48,7 +48,8 @@ function searchInDatabase(search)
 		end
 	end
 
-	print(#entryList .. ' of ' .. #DATA_BASE)
+	Meters.sSearchField.Text = search .. ': ' .. #entryList .. ' Hits in ' .. #DATA_BASE .. ' Entries'
+
 	if #entryList > 0 then renderEntryList(entryList) end
 end
 
@@ -86,20 +87,10 @@ function searchParserProcessUrl(url)
 	mSearchWebParser.forceUpdate()
 end
 
-function onChangeActionSearchWebParser()
-	local filePath = Measures.mSearchWebParser:GetStringValue()
-	print("onChangeActionSearchWebParser: " .. filePath)
-
-	-- catch error
-	if filePath == "" then onFinishActionSearchWebParser() end
-	-- onFinishActionSearchWebParser()
-end
-
 function onFinishActionSearchWebParser()
 	
 	-- processing data
 	local filePath = Measures.mSearchWebParser:GetStringValue()
-	print("onFinishActionSearchWebParser: " .. filePath)
 
 	-- catch download errors
 	if filePath ~= "" then 
@@ -170,6 +161,7 @@ end
 -- get maximal count of the feeds
 -- @return count number
 function getMaxFeedCount()
+	print("getMaxFeedCount")
 	local meters = Meters
 	local iScrollBarBotAnchor = meters.iScrollBarBotAnchor
 	local count = 1
@@ -181,11 +173,14 @@ function getMaxFeedCount()
 		sFeed.update()
 
 		if iScrollBarBotAnchor.Y > sFeed.Y then count = count + 1 else break end
+
+		print(count)
 	end
 
 	-- hide all again 
-	for i = 1, count - 1, 1 do
-		local sFeed = meters['sFeed' .. count]
+	for i = 1, (count - 1), 1 do
+		-- print(i)
+		local sFeed = meters['sFeed' .. i]
 		
 		sFeed.hide()
 		sFeed.update()
@@ -195,6 +190,7 @@ function getMaxFeedCount()
 
 	-- value wont change anymore
 	getMaxFeedCount = function()
+		print(count - 1)
 		return count - 1
 	end
 

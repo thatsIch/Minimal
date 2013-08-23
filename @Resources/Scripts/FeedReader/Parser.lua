@@ -6,7 +6,7 @@ local Parser do
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
-	FeedParser = dofile(Variables['@'].."Scripts\\Libs\\FeedParser.lua")
+	FeedParser, ListParser = dofile(Variables['@'].."Scripts\\Libs\\FeedParser.lua")
 	FileReader = dofile(Variables['@'].."Scripts\\Libs\\FileReader.lua")
 	
 	-- -- Database
@@ -25,6 +25,8 @@ function Initialize()
 	SCROLL_OFFSET = 0
 	LOAD_PROCESS = 0
 	MAX_PROCESS = 0
+
+	DATA_BASE = {}
 
 	-- test
 	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
@@ -319,9 +321,9 @@ function renderSearchProgress(progress)
 end
 
 function renderDownloadProgress(progress)
-	local mLoadBar = Measures.mLoadBar
-	mLoadBar.Formula = progress
-	mLoadBar.update()
+	local mDownloadProgress = Measures.mDownloadProgress
+	mDownloadProgress.Formula = progress
+	mDownloadProgress.update()
 end
 
 -- renders an entry list
@@ -386,10 +388,22 @@ function renderEntryList(entryList)
 	meters.redraw()
 end
 
+
+-- @param url string : url of to be processed feed
+function webParserProcessUrl(url)
+	local mWebParser = Measures.mWebParser
+
+	mWebParser.Disabled = 0
+	mWebParser.Url = url
+	mWebParser.forceUpdate()
+end
+
+
 -- I/O TO SCRIPT
 -- ==================================================
 function onFinishActionWebParser()
 	local filePath = Measures.mWebParser:GetStringValue()
+	print(filePath)
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getMaxEntryCount())
 
@@ -410,11 +424,11 @@ function onLeftMouseUpActionFeedLink(url)
 	webParserProcessUrl(url)
 end
 
--- @param url string : url of to be processed feed
-function webParserProcessUrl(url)
-	local mWebParser = Measures.mWebParser
+function onFinishActionSearchWebParser()
+	-- processing data
+	local filePath = Measures.mSearchWebParser:GetStringValue()
+	local rawFeed = FileReader(filePath)
+	local DATA_BASE = ListParser(DATA_BASE, rawFeed)
 
-	mWebParser.Disabled = 0
-	mWebParser.Url = url
-	mWebParser.update()
+	-- setting next feed
 end

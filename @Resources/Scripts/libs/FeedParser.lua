@@ -180,6 +180,35 @@ local FeedParser do
 
 		return parsedEntries
 	end
+
+	-- @param parsedEntries {{title, link, cont, img}} : processed entries
+	-- @param feed string : contains the raw data for next list entries
+	function ListParser(parsedEntries, feed)
+		rawFeed = StringReplaceByTable(rawFeed)
+		-- RSS
+		for entry in string.gmatch(rawFeed, '<item.->(.-)</item>') do
+			-- entry = StringReplaceByTable(entry)
+			table.insert(parsedEntries, {
+				title = getRSSTitle(entry);
+				link = getRSSLink(entry);
+				cont = getRSSContent(entry);
+				img = getRSSImage(entry);
+			})
+		end
+
+		-- ATOM
+		for entry in string.gmatch(rawFeed, '<entry.->(.-)</entry>') do
+			-- entry = StringReplaceByTable(entry)
+			table.insert(parsedEntries, {
+				title = getAtomTitle(entry);
+				link = getAtomLink(entry);
+				cont = getAtomContent(entry);
+				img = getAtomImage(entry);
+			})
+		end
+
+		return parsedEntries		
+	end
 end
 
-return FeedParser
+return FeedParser, ListParser

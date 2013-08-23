@@ -45,7 +45,8 @@ function prepareEntries()
 	local originX, originY = desc.X, desc.Y
 	local entryW, entryH, entryP = Variables.EntryWidth, Variables.EntryHeight, Variables.EntryPadding
 	local rows, cols = Variables.Rows, Variables.Cols
-	local titleDiff = meters.sEntryTitle1.Y - originY
+	local titleH = entryH * 0.382
+	local titleDiff = entryH - titleH
 
 	local hide = function(index) return 
 		'[!HideMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
@@ -58,12 +59,15 @@ function prepareEntries()
 		'[!ShowMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
 		'[!Redraw "'.. config ..'"]'
 	end
+
+	-- only run-once function
+	prepareEntries = nil
 	
 	-- Aligns each group
 	for row = 1, rows, 1 do
 		for col = 1, cols, 1 do
 			local index = (row - 1) * cols + col
-			if index > maxEntryCount then break end
+			if index > maxEntryCount then return end
 			
 			local sEntryDesc = meters['sEntryDesc' .. index]
 			local iEntryImage = meters['iEntryImage' .. index]
@@ -76,15 +80,13 @@ function prepareEntries()
 			sEntryDesc.Y = originY + (row - 1) * (entryH + entryP)
 			iEntryImage.Y = originY + (row - 1) * (entryH + entryP)
 			sEntryTitle.Y = originY + (row - 1) * (entryH + entryP) + titleDiff
+			sEntryTitle.H = titleH
 
 			sEntryDesc.LeftMouseUpAction = show(index)
 			iEntryImage.LeftMouseUpAction = hide(index)
 			sEntryTitle.LeftMouseUpAction = hide(index)
 		end
 	end
-
-	-- only run-once function
-	prepareEntries = nil
 end
 
 -- get maximal count of the feeds

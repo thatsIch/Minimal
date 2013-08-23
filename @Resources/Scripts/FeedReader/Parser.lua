@@ -310,7 +310,11 @@ function shiftCategory(offset)
 	meters.redraw()
 end
 
-
+function renderSearchProgress(progress)
+	local mSearchProgress = Measures.mSearchProgress
+	mSearchProgress.Formula = progress
+	mSearchProgress.update()
+end
 
 function renderDownloadProgress(progress)
 	local mLoadBar = Measures.mLoadBar

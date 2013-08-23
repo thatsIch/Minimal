@@ -15,6 +15,12 @@ function Initialize()
 	-- Debug
 	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
 	
+	-- Prepare the Search Database
+	prepareSearchDataBase(feedList)
+
+	-- prepareSearchDataBase()
+	-- prepareSearchDataBase()
+
 	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	prepareCategories(categoryOrder)
@@ -27,7 +33,6 @@ function Initialize()
 	MAX_PROCESS = 0
 
 	DATA_BASE = {}
-
 	-- test
 	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
 	-- local rawFeed = FileReader(uri)
@@ -36,6 +41,47 @@ function Initialize()
 
 	-- run-once function
 	Initialize = nil
+end
+
+function prepareSearchDataBase(feedList)
+
+	prepareSearchDataBase = function()
+		local feedList = feedList
+
+		-- stop when to be processed feed list is empty
+		if #feedList <= 0 then return end
+
+		-- pop first item {category, identifier, url, pinned}
+		local feed = table.remove(feedList, 1)
+
+		-- fetch url within
+		local url = assert(feed[3], "No URL found, please check your URL for Feed " .. feed[2])
+
+		-- setup SearchWebParser
+		searchParserProcessUrl(url)
+	end
+
+	-- run once the new function yourself
+	prepareSearchDataBase()
+end
+
+-- @param url string : url of to be processed feed
+function searchParserProcessUrl(url)
+	local mSearchWebParser = Measures.mSearchWebParser
+
+	mSearchWebParser.Disabled = 0
+	mSearchWebParser.Url = url
+	mSearchWebParser.forceUpdate()
+end
+
+function onFinishActionSearchWebParser()
+	-- processing data
+	local filePath = Measures.mSearchWebParser:GetStringValue()
+	local rawFeed = FileReader(filePath)
+	ListParser(DATA_BASE, rawFeed)
+
+	-- setting next feed
+	prepareSearchDataBase()
 end
 
 -- Gives all entries the left and rightclick properties
@@ -129,11 +175,12 @@ end
 -- @return count number
 function getMaxEntryCount()
 	local meters = Meters
+	local variables = Variables
 	local count = 1
 	while meters['sEntryTitle' .. count].isMeter() do
 		count = count + 1
 	end
-	count = math.min(count - 1, Variables.Cols * Variables.Rows)
+	count = math.min(count - 1, variables.Cols * variables.Rows)
 
 	getMaxEntryCount = function()
 		return count
@@ -403,7 +450,6 @@ end
 -- ==================================================
 function onFinishActionWebParser()
 	local filePath = Measures.mWebParser:GetStringValue()
-	print(filePath)
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getMaxEntryCount())
 
@@ -424,11 +470,3 @@ function onLeftMouseUpActionFeedLink(url)
 	webParserProcessUrl(url)
 end
 
-function onFinishActionSearchWebParser()
-	-- processing data
-	local filePath = Measures.mSearchWebParser:GetStringValue()
-	local rawFeed = FileReader(filePath)
-	local DATA_BASE = ListParser(DATA_BASE, rawFeed)
-
-	-- setting next feed
-end

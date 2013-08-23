@@ -2,13 +2,13 @@ local FeedParser do
 	-- APPLIES A GIVEN CONVERTTABLE ONTO INPUTSTRING
 	-- @input: String string
 	-- @output: String string
-	function StringReplaceByTable(string)
+	function StringReplaceByTable(feed)
 		-- USED GLOBAL FUNCTIONS
 		local char = string.char
 		local gsub = string.gsub
 
 		-- REMOVE CDATA
-		string = string.gsub(string, '<!%[CDATA%[(.-)%]%]>', "%1")
+		feed = string.gsub(feed, '<!%[CDATA%[(.-)%]%]>', "%1")
 
 		-- CONVERT TABLE
 		local generalConvertTable = {
@@ -23,7 +23,7 @@ local FeedParser do
 		
 		-- ITERATE THROUGH ALL ENTRIES AND REPLACE
 		for k,v in pairs(generalConvertTable) do
-			string = gsub(string, k, v)
+			feed = gsub(feed, k, v)
 		end
 		
 		-- CONVERT TABLE
@@ -56,14 +56,14 @@ local FeedParser do
 		
 		-- ITERATE THROUGH ALL ENTRIES AND REPLACE
 		for k,v in pairs(generalConvertTable) do
-			string = gsub(string, k, v)
+			feed = gsub(feed, k, v)
 		end
 
 		-- SOLE FUNCTION TO REPLACE LUA REPRESENTATION
-		string = gsub(string,"&#(%d+);", function(c) local num = tonumber(c) if 0 <= num and num <= 255 then return char(num) else return "" end end)
+		feed = gsub(feed,"&#(%d+);", function(c) local num = tonumber(c) if 0 <= num and num <= 255 then return char(num) else return "" end end)
 
 		-- RESULT
-		return string
+		return feed
 	end -- StringReplaceByTable
 
 	-- RSS
@@ -184,9 +184,11 @@ local FeedParser do
 	-- @param parsedEntries {{title, link, cont, img}} : processed entries
 	-- @param feed string : contains the raw data for next list entries
 	function ListParser(parsedEntries, feed)
-		rawFeed = StringReplaceByTable(rawFeed)
+
+		feed = StringReplaceByTable(feed)
+
 		-- RSS
-		for entry in string.gmatch(rawFeed, '<item.->(.-)</item>') do
+		for entry in string.gmatch(feed, '<item.->(.-)</item>') do
 			-- entry = StringReplaceByTable(entry)
 			table.insert(parsedEntries, {
 				title = getRSSTitle(entry);
@@ -197,7 +199,7 @@ local FeedParser do
 		end
 
 		-- ATOM
-		for entry in string.gmatch(rawFeed, '<entry.->(.-)</entry>') do
+		for entry in string.gmatch(feed, '<entry.->(.-)</entry>') do
 			-- entry = StringReplaceByTable(entry)
 			table.insert(parsedEntries, {
 				title = getAtomTitle(entry);
@@ -205,9 +207,7 @@ local FeedParser do
 				cont = getAtomContent(entry);
 				img = getAtomImage(entry);
 			})
-		end
-
-		return parsedEntries		
+		end		
 	end
 end
 

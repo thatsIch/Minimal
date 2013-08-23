@@ -1,7 +1,5 @@
 local Parser do
 
--- TODO database on update
--- TODO loading bar for database
 -- TODO link marker of current feed
 function Initialize()
 	-- Libs
@@ -31,11 +29,6 @@ function Initialize()
 
 	-- DATA_BASE = {{title, link, cont, img}}
 	DATA_BASE = {}
-	-- test
-	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
-	-- local rawFeed = FileReader(uri)
-	-- local entryList = FeedParser(rawFeed, getMaxEntryCount())
-	-- renderEntryList(entryList)
 
 	-- run-once function
 	Initialize = nil
@@ -95,6 +88,7 @@ end
 
 function onChangeActionSearchWebParser()
 	local filePath = Measures.mSearchWebParser:GetStringValue()
+	print("onChangeActionSearchWebParser: " .. filePath)
 
 	-- catch error
 	if filePath == "" then onFinishActionSearchWebParser() end
@@ -105,6 +99,7 @@ function onFinishActionSearchWebParser()
 	
 	-- processing data
 	local filePath = Measures.mSearchWebParser:GetStringValue()
+	print("onFinishActionSearchWebParser: " .. filePath)
 
 	-- catch download errors
 	if filePath ~= "" then 

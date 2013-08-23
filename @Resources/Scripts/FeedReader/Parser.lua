@@ -2,7 +2,6 @@ local Parser do
 
 -- TODO database on update
 -- TODO loading bar for database
--- TODO mouse over scrollbar
 -- TODO link marker of current feed
 function Initialize()
 	-- Libs
@@ -38,15 +37,11 @@ function Initialize()
 end
 
 -- Gives all entries the left and rightclick properties
--- TODO algin elements in future
--- TODO dont forget to realign the bar
 function prepareEntries()
 	local meters = Meters
 	local maxEntryCount = getMaxEntryCount()
 	local config = Variables.CURRENTCONFIG
-
 	local desc = meters.sEntryDesc1
-	
 	local originX, originY = desc.X, desc.Y
 	local entryW, entryH, entryP = Variables.EntryWidth, Variables.EntryHeight, Variables.EntryPadding
 	local rows, cols = Variables.Rows, Variables.Cols
@@ -64,6 +59,7 @@ function prepareEntries()
 		'[!Redraw "'.. config ..'"]'
 	end
 	
+	-- Aligns each group
 	for row = 1, rows, 1 do
 		for col = 1, cols, 1 do
 			local index = (row - 1) * cols + col
@@ -138,7 +134,7 @@ function getMaxEntryCount()
 	getMaxEntryCount = function()
 		return count
 	end
-	print(count)
+
 	return count
 end
 

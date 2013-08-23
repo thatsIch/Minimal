@@ -27,10 +27,10 @@ function Initialize()
 	MAX_PROCESS = 0
 
 	-- test
-	local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
-	local rawFeed = FileReader(uri)
-	local entryList = FeedParser(rawFeed, getMaxEntryCount())
-	renderEntryList(entryList)
+	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
+	-- local rawFeed = FileReader(uri)
+	-- local entryList = FeedParser(rawFeed, getMaxEntryCount())
+	-- renderEntryList(entryList)
 
 	-- run-once function
 	Initialize = nil
@@ -242,7 +242,7 @@ function displayCategory(category)
 			'[!SetOption "sFeed'..index..'" "FontColor" "#ColorLowDefault#" "'..config..'"] '..
 			'[!UpdateMeter "sFeed' .. index..'" "'..config..'"] '..
 			'[!Redraw "'..config..'"] '..
-			'[!CommandMeasure "'..parserName..'" "onLeftMouseUpActionFeedLink('..feed.url..')" "'..config..'"]'
+			'[!CommandMeasure "'..parserName..'" "onLeftMouseUpActionFeedLink(\''..feed.url..'\')" "'..config..'"]'
 		meter.update()
 
 		stopPoint = index

@@ -32,6 +32,7 @@ function Initialize()
 	LOAD_PROCESS = 0
 	MAX_PROCESS = 0
 
+	-- DATA_BASE = {{title, link, cont, img}}
 	DATA_BASE = {}
 	-- test
 	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
@@ -43,7 +44,26 @@ function Initialize()
 	Initialize = nil
 end
 
+function searchInDatabase(search)
+	-- prepare entry list
+	local entryList = {}
+
+	-- loop through whole database
+	for _, entry in ipairs(DATA_BASE) do
+		-- search within title and content
+		if string.find(entry.title, search) or string.find(entry.cont, search) then
+			table.insert(entryList, entry)
+		end
+	end
+
+	print(#entryList .. ' of ' .. #DATA_BASE)
+	if #entryList > 0 then renderEntryList(entryList) end
+end
+
 function prepareSearchDataBase(feedList)
+
+	-- set the max of mSearchProgress to the known length
+	Measures.mSearchProgress.MaxValue = #feedList
 
 	prepareSearchDataBase = function()
 		local feedList = feedList
@@ -74,11 +94,27 @@ function searchParserProcessUrl(url)
 	mSearchWebParser.forceUpdate()
 end
 
+function onChangeActionSearchWebParser()
+	local filePath = Measures.mSearchWebParser:GetStringValue()
+
+	-- catch error
+	if filePath == "" then onFinishActionSearchWebParser() end
+	-- onFinishActionSearchWebParser()
+end
+
 function onFinishActionSearchWebParser()
+	
 	-- processing data
 	local filePath = Measures.mSearchWebParser:GetStringValue()
-	local rawFeed = FileReader(filePath)
-	ListParser(DATA_BASE, rawFeed)
+
+	-- catch download errors
+	if filePath ~= "" then 
+		local rawFeed = FileReader(filePath)
+		ListParser(DATA_BASE, rawFeed)
+
+		-- add 
+		Measures.mSearchProgress.update()
+	end
 
 	-- setting next feed
 	prepareSearchDataBase()

@@ -14,8 +14,8 @@ function Initialize()
 	local feedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
 
 	-- Debug
-	-- PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
-
+	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
+	
 	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	prepareCategories(categoryOrder)
@@ -28,10 +28,10 @@ function Initialize()
 	MAX_PROCESS = 0
 
 	-- test
-	-- local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
-	-- local rawFeed = FileReader(uri)
-	-- local entryList = FeedParser(rawFeed, getEntryCount())
-	-- renderEntryList(entryList)
+	local uri = 'H:\\Data\\Downloads\\cupcakequeen.xml'
+	local rawFeed = FileReader(uri)
+	local entryList = FeedParser(rawFeed, getMaxEntryCount())
+	renderEntryList(entryList)
 
 	-- run-once function
 	Initialize = nil
@@ -45,12 +45,12 @@ function prepareEntries()
 	local maxEntryCount = getMaxEntryCount()
 	local config = Variables.CURRENTCONFIG
 
-
 	local desc = meters.sEntryDesc1
 	
 	local originX, originY = desc.X, desc.Y
 	local entryW, entryH, entryP = Variables.EntryWidth, Variables.EntryHeight, Variables.EntryPadding
-
+	local rows, cols = Variables.Rows, Variables.Cols
+	local titleDiff = meters.sEntryTitle1.Y - originY
 
 	local hide = function(index) return 
 		'[!HideMeter "sEntryTitle'.. index ..'" "'.. config ..'"]' ..
@@ -63,11 +63,28 @@ function prepareEntries()
 		'[!ShowMeter "iEntryImage'.. index ..'" "'.. config ..'"]' ..
 		'[!Redraw "'.. config ..'"]'
 	end
+	
+	for row = 1, rows, 1 do
+		for col = 1, cols, 1 do
+			local index = (row - 1) * cols + col
+			if index > maxEntryCount then break end
+			
+			local sEntryDesc = meters['sEntryDesc' .. index]
+			local iEntryImage = meters['iEntryImage' .. index]
+			local sEntryTitle = meters['sEntryTitle' .. index]
 
-	for index = 1, maxEntryCount, 1 do
-		meters['sEntryTitle' .. index].LeftMouseUpAction = hide(index)
-		meters['iEntryImage' .. index].LeftMouseUpAction = hide(index)
-		meters['sEntryDesc' .. index].LeftMouseUpAction = show(index)
+			sEntryDesc.X = originX + (col - 1) * (entryW + entryP)
+			iEntryImage.X = originX + (col - 1) * (entryW + entryP)
+			sEntryTitle.X = originX + (col - 1) * (entryW + entryP)
+
+			sEntryDesc.Y = originY + (row - 1) * (entryH + entryP)
+			iEntryImage.Y = originY + (row - 1) * (entryH + entryP)
+			sEntryTitle.Y = originY + (row - 1) * (entryH + entryP) + titleDiff
+
+			sEntryDesc.LeftMouseUpAction = show(index)
+			iEntryImage.LeftMouseUpAction = hide(index)
+			sEntryTitle.LeftMouseUpAction = hide(index)
+		end
 	end
 
 	-- only run-once function
@@ -121,7 +138,7 @@ function getMaxEntryCount()
 	getMaxEntryCount = function()
 		return count
 	end
-
+	print(count)
 	return count
 end
 
@@ -173,7 +190,7 @@ end
 function prepareCategories(categories)
 	local meters = Meters
 	local maxFeedCount = getMaxEntryCount()
-
+	local parserName = SELF:GetName()
 
 	for i, category in pairs(categories) do
 		-- break loop if too many categories
@@ -182,7 +199,7 @@ function prepareCategories(categories)
 		local sCategorySelectorDropdown = meters['sCategorySelectorDropdown' .. i]
 		sCategorySelectorDropdown.MeterStyle = 'yCategorySelectorDropdown'
 		sCategorySelectorDropdown.Text = category
-		sCategorySelectorDropdown.LeftMouseUpAction = '[!CommandMeasure "mParser" "displayCategory(\''.. category ..'\')" "#CURRENTCONFIG#"]'
+		sCategorySelectorDropdown.LeftMouseUpAction = '[!CommandMeasure "'..parserName..'" "displayCategory(\''.. category ..'\')" "#CURRENTCONFIG#"]'
 		sCategorySelectorDropdown.update()
 	end
 
@@ -201,6 +218,8 @@ function displayCategory(category)
 	local iScrollBarBotAnchor = meters.iScrollBarBotAnchor
 	local sCategorySelectorText = meters.sCategorySelectorText
 	local feedListOfCategory = SORTED_URL_LIST[category]
+	local config = Variables.CURRENTCONFIG
+	local parserName = SELF:GetName()
 
 	-- reset offset
 	SCROLL_OFFSET = 0
@@ -223,7 +242,11 @@ function displayCategory(category)
 		local meter = meters['sFeed' .. index]
 		meter.show()
 		meter.Text = feed.id
-		meter.LeftMouseUpAction = '[!SetOption "sFeed' .. index..'" "FontColor" "#ColorLowDefault#" "'..Variables.CURRENTCONFIG..'"] [!UpdateMeter "sFeed' .. index..'" "'..Variables.CURRENTCONFIG..'"] [!Redraw "'..Variables.CURRENTCONFIG..'"] [!SetOption "mWebParser" "Disabled" "0"] [!SetOption "mWebParser" "Url" "'.. feed.url ..'" "'.. Variables.CURRENTCONFIG ..'"] [!CommandMeasure "mWebParser" "Update" "'.. Variables.CURRENTCONFIG ..'"]'
+		meter.LeftMouseUpAction = 
+			'[!SetOption "sFeed'..index..'" "FontColor" "#ColorLowDefault#" "'..config..'"] '..
+			'[!UpdateMeter "sFeed' .. index..'" "'..config..'"] '..
+			'[!Redraw "'..config..'"] '..
+			'[!CommandMeasure "'..parserName..'" "onLeftMouseUpActionFeedLink('..feed.url..')" "'..config..'"]'
 		meter.update()
 
 		stopPoint = index
@@ -378,3 +401,18 @@ function onFinishActionImageParser()
 end
 
 end -- local Parser
+
+-- TODO add selected hook
+-- @param url string : url of the clicked feed
+function onLeftMouseUpActionFeedLink(url)
+	webParserProcessUrl(url)
+end
+
+-- @param url string : url of to be processed feed
+function webParserProcessUrl(url)
+	local mWebParser = Measures.mWebParser
+
+	mWebParser.Disabled = 0
+	mWebParser.Url = url
+	mWebParser.update()
+end

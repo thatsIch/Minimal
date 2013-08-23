@@ -18,9 +18,6 @@ function Initialize()
 	-- Prepare the Search Database
 	prepareSearchDataBase(feedList)
 
-	-- prepareSearchDataBase()
-	-- prepareSearchDataBase()
-
 	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	prepareCategories(categoryOrder)
@@ -47,11 +44,13 @@ end
 function searchInDatabase(search)
 	-- prepare entry list
 	local entryList = {}
+	search = string.lower(search)
 
 	-- loop through whole database
 	for _, entry in ipairs(DATA_BASE) do
 		-- search within title and content
-		if string.find(entry.title, search) or string.find(entry.cont, search) then
+		if string.find(string.lower(entry.title), search) 
+		or string.find(string.lower(entry.cont), search) then
 			table.insert(entryList, entry)
 		end
 	end

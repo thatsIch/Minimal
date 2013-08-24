@@ -393,9 +393,9 @@ function renderSearchProgress(progress)
 end
 
 function renderDownloadProgress(progress)
-	local mDownloadProgress = Measures.mDownloadProgress
-	mDownloadProgress.Formula = progress
-	mDownloadProgress.update()
+	local mImageDownloadProgress = Measures.mImageDownloadProgress
+	mImageDownloadProgress.Formula = progress
+	mImageDownloadProgress.update()
 end
 
 -- renders an entry list

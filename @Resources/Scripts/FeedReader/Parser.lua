@@ -1,6 +1,7 @@
 local Parser do
 
 -- TODO link marker of current feed
+-- TODO search doesnt reflect in bar
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
@@ -13,13 +14,13 @@ function Initialize()
 	-- Debug
 	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
 	
-	-- Prepare the Search Database
-	prepareSearchDataBase(feedList)
-
 	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	prepareCategories(categoryOrder)
 	prepareEntries()
+
+	-- Prepare the Search Database
+	prepareSearchDataBase(feedList)
 
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList
@@ -37,6 +38,7 @@ end
 function searchInDatabase(search)
 	-- prepare entry list
 	local entryList = {}
+	local meters = Meters
 	search = string.lower(search)
 
 	-- loop through whole database
@@ -48,7 +50,9 @@ function searchInDatabase(search)
 		end
 	end
 
-	Meters.sSearchField.Text = search .. ': ' .. #entryList .. ' Hits in ' .. #DATA_BASE .. ' Entries'
+	meters.sSearchField.Text = search .. ': ' .. #entryList .. ' Hits in ' .. #DATA_BASE .. ' Entries'
+	meters.sSearchField.update()
+	meters.redraw()
 
 	if #entryList > 0 then renderEntryList(entryList) end
 end

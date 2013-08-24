@@ -59,8 +59,8 @@ end
 
 function prepareSearchDataBase(feedList)
 
-	-- set the max of mSearchProgress to the known length
-	Measures.mSearchProgress.MaxValue = #feedList
+	-- set the max of mSearchDownloadProgress to the known length
+	Measures.mSearchDownloadProgress.MaxValue = #feedList
 
 	prepareSearchDataBase = function()
 		local feedList = feedList
@@ -102,7 +102,7 @@ function onFinishActionSearchWebParser()
 		ListParser(DATA_BASE, rawFeed)
 
 		-- add 
-		Measures.mSearchProgress.update()
+		Measures.mSearchDownloadProgress.update()
 	end
 
 	-- setting next feed
@@ -384,12 +384,6 @@ function shiftCategory(offset)
 	end
 
 	meters.redraw()
-end
-
-function renderSearchProgress(progress)
-	local mSearchProgress = Measures.mSearchProgress
-	mSearchProgress.Formula = progress
-	mSearchProgress.update()
 end
 
 function renderDownloadProgress(progress)

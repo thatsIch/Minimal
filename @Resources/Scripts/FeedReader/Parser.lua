@@ -1,5 +1,8 @@
 local Parser do
 
+-- =====================================================================================
+-- RUN-ONCE-ONLY-FUNCTIONS
+-- =====================================================================================
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
@@ -16,7 +19,7 @@ function Initialize()
 	prepareEntries()
 
 	-- Prepare the Search Database
-	prepareSearchDataBase(feedList)
+	-- prepareSearchDataBase(feedList)
 
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList
@@ -30,28 +33,7 @@ function Initialize()
 	Initialize = nil
 end
 
-function searchInDatabase(search)
-	-- prepare entry list
-	local __entryList = {}
-	local __meters = Meters
-	local __search = string.lower(search)
-
-	-- loop through whole database
-	for _, entry in ipairs(DATA_BASE) do
-		-- search within title and content
-		if string.find(string.lower(entry.title), __search) 
-		or string.find(string.lower(entry.cont), __search) then
-			table.insert(__entryList, entry)
-		end
-	end
-
-	__meters.sSearchField.Text = search .. ': ' .. #__entryList .. ' Hits in ' .. #DATA_BASE .. ' Entries'
-	__meters.sSearchField.update()
-	__meters.redraw()
-
-	if #__entryList > 0 then renderEntryList(__entryList) end
-end
-
+-- @param feedList {{category, id, url, pin}} : list of whole database
 function prepareSearchDataBase(feedList)
 
 	-- set the max of mSearchDownloadProgress to the known length
@@ -77,30 +59,27 @@ function prepareSearchDataBase(feedList)
 	prepareSearchDataBase()
 end
 
--- @param url string : url of to be processed feed
-function searchParserProcessUrl(url)
-	local mSearchFeedDownloader = Measures.mSearchFeedDownloader
+-- @param categories {string}
+function prepareCategories(categories)
+	local meters = Meters
+	local maxFeedCount = getMaxEntryCount()
+	local parserName = SELF:GetName()
 
-	mSearchFeedDownloader.Disabled = 0
-	mSearchFeedDownloader.Url = url
-	mSearchFeedDownloader.forceUpdate()
-end
+	for i, category in pairs(categories) do
+		-- break loop if too many categories
+		if i > maxFeedCount then break end
 
-function onFinishActionSearchFeedDownloader()
-	
-	-- processing data
-	local filePath = Measures.mSearchFeedDownloader:GetStringValue()
-
-	-- catch download errors
-	if filePath ~= "" then 
-		local rawFeed = FileReader(filePath)
-		ListParser(DATA_BASE, rawFeed)
+		local sCategorySelectorDropdown = meters['sCategorySelectorDropdown' .. i]
+		sCategorySelectorDropdown.MeterStyle = 'yCategorySelectorDropdown'
+		sCategorySelectorDropdown.Text = category
+		sCategorySelectorDropdown.LeftMouseUpAction = '[!CommandMeasure "'..parserName..'" "renderCategory(\''.. category ..'\')" "#CURRENTCONFIG#"]'
+		sCategorySelectorDropdown.update()
 	end
 
-	Measures.mSearchDownloadProgress.update()
+	meters.redraw()
 
-	-- setting next feed
-	prepareSearchDataBase()
+	-- run-once function
+	prepareCategories = nil
 end
 
 -- Gives all entries the left and rightclick properties
@@ -156,6 +135,10 @@ function prepareEntries()
 	end
 end
 
+
+-- ====================================================================================================
+-- GETTER
+-- ====================================================================================================
 -- get maximal count of the feeds
 -- @return count number
 function getMaxFeedCount()
@@ -209,6 +192,9 @@ function getMaxEntryCount()
 end
 
 
+-- ====================================================================================================
+-- LOGIC
+-- ====================================================================================================
 -- @param rawList string
 -- @return sortedResult, categoryOrder = {category = {{id, url}}}, {string}
 function sortFeedList(rawList)
@@ -252,31 +238,98 @@ function sortFeedList(rawList)
 	return sortedResult, categoryOrder
 end
 
--- @param categories {string}
-function prepareCategories(categories)
+function searchInDatabase(search)
+	-- prepare entry list
+	local __entryList = {}
+	local __meters = Meters
+	local __search = string.lower(search)
+
+	-- loop through whole database
+	for _, entry in ipairs(DATA_BASE) do
+		-- search within title and content
+		if string.find(string.lower(entry.title), __search) 
+		or string.find(string.lower(entry.cont), __search) then
+			table.insert(__entryList, entry)
+		end
+	end
+
+	__meters.sSearchField.Text = search .. ': ' .. #__entryList .. ' Hits in ' .. #DATA_BASE .. ' Entries'
+	__meters.sSearchField.update()
+	__meters.redraw()
+
+	if #__entryList > 0 then renderEntryList(__entryList) end
+end
+
+-- @param url string : url of to be processed feed
+function searchParserProcessUrl(url)
+	local mSearchFeedDownloader = Measures.mSearchFeedDownloader
+
+	mSearchFeedDownloader.Disabled = 0
+	mSearchFeedDownloader.Url = url
+	mSearchFeedDownloader.forceUpdate()
+end
+
+function shiftOnePageInCategory(direction)
+	shiftCategory(direction * getMaxFeedCount())
+end
+
+-- @param offset number
+-- @return void
+function shiftCategory(offset)
 	local meters = Meters
-	local maxFeedCount = getMaxEntryCount()
+	local currentCategory = meters.sCategorySelectorText.Text
+	local iScrollbarBarArea = meters.iScrollbarBarArea
+	local iScrollBarTopAnchor = meters.iScrollBarTopAnchor
+	local iScrollBarBotAnchor = meters.iScrollBarBotAnchor
+	local maxFeedCount = getMaxFeedCount()
+	local feedListOfCategory = SORTED_URL_LIST[currentCategory]
+	local config = Variables.CURRENTCONFIG
 	local parserName = SELF:GetName()
 
-	for i, category in pairs(categories) do
-		-- break loop if too many categories
-		if i > maxFeedCount then break end
+	-- just ignore if no category is selected
+	if not feedListOfCategory then return end
 
-		local sCategorySelectorDropdown = meters['sCategorySelectorDropdown' .. i]
-		sCategorySelectorDropdown.MeterStyle = 'yCategorySelectorDropdown'
-		sCategorySelectorDropdown.Text = category
-		sCategorySelectorDropdown.LeftMouseUpAction = '[!CommandMeasure "'..parserName..'" "displayCategory(\''.. category ..'\')" "#CURRENTCONFIG#"]'
-		sCategorySelectorDropdown.update()
+	local feedCount = #feedListOfCategory
+	
+	-- check if it can even offset more
+	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - maxFeedCount))
+	if SCROLL_OFFSET == newOffset then return end
+
+	SCROLL_OFFSET = newOffset
+		
+	-- change scrollbar position
+	iScrollbarBarArea.Y = iScrollBarTopAnchor.Y + SCROLL_OFFSET * (iScrollBarBotAnchor.Y - iScrollBarTopAnchor.Y) / feedCount
+	iScrollbarBarArea.update()
+
+	local lowBound = SCROLL_OFFSET + 1
+	local highBound = math.min(maxFeedCount + SCROLL_OFFSET, feedCount)
+
+	for index = lowBound, highBound, 1 do
+		-- if end of feed list reach > dont shift any further
+		if (index - SCROLL_OFFSET) > maxFeedCount then break end
+			local sFeed = 'sFeed' .. (index - SCROLL_OFFSET)
+			local meter = meters[sFeed]
+
+		-- Link Marker: StringStyle = Bold else Normal
+		if index == LINK_MARKER then meter.SolidColor = '#ColorHighHover#' else meter.SolidColor = '#Transparent#' end
+
+		meter.Text = feedListOfCategory[index].id
+		meter.LeftMouseUpAction = 
+			'[!SetOption "'..sFeed..'" "FontColor" "#ColorLowDefault#" "#CURRENTCONFIG#"] '..
+			'[!UpdateMeter "'..sFeed..'" "#CURRENTCONFIG#"] '..
+			'[!Redraw "#CURRENTCONFIG#"] '..
+			'[!CommandMeasure "'..parserName..'" "onLeftMouseUpActionFeedLink(\''..feedListOfCategory[index].url..'\', '..index..')" "#CURRENTCONFIG#"]'
+		meter.update()
 	end
 
 	meters.redraw()
-
-	-- run-once function
-	prepareCategories = nil
 end
 
+-- ====================================================================================================
+-- RENDERING
+-- ====================================================================================================
 -- @param category string
-function displayCategory(category)
+function renderCategory(category)
 	local maxFeedCount = getMaxFeedCount()
 	local meters = Meters
 	local iScrollbarBarArea = meters.iScrollbarBarArea
@@ -327,58 +380,6 @@ function displayCategory(category)
 	end
 
 	meters.toggleGroup('DropDown')
-	meters.redraw()
-end
-
-function shiftOnePageInCategory(direction)
-	shiftCategory(direction * getMaxFeedCount())
-end
-
--- @param offset number
--- @return void
-function shiftCategory(offset)
-	local meters = Meters
-	local currentCategory = meters.sCategorySelectorText.Text
-	local iScrollbarBarArea = meters.iScrollbarBarArea
-	local iScrollBarTopAnchor = meters.iScrollBarTopAnchor
-	local iScrollBarBotAnchor = meters.iScrollBarBotAnchor
-	local maxFeedCount = getMaxFeedCount()
-	local feedListOfCategory = SORTED_URL_LIST[currentCategory]
-	local config = Variables.CURRENTCONFIG
-
-	-- just ignore if no category is selected
-	if not feedListOfCategory then return end
-	local feedCount = #feedListOfCategory
-
-	-- check if it can even offset more
-	local newOffset = math.max(0, math.min(SCROLL_OFFSET + offset, feedCount - maxFeedCount))
-	if SCROLL_OFFSET == newOffset then return end
-
-	SCROLL_OFFSET = newOffset
-		
-	-- change scrollbar position
-	iScrollbarBarArea.Y = iScrollBarTopAnchor.Y + SCROLL_OFFSET * (iScrollBarBotAnchor.Y - iScrollBarTopAnchor.Y) / feedCount
-	iScrollbarBarArea.update()
-
-	for index = SCROLL_OFFSET + 1, feedCount, 1 do 
-		if (index - SCROLL_OFFSET) > maxFeedCount then break end
-			local iString = 'sFeed' .. (index - SCROLL_OFFSET)
-			local meter = meters[iString]
-
-		-- Link Marker: StringStyle = Bold else Normal
-		if index == LINK_MARKER then meter.SolidColor = '#ColorHighHover#' else meter.SolidColor = '#Transparent#' end
-
-		meter.Text = feedListOfCategory[index].id
-		meter.LeftMouseUpAction = 
-			'[!SetOption "'..iString..'" "FontColor" "#ColorLowDefault#" "'..config..'"] '..
-			'[!UpdateMeter "'..iString..'" "'..config..'"] '..
-			'[!Redraw "'..config..'"] '..
-			'[!SetOption "mCategoryFeedDownloader" "Disabled" "0"] '..
-			'[!SetOption "mCategoryFeedDownloader" "Url" "'.. feedListOfCategory[index].url ..'" "'.. config ..'"] '..
-			'[!CommandMeasure "mCategoryFeedDownloader" "Update" "'.. config ..'"]'
-		meter.update()
-	end
-
 	meters.redraw()
 end
 
@@ -440,6 +441,9 @@ function renderEntryList(entryList)
 	meters.redraw()
 end
 
+
+
+
 -- I/O TO SCRIPT
 -- ==================================================
 function onFinishActionCategoryFeedDownloader()
@@ -459,9 +463,12 @@ function onLeftMouseUpActionFeedLink(url, index)
 	local meters = Meters
 	local mImageDownloadProgress = measures.mImageDownloadProgress
 	local mCategoryFeedDownloader = measures.mCategoryFeedDownloader
-	local sFeed = meters['sFeed' .. index]
-
+	local sFeed = meters['sFeed' .. (index - SCROLL_OFFSET)]
+	local oldMarker = meters['sFeed' .. math.max(LINK_MARKER - SCROLL_OFFSET, 1)]
+	
 	-- render link marker
+	oldMarker.SolidColor = '#Transparent#'
+	oldMarker.update()
 	LINK_MARKER = index
 	sFeed.SolidColor = '#ColorHighHover#'
 	sFeed.update()
@@ -475,3 +482,19 @@ function onLeftMouseUpActionFeedLink(url, index)
 	mCategoryFeedDownloader.forceUpdate()
 end
 
+function onFinishActionSearchFeedDownloader()
+	
+	-- processing data
+	local filePath = Measures.mSearchFeedDownloader:GetStringValue()
+
+	-- catch download errors
+	if filePath ~= "" then 
+		local rawFeed = FileReader(filePath)
+		ListParser(DATA_BASE, rawFeed)
+	end
+
+	Measures.mSearchDownloadProgress.update()
+
+	-- setting next feed
+	prepareSearchDataBase()
+end

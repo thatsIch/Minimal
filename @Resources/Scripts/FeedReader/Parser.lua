@@ -314,7 +314,7 @@ function displayCategory(category)
 			'[!SetOption "sFeed'..index..'" "FontColor" "#ColorLowDefault#" "'..config..'"] '..
 			'[!UpdateMeter "sFeed' .. index..'" "'..config..'"] '..
 			'[!Redraw "'..config..'"] '..
-			'[!CommandMeasure "'..parserName..'" "onLeftMouseUpActionFeedLink(\''..feed.url..'\')" "'..config..'"]'
+			'[!CommandMeasure "'..parserName..'" "onLeftMouseUpActionFeedLink(\''..feed.url..'\', '..index..')" "'..config..'"]'
 		meter.update()
 
 		stopPoint = index
@@ -466,7 +466,9 @@ end -- local Parser
 
 -- TODO add selected hook
 -- @param url string : url of the clicked feed
-function onLeftMouseUpActionFeedLink(url)
+-- @param index number : the index of the link clicked to idenftify  on which Feed you currently are
+function onLeftMouseUpActionFeedLink(url, index)
+	LINK_MARKER = index
 	Measures.mImageDownloadProgress.Formula = 0
 	Measures.mImageDownloadProgress.update()
 

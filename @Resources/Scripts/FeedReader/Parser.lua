@@ -5,20 +5,18 @@ function Initialize()
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
 	FeedParser, ListParser = dofile(Variables['@'].."Scripts\\Libs\\FeedParser.lua")
 	FileReader = dofile(Variables['@'].."Scripts\\Libs\\FileReader.lua")
-	
+	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
+
 	-- -- Database
 	local feedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
 
-	-- Debug
-	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
-	
-	-- run-once functions: prepare data and pre-render skin parts
+		-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	prepareCategories(categoryOrder)
 	prepareEntries()
 
 	-- Prepare the Search Database
-	-- prepareSearchDataBase(feedList)
+	prepareSearchDataBase(feedList)
 
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList

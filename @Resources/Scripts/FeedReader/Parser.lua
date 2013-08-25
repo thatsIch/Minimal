@@ -441,16 +441,13 @@ function renderEntryList(entryList)
 	meters.redraw()
 end
 
+-- @param linkMarkerInex number: index of the link to be marked
+function renderLinkMarker(linkMarkerInex)
+	local sFeed = Meters['sFeed' .. linkMarkerInex]
 
--- @param url string : url of to be processed feed
-function webParserProcessUrl(url)
-	local mCategoryFeedDownloader = Measures.mCategoryFeedDownloader
-
-	mCategoryFeedDownloader.Disabled = 0
-	mCategoryFeedDownloader.Url = url
-	mCategoryFeedDownloader.forceUpdate()
+	sFeed.SolidColor = 'FF0000'
+	sFeed.update()
 end
-
 
 -- I/O TO SCRIPT
 -- ==================================================
@@ -459,6 +456,7 @@ function onFinishActionCategoryFeedDownloader()
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getMaxEntryCount())
 
+	renderLinkMarker(LINK_MARKER)
 	renderEntryList(entryList)
 end
 
@@ -468,10 +466,17 @@ end -- local Parser
 -- @param url string : url of the clicked feed
 -- @param index number : the index of the link clicked to idenftify  on which Feed you currently are
 function onLeftMouseUpActionFeedLink(url, index)
-	LINK_MARKER = index
-	Measures.mImageDownloadProgress.Formula = 0
-	Measures.mImageDownloadProgress.update()
+	local measures = Measures
+	local mImageDownloadProgress = measures.mImageDownloadProgress
+	local mCategoryFeedDownloader = measures.mCategoryFeedDownloader
 
-	webParserProcessUrl(url)
+	LINK_MARKER = index
+	
+	mImageDownloadProgress.Formula = 0
+	mImageDownloadProgress.update()
+
+	mCategoryFeedDownloader.Disabled = 0
+	mCategoryFeedDownloader.Url = url
+	mCategoryFeedDownloader.forceUpdate()
 end
 

@@ -385,12 +385,11 @@ end
 -- renders an entry list
 -- @param entryList {{title, link, cont, img}}
 function renderEntryList(entryList)
-	local meters = Meters
-	local measures = Measures
-	local stopPoint = 0
-	local process = 0
+	local meters, measures = Meters, Measures
 	local maxEntryCount = getMaxEntryCount()
-
+	local stopPoint = 0
+	local imageCount = 0
+	
 	for index, entry in pairs(entryList) do
 		if index > maxEntryCount then break end
 
@@ -412,7 +411,7 @@ function renderEntryList(entryList)
 		if entry.img then
 			local mEntryImageDownloader = measures['mEntryImageDownloader' .. index]
 
-			process = process + 1
+			imageCount = imageCount + 1
 
 			iEntryImage.MeasureName = 'mEntryImageDownloader' .. index
 			mEntryImageDownloader.Url = entry.img
@@ -426,7 +425,7 @@ function renderEntryList(entryList)
 		stopPoint = index
 	end
 
-	measures.mImageDownloadProgress.MaxValue = process
+	measures.mImageDownloadProgress.MaxValue = imageCount
 
 	-- clear everything which isnt used
 	stopPoint = stopPoint + 1

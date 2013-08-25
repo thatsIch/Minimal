@@ -6,6 +6,7 @@ FontFace = Webdings
 FontColor = #IconNormalColor#
 FontSize = #IconSize#
 SolidColor = 00000001
+AntiAlias = 1
 MouseOverAction = [!SetOption "#CURRENTSECTION#" "FontColor" "#IconHoverCover#"] [!UpdateMeter "#CURRENTSECTION#"] [!Redraw]
 MouseLeaveAction = [!SetOption "#CURRENTSECTION#" "FontColor" "#IconNormalColor#"] [!UpdateMeter "#CURRENTSECTION#"] [!Redraw]
 

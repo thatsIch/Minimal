@@ -6,11 +6,10 @@ function Initialize()
 	FeedParser, ListParser = dofile(Variables['@'].."Scripts\\Libs\\FeedParser.lua")
 	FileReader = dofile(Variables['@'].."Scripts\\Libs\\FileReader.lua")
 	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
-	
+
 	-- Database
 	local feedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
 
-	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	prepareCategories(categoryOrder)
 	prepareEntries()

@@ -2,7 +2,7 @@ local FileReader do
 	-- @param fileName string
 	-- @return content string
 	function FileReader(fileName)
-		if not fileName then return end
+		if fileName == "" then return end
 
 		local handle = io.open(fileName)
 		local content = handle:read('*all')

@@ -1,25 +1,22 @@
 local Parser do
 
--- TODO link marker of current feed
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
 	FeedParser, ListParser = dofile(Variables['@'].."Scripts\\Libs\\FeedParser.lua")
 	FileReader = dofile(Variables['@'].."Scripts\\Libs\\FileReader.lua")
-	
-	-- -- Database
-	local feedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
-
-	-- Debug
 	PrettyPrint = dofile(Variables['@'].."Scripts\\Libs\\PrettyPrint.lua")
 	
+	-- Database
+	local feedList = dofile(Variables['@'].."Scripts\\FeedReader\\FeedList.lua")
+
 	-- run-once functions: prepare data and pre-render skin parts
 	local sortedFeedList, categoryOrder = sortFeedList(feedList)
 	prepareCategories(categoryOrder)
 	prepareEntries()
 
 	-- Prepare the Search Database
-	-- prepareSearchDataBase(feedList)
+	prepareSearchDataBase(feedList)
 
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList
@@ -61,19 +58,16 @@ function prepareSearchDataBase(feedList)
 	Measures.mSearchDownloadProgress.MaxValue = #feedList
 
 	prepareSearchDataBase = function()
-		local feedList = feedList
+		local __feedList = feedList
 
 		-- stop when to be processed feed list is empty
-		if #feedList <= 0 then return end
+		if #__feedList <= 0 then return end
 
 		-- pop first item {category, identifier, url, pinned}
-		local feed = table.remove(feedList, 1)
-
-		-- fetch url within
-		local url = assert(feed[3], "No URL found, please check your URL for Feed " .. feed[2])
+		local feed = table.remove(__feedList, 1)
 
 		-- setup SearchWebParser
-		searchParserProcessUrl(url)
+		searchParserProcessUrl(feed[3])
 	end
 
 	-- run once the new function yourself
@@ -87,23 +81,6 @@ function searchParserProcessUrl(url)
 	mSearchFeedDownloader.Disabled = 0
 	mSearchFeedDownloader.Url = url
 	mSearchFeedDownloader.forceUpdate()
-end
-
-function onFinishActionSearchFeedDownloader()
-	
-	-- processing data
-	local filePath = Measures.mSearchFeedDownloader:GetStringValue()
-
-	-- catch download errors
-	if filePath ~= "" then 
-		local rawFeed = FileReader(filePath)
-		ListParser(DATA_BASE, rawFeed)
-	end
-
-	Measures.mSearchDownloadProgress.update()
-
-	-- setting next feed
-	prepareSearchDataBase()
 end
 
 -- Gives all entries the left and rightclick properties
@@ -454,9 +431,6 @@ function onFinishActionCategoryFeedDownloader()
 	renderEntryList(entryList)
 end
 
-end -- local Parser
-
--- TODO add selected hook
 -- @param url string : url of the clicked feed
 -- @param index number : the index of the link clicked to idenftify  on which Feed you currently are
 function onLeftMouseUpActionFeedLink(url, index)
@@ -466,8 +440,12 @@ function onLeftMouseUpActionFeedLink(url, index)
 	local mCategoryFeedDownloader = measures.mCategoryFeedDownloader
 	local sFeed = meters['sFeed' .. index]
 
-	-- render link marker
+	-- clear all old links and render link marker
 	LINK_MARKER = index
+	for i = 1, getMaxFeedCount(), 1 do
+		meters['sFeed' .. i].SolidColor = '#Transparent#'
+		meters['sFeed' .. i].update()
+	end
 	sFeed.SolidColor = '#ColorHighHover#'
 	sFeed.update()
 	meters.redraw()
@@ -475,8 +453,31 @@ function onLeftMouseUpActionFeedLink(url, index)
 	mImageDownloadProgress.Formula = 0
 	mImageDownloadProgress.update()
 
-	mCategoryFeedDownloader.Disabled = 0
+	if tonumber(mCategoryFeedDownloader.Disabled) == 1 then print("disabled") mCategoryFeedDownloader.Disabled = 0 end
 	mCategoryFeedDownloader.Url = url
 	mCategoryFeedDownloader.forceUpdate()
 end
 
+function onChangeActionSearchFeedDownloader()
+	local filePath = Measures.mSearchFeedDownloader:GetStringValue()
+
+	-- if empty string skip the waiting for FinishAction 
+	if filePath == "" then onFinishActionSearchFeedDownloader(filePath) end
+end
+
+function onFinishActionSearchFeedDownloader()
+	local filePath = Measures.mSearchFeedDownloader:GetStringValue()
+
+	-- catch download errors
+	if filePath ~= "" then 
+		local rawFeed = FileReader(filePath)
+		ListParser(DATA_BASE, rawFeed)
+	end
+
+	Measures.mSearchDownloadProgress.update()
+
+	-- setting next feed
+	prepareSearchDataBase()
+end
+
+end -- local Parser

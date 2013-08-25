@@ -19,12 +19,12 @@ function Initialize()
 	prepareEntries()
 
 	-- Prepare the Search Database
-	prepareSearchDataBase(feedList)
+	-- prepareSearchDataBase(feedList)
 
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList
 	SCROLL_OFFSET = 0
-	LINK_MARKER = 0
+	LINK_MARKER = 1
 
 	-- DATA_BASE = {{title, link, cont, img}}
 	DATA_BASE = {}
@@ -368,6 +368,9 @@ function shiftCategory(offset)
 			local iString = 'sFeed' .. (index - SCROLL_OFFSET)
 			local meter = meters[iString]
 
+		-- Link Marker: StringStyle = Bold else Normal
+		if index == LINK_MARKER then meter.SolidColor = '#ColorHighHover#' else meter.SolidColor = '#Transparent#' end
+
 		meter.Text = feedListOfCategory[index].id
 		meter.LeftMouseUpAction = 
 			'[!SetOption "'..iString..'" "FontColor" "#ColorLowDefault#" "'..config..'"] '..
@@ -441,14 +444,6 @@ function renderEntryList(entryList)
 	meters.redraw()
 end
 
--- @param linkMarkerInex number: index of the link to be marked
-function renderLinkMarker(linkMarkerInex)
-	local sFeed = Meters['sFeed' .. linkMarkerInex]
-
-	sFeed.SolidColor = 'FF0000'
-	sFeed.update()
-end
-
 -- I/O TO SCRIPT
 -- ==================================================
 function onFinishActionCategoryFeedDownloader()
@@ -456,7 +451,6 @@ function onFinishActionCategoryFeedDownloader()
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getMaxEntryCount())
 
-	renderLinkMarker(LINK_MARKER)
 	renderEntryList(entryList)
 end
 
@@ -467,10 +461,16 @@ end -- local Parser
 -- @param index number : the index of the link clicked to idenftify  on which Feed you currently are
 function onLeftMouseUpActionFeedLink(url, index)
 	local measures = Measures
+	local meters = Meters
 	local mImageDownloadProgress = measures.mImageDownloadProgress
 	local mCategoryFeedDownloader = measures.mCategoryFeedDownloader
+	local sFeed = meters['sFeed' .. index]
 
+	-- render link marker
 	LINK_MARKER = index
+	sFeed.SolidColor = '#ColorHighHover#'
+	sFeed.update()
+	meters.redraw()
 	
 	mImageDownloadProgress.Formula = 0
 	mImageDownloadProgress.update()

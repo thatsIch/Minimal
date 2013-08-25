@@ -11,8 +11,8 @@ return {
 	{'Nachrichten', 'Die Welt', 'http://www.welt.de/?service=Rss'},
 	{'Computer', 'Rainmeter', 'http://rainmeter.net/forum/feed.php', true},
 	{'Computer', 'Golem.IT', 'http://golem.de.dynamic.feedsportal.com/pf/578068/http://rss.golem.de/rss.php?feed=RSS2.0'},
-	{'Computer', 'Reddit FTB', 'www.reddit.com/r/feedthebeast/.rss', true},
+	-- {'Computer', 'Reddit FTB', 'www.reddit.com/r/feedthebeast/.rss', true},
 	{'Nachrichten', 'Wetter', 'http://www.wetter-vista.de/wettervorhersage/wetter-ratingen-2126.xml', true},
 	{'Nachrichten', 'Rheinische Post', 'http://feeds.rp-online.de/rp-online/rss/topnews', true},
-	
+	{'Backen', "bambi backt", 'http://bambi-backt.blogspot.com/feeds/posts/default', },
 }

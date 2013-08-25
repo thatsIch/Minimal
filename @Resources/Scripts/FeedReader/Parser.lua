@@ -453,7 +453,7 @@ function onLeftMouseUpActionFeedLink(url, index)
 	mImageDownloadProgress.Formula = 0
 	mImageDownloadProgress.update()
 
-	if tonumber(mCategoryFeedDownloader.Disabled) == 1 then print("disabled") mCategoryFeedDownloader.Disabled = 0 end
+	if tonumber(mCategoryFeedDownloader.Disabled) == 1 then mCategoryFeedDownloader.Disabled = 0 end
 	mCategoryFeedDownloader.Url = url
 	mCategoryFeedDownloader.forceUpdate()
 end

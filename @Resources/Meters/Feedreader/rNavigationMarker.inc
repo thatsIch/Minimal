@@ -1,5 +1,5 @@
 ; Dummy to reset from Background to navigation
-[iNavigationDummy]
+[iNavigationMarker]
 Meter = Image
-MeterStyle = yNavigationDummy
+MeterStyle = yNavigationMarker
 

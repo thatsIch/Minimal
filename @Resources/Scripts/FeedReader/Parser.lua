@@ -20,7 +20,7 @@ function Initialize()
 	prepareEntries()
 
 	-- Prepare the Search Database
-	prepareSearchDataBase(feedList)
+	-- prepareSearchDataBase(feedList)
 
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList
@@ -84,17 +84,17 @@ end
 
 -- @param url string : url of to be processed feed
 function searchParserProcessUrl(url)
-	local mSearchWebParser = Measures.mSearchWebParser
+	local mSearchFeedDownloader = Measures.mSearchFeedDownloader
 
-	mSearchWebParser.Disabled = 0
-	mSearchWebParser.Url = url
-	mSearchWebParser.forceUpdate()
+	mSearchFeedDownloader.Disabled = 0
+	mSearchFeedDownloader.Url = url
+	mSearchFeedDownloader.forceUpdate()
 end
 
 function onFinishActionSearchWebParser()
 	
 	-- processing data
-	local filePath = Measures.mSearchWebParser:GetStringValue()
+	local filePath = Measures.mSearchFeedDownloader:GetStringValue()
 
 	-- catch download errors
 	if filePath ~= "" then 
@@ -140,7 +140,7 @@ function prepareEntries()
 	for row = 1, rows, 1 do
 		for col = 1, cols, 1 do
 			local index = (row - 1) * cols + col
-			if index > maxEntryCount then return end
+			if maxEntryCount < index then return end
 			
 			local sEntryDesc = meters['sEntryDesc' .. index]
 			local iEntryImage = meters['iEntryImage' .. index]
@@ -377,9 +377,9 @@ function shiftCategory(offset)
 			'[!SetOption "'..iString..'" "FontColor" "#ColorLowDefault#" "'..config..'"] '..
 			'[!UpdateMeter "'..iString..'" "'..config..'"] '..
 			'[!Redraw "'..config..'"] '..
-			'[!SetOption "mWebParser" "Disabled" "0"] '..
-			'[!SetOption "mWebParser" "Url" "'.. feedListOfCategory[index].url ..'" "'.. config ..'"] '..
-			'[!CommandMeasure "mWebParser" "Update" "'.. config ..'"]'
+			'[!SetOption "mCategoryFeedDownloader" "Disabled" "0"] '..
+			'[!SetOption "mCategoryFeedDownloader" "Url" "'.. feedListOfCategory[index].url ..'" "'.. config ..'"] '..
+			'[!CommandMeasure "mCategoryFeedDownloader" "Update" "'.. config ..'"]'
 		meter.update()
 	end
 
@@ -422,15 +422,15 @@ function renderEntryList(entryList)
 		iEntryImage.show()
 
 		if entry.img then
-			local mEntryImageReader = measures['mEntryImageReader' .. index]
+			local mEntryImageDownloader = measures['mEntryImageDownloader' .. index]
 
 			process = process + 1
 			LOAD_PROCESS = LOAD_PROCESS + 1
 
-			iEntryImage.MeasureName = 'mEntryImageReader' .. index
-			mEntryImageReader.Url = entry.img
-			mEntryImageReader.Disabled = 0
-			mEntryImageReader.forceUpdate()
+			iEntryImage.MeasureName = 'mEntryImageDownloader' .. index
+			mEntryImageDownloader.Url = entry.img
+			mEntryImageDownloader.Disabled = 0
+			mEntryImageDownloader.forceUpdate()
 		else
 			iEntryImage.MeasureName = ""
 			iEntryImage.update()
@@ -457,18 +457,18 @@ end
 
 -- @param url string : url of to be processed feed
 function webParserProcessUrl(url)
-	local mWebParser = Measures.mWebParser
+	local mCategoryFeedDownloader = Measures.mCategoryFeedDownloader
 
-	mWebParser.Disabled = 0
-	mWebParser.Url = url
-	mWebParser.forceUpdate()
+	mCategoryFeedDownloader.Disabled = 0
+	mCategoryFeedDownloader.Url = url
+	mCategoryFeedDownloader.forceUpdate()
 end
 
 
 -- I/O TO SCRIPT
 -- ==================================================
 function onFinishActionWebParser()
-	local filePath = Measures.mWebParser:GetStringValue()
+	local filePath = Measures.mCategoryFeedDownloader:GetStringValue()
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getMaxEntryCount())
 

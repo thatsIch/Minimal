@@ -1,6 +1,5 @@
 local Parser do
 
--- TODO link marker of current feed
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
@@ -456,7 +455,6 @@ end
 
 end -- local Parser
 
--- TODO add selected hook
 -- @param url string : url of the clicked feed
 -- @param index number : the index of the link clicked to idenftify  on which Feed you currently are
 function onLeftMouseUpActionFeedLink(url, index)

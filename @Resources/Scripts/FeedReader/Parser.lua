@@ -1,7 +1,6 @@
 local Parser do
 
 -- TODO link marker of current feed
--- TODO search doesnt reflect in bar
 function Initialize()
 	-- Libs
 	Meters, Measures, Variables = dofile(SKIN:GetVariable('@').."Scripts\\libs\\InterfaceOOPAccess.lua")(SKIN)
@@ -298,13 +297,12 @@ function displayCategory(category)
 	iScrollbarBarArea.H = (iScrollBarBotAnchor.Y - iScrollBarTopAnchor.Y) * math.min(maxFeedCount / #feedListOfCategory, 1)
 	iScrollbarBarArea.update()
 
-	-- write onto meter
+	-- Display chosen category
 	sCategorySelectorText.Text = category
 	sCategorySelectorText.update()
 
 	local stopPoint = 0
 	for index, feed in pairs(feedListOfCategory) do
-
 		-- not enough _meters to display
 		if index > maxFeedCount then break end
 
@@ -468,6 +466,9 @@ end -- local Parser
 -- TODO add selected hook
 -- @param url string : url of the clicked feed
 function onLeftMouseUpActionFeedLink(url)
+	Measures.mImageDownloadProgress.Formula = 0
+	Measures.mImageDownloadProgress.update()
+
 	webParserProcessUrl(url)
 end
 

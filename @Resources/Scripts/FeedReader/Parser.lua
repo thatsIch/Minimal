@@ -25,8 +25,6 @@ function Initialize()
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList
 	SCROLL_OFFSET = 0
-	LOAD_PROCESS = 0
-	MAX_PROCESS = 0
 
 	-- DATA_BASE = {{title, link, cont, img}}
 	DATA_BASE = {}
@@ -91,7 +89,7 @@ function searchParserProcessUrl(url)
 	mSearchFeedDownloader.forceUpdate()
 end
 
-function onFinishActionSearchWebParser()
+function onFinishActionSearchFeedDownloader()
 	
 	-- processing data
 	local filePath = Measures.mSearchFeedDownloader:GetStringValue()
@@ -386,12 +384,6 @@ function shiftCategory(offset)
 	meters.redraw()
 end
 
-function renderDownloadProgress(progress)
-	local mImageDownloadProgress = Measures.mImageDownloadProgress
-	mImageDownloadProgress.Formula = progress
-	mImageDownloadProgress.update()
-end
-
 -- renders an entry list
 -- @param entryList {{title, link, cont, img}}
 function renderEntryList(entryList)
@@ -400,8 +392,6 @@ function renderEntryList(entryList)
 	local stopPoint = 0
 	local process = 0
 	local maxEntryCount = getMaxEntryCount()
-	MAX_PROCESS = 0
-	LOAD_PROCESS = 0
 
 	for index, entry in pairs(entryList) do
 		if index > maxEntryCount then break end
@@ -425,7 +415,6 @@ function renderEntryList(entryList)
 			local mEntryImageDownloader = measures['mEntryImageDownloader' .. index]
 
 			process = process + 1
-			LOAD_PROCESS = LOAD_PROCESS + 1
 
 			iEntryImage.MeasureName = 'mEntryImageDownloader' .. index
 			mEntryImageDownloader.Url = entry.img
@@ -439,7 +428,7 @@ function renderEntryList(entryList)
 		stopPoint = index
 	end
 
-	MAX_PROCESS = process
+	measures.mImageDownloadProgress.MaxValue = process
 
 	-- clear everything which isnt used
 	stopPoint = stopPoint + 1
@@ -467,18 +456,12 @@ end
 
 -- I/O TO SCRIPT
 -- ==================================================
-function onFinishActionWebParser()
+function onFinishActionCategoryFeedDownloader()
 	local filePath = Measures.mCategoryFeedDownloader:GetStringValue()
 	local rawFeed = FileReader(filePath)
 	local entryList = FeedParser(rawFeed, getMaxEntryCount())
 
 	renderEntryList(entryList)
-end
-
-function onFinishActionImageParser()
-	LOAD_PROCESS = LOAD_PROCESS - 1
-
-	renderDownloadProgress(1 - LOAD_PROCESS / MAX_PROCESS )
 end
 
 end -- local Parser

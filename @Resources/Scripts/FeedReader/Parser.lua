@@ -20,7 +20,7 @@ function Initialize()
 	prepareEntries()
 
 	-- Prepare the Search Database
-	-- prepareSearchDataBase(feedList)
+	prepareSearchDataBase(feedList)
 
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList
@@ -35,24 +35,24 @@ end
 
 function searchInDatabase(search)
 	-- prepare entry list
-	local entryList = {}
-	local meters = Meters
-	search = string.lower(search)
+	local __entryList = {}
+	local __meters = Meters
+	local __search = string.lower(search)
 
 	-- loop through whole database
 	for _, entry in ipairs(DATA_BASE) do
 		-- search within title and content
-		if string.find(string.lower(entry.title), search) 
-		or string.find(string.lower(entry.cont), search) then
-			table.insert(entryList, entry)
+		if string.find(string.lower(entry.title), __search) 
+		or string.find(string.lower(entry.cont), __search) then
+			table.insert(__entryList, entry)
 		end
 	end
 
-	meters.sSearchField.Text = search .. ': ' .. #entryList .. ' Hits in ' .. #DATA_BASE .. ' Entries'
-	meters.sSearchField.update()
-	meters.redraw()
+	__meters.sSearchField.Text = search .. ': ' .. #__entryList .. ' Hits in ' .. #DATA_BASE .. ' Entries'
+	__meters.sSearchField.update()
+	__meters.redraw()
 
-	if #entryList > 0 then renderEntryList(entryList) end
+	if #__entryList > 0 then renderEntryList(__entryList) end
 end
 
 function prepareSearchDataBase(feedList)
@@ -98,10 +98,9 @@ function onFinishActionSearchFeedDownloader()
 	if filePath ~= "" then 
 		local rawFeed = FileReader(filePath)
 		ListParser(DATA_BASE, rawFeed)
-
-		-- add 
-		Measures.mSearchDownloadProgress.update()
 	end
+
+	Measures.mSearchDownloadProgress.update()
 
 	-- setting next feed
 	prepareSearchDataBase()

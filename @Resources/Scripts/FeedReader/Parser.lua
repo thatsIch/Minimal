@@ -24,6 +24,7 @@ function Initialize()
 	-- GLOBAL VARIABLES
 	SORTED_URL_LIST = sortedFeedList
 	SCROLL_OFFSET = 0
+	LINK_MARKER = 0
 
 	-- DATA_BASE = {{title, link, cont, img}}
 	DATA_BASE = {}

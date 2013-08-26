@@ -53,7 +53,6 @@ function prepareSearchDataBase(feedList)
 		-- setup SearchWebParser
 		local mSearchFeedDownloader = Measures.mSearchFeedDownloader
 
-		print(#feedList, url)
 		mSearchFeedDownloader.Disabled = 0
 		mSearchFeedDownloader.Url = url
 		mSearchFeedDownloader.forceUpdate()

@@ -3,3 +3,4 @@ screenshot link in eine notiz einfügen und stellt dann screen da
 
 WARN (00:00:00.405) : NowPlaying.dll: Invalid PlayerType= in [mPlayer]
 search
+S05E04

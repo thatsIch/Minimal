@@ -94,7 +94,7 @@ function prepareEntries()
 	local originX, originY = desc.X, desc.Y
 	local entryW, entryH, entryP = Variables.EntryWidth, Variables.EntryHeight, Variables.EntryPadding
 	local rows, cols = Variables.Rows, Variables.Cols
-	local titleH = entryH * 0.382
+	local titleH = math.ceil(entryH * 0.382)
 	local titleDiff = entryH - titleH
 
 	local hide = function(index) return 

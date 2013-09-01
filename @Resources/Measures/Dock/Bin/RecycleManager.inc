@@ -2,6 +2,7 @@
 Measure = Plugin
 Plugin = RecycleManager
 RecycleType = Count
+OnChangeAction = [!Log Changed] [!UpdateMeter "mIcon" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"]
 
 [MeasureBinAction]
 Measure = Calc

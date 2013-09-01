@@ -16,4 +16,6 @@ function Update()
 	elseif volume < 101 then
 		SKIN:Bang('!SetOption', 'mIcon', 'ImageName', '#@#Images\\Dock\\Vol3.png')
 	end
+
+	SKIN:Bang('!Redraw', '#CURRENTCONFIG#')
 end

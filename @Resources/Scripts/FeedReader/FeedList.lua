@@ -14,4 +14,6 @@ return {
 	{'Computer', 'Reddit FTB', 'http://www.reddit.com/r/feedthebeast/.rss', true},
 	{'Nachrichten', 'Wetter', 'http://www.wetter-vista.de/wettervorhersage/wetter-ratingen-2126.xml', true},
 	{'Nachrichten', 'Rheinische Post', 'http://feeds.rp-online.de/rp-online/rss/topnews', true},
+	{'Computer', 'Customize - Rainmeter', 'http://customize.org/feeds/category/rainmeter'},
+	{'Computer', 'DeviantArt - Rainmeter', 'http://backend.deviantart.com/rss.xml?type=deviation&q=in%3Acustomization%2Fskins%2Fsysmonitor%2Frainmeter+sort%3Atime'},
 }

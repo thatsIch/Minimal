@@ -17,5 +17,6 @@ function Update()
 		SKIN:Bang('!SetOption', 'mIcon', 'ImageName', '#@#Images\\Dock\\Vol3.png')
 	end
 
+	SKIN:Bang('!UpdateMeter', 'mIcon', '#CURRENTCONFIG#')
 	SKIN:Bang('!Redraw', '#CURRENTCONFIG#')
 end

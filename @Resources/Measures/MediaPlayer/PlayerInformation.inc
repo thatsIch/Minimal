@@ -2,7 +2,7 @@
 [mPlayer]
 Measure = Plugin
 Plugin = NowPlaying
-PlayerName = CAD
+PlayerName = #MediaPlayer#
 PlayerType = Title
 TrackChangeAction = [!UpdateMeasureGroup "UpdateMeasureGroupPlayer" "#CURRENTCONFIG#"]
 

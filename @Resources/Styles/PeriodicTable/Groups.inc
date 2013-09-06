@@ -21,11 +21,17 @@ SolidColor = DDAACC
 [yGroupTransitionMetals]
 SolidColor = DD9999
 
-[yGroupPoorMetals]
-SolidColor = 11DDBB
+[yGroupPostTransitionMetals]
+SolidColor = 99BBAA
+
+[yGroupMetalloids]
+SolidColor = 55CC88
 
 [yGroupNonMetals]
 SolidColor = 00EE00
+
+[yGroupHalogen]
+SolidColor = 00DDBB
 
 [yGroupNobleGases]
 SolidColor = 88AAFF

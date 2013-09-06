@@ -1,3 +1,4 @@
+; TODO refresh automatically if appointment runs out
 [mWebParser]
 Measure = Plugin
 Plugin = WebParser

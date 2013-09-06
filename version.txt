@@ -1,4 +1,4 @@
-0.6.1
+0.7.0
 Major API Changes (new Rainmeter for example)
 Minor new Features
 State 0 alpha, 1 beta, 2 release candicate, 3 (final) release

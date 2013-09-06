@@ -31,7 +31,7 @@ Text = #AtomicNumber027#
 
 [sElement027Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol027#
 
 [sElement027Name]
@@ -57,7 +57,7 @@ Text = #AtomicNumber045#
 
 [sElement045Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol045#
 
 [sElement045Name]
@@ -83,7 +83,7 @@ Text = #AtomicNumber077#
 
 [sElement077Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol077#
 
 [sElement077Name]
@@ -109,7 +109,7 @@ Text = #AtomicNumber109#
 
 [sElement109Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSynthetic
 Text = #Symbol109#
 
 [sElement109Name]
@@ -141,7 +141,7 @@ Text = #AtomicNumber062#
 
 [sElement062Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol062#
 
 [sElement062Name]
@@ -167,7 +167,7 @@ Text = #AtomicNumber094#
 
 [sElement094Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol094#
 
 [sElement094Name]

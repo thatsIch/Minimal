@@ -7,23 +7,27 @@ MeterStyle = yMG | yMG02
 [iDummy021Background]
 Meter = Image
 MeterStyle = yGroupDefault | yGroupDummy
+SolidColor = FFFFFF
 
 [sDummy021AtomicNumber]
 Meter = String
 MeterStyle = yAtomicNumber
+Text = Atomic
 
 [sDummy021Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
+Text = Symbol
 
 [sDummy021Name]
 Meter = String
 MeterStyle = yName
+Text = Name
 
 [sDummy021AtomicMass]
 Meter = String
 MeterStyle = yAtomicMass
-
+Text = Mass
 
 ; Element 004
 [iElement004Background]
@@ -37,7 +41,7 @@ Text = #AtomicNumber004#
 
 [sElement004Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol004#
 
 [sElement004Name]
@@ -63,7 +67,7 @@ Text = #AtomicNumber012#
 
 [sElement012Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol012#
 
 [sElement012Name]
@@ -89,7 +93,7 @@ Text = #AtomicNumber020#
 
 [sElement020Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol020#
 
 [sElement020Name]
@@ -115,7 +119,7 @@ Text = #AtomicNumber038#
 
 [sElement038Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol038#
 
 [sElement038Name]
@@ -141,7 +145,7 @@ Text = #AtomicNumber056#
 
 [sElement056Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol056#
 
 [sElement056Name]
@@ -167,7 +171,7 @@ Text = #AtomicNumber088#
 
 [sElement088Symbol]
 Meter = String
-MeterStyle = ySymbol
+MeterStyle = ySymbol | yStateSolid
 Text = #Symbol088#
 
 [sElement088Name]

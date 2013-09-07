@@ -167,7 +167,7 @@ function getMaxFeedMeterList()
 	end
 
 	-- hide all again 
-	for index = 1, (count - 1), 1 do
+	for index = 1, count, 1 do
 		local sFeed = meters[meterName .. index]
 		
 		sFeed.hide()
@@ -367,7 +367,6 @@ function renderCategory(category)
 	sCategorySelectorText.Text = category
 	sCategorySelectorText.update()
 
-	local stopPoint = 0
 	for index, feed in pairs(feedListOfCategory) do
 		-- not enough _meters to display
 		if index > maxFeedCount then break end
@@ -381,12 +380,10 @@ function renderCategory(category)
 			'[!Redraw "'..config..'"] '..
 			'[!CommandMeasure "'..parserName..'" "onLeftMouseUpActionFeedLink(\''..feed.url..'\', '..index..')" "'..config..'"]'
 		meter.update()
-
-		stopPoint = index
 	end
 
 	-- clear old feeds
-	stopPoint = stopPoint + 1
+	local stopPoint = #feedListOfCategory + 1
 	while meters['sFeed' .. stopPoint].isMeter() and stopPoint < maxFeedCount do
 		meters['sFeed' .. stopPoint].hide()
 		meters['sFeed' .. stopPoint].update()

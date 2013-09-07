@@ -384,7 +384,7 @@ function renderCategory(category)
 
 	-- clear old feeds
 	local stopPoint = #feedListOfCategory + 1
-	while meters['sFeed' .. stopPoint].isMeter() and stopPoint < maxFeedCount do
+	while meters['sFeed' .. stopPoint].isMeter() and stopPoint <= maxFeedCount do
 		meters['sFeed' .. stopPoint].hide()
 		meters['sFeed' .. stopPoint].update()
 

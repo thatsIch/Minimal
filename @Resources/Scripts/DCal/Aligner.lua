@@ -1,7 +1,7 @@
 -- upon creaation
 -- called even disabled
 function Initialize()
-	local workareawidth = SKIN:GetVariable("WORKAREAWIDTH")
+	local workareawidth = SKIN:GetVariable("SCREENAREAWIDTH")
 	local DayWidth = SKIN:GetVariable("DayWidth")
 	local DaySpacing = SKIN:GetVariable("DaySpacing")
 
@@ -9,6 +9,7 @@ function Initialize()
 	local RealSpacing = ((workareawidth - count * (DayWidth + DaySpacing) + DaySpacing) / 2)
 
 	SKIN:GetMeter("mDummy"):SetX(RealSpacing)
+	SKIN:Bang('!UpdateMeter', '*', SKIN:GetVariable('CURRENTCONFIG'))
 end
 
 function getTotalCount()

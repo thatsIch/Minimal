@@ -1,10 +1,9 @@
-; TODO refresh automatically if appointment runs out
 [mWebParser]
 Measure = Plugin
 Plugin = WebParser
 Url = #Cal1#
 Download = 1
-UpdateRate = -1
+UpdateRate = 3600
 DynamicVariables = 1
 FinishAction = [!CommandMeasure "mParser" "parseNextCalendar()" "#CURRENTCONFIG#"]
 

@@ -1,12 +1,12 @@
 [mD7Date]
 Meter = String
-MeterStyle = sDate
+MeterStyle = sDateDefault
 
 ; Background
 ; ==================================================
 ; Meter Background Top Left
 [mD7Seperator]
-Meter = Image
+Meter = Bar
 MeterStyle = sSeperator
 
 ; Meter Dummy

@@ -1,7 +1,7 @@
 [sPrev]
 Meter = String
 MeterStyle = yControl | yPrev
-LeftMouseUpAction = [!CommandMeasure "mPlayer" "Previous"] [!CommandMeasure "mPlayer" "Play"]
+LeftMouseUpAction = [!CommandMeasure "mPlayer" "Previous"]
 UpdateDivider = -1
 
 [sPlay]
@@ -31,5 +31,5 @@ UpdateDivider = -1
 [sNext]
 Meter = String
 MeterStyle = yControl | yNext
-LeftMouseUpAction = [!CommandMeasure "mPlayer" "Next"] [!CommandMeasure "mPlayer" "Play"]
+LeftMouseUpAction = [!CommandMeasure "mPlayer" "Next"]
 UpdateDivider = -1

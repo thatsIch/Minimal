@@ -3,7 +3,7 @@ Measure = Plugin
 Plugin = WebParser
 Url = #Cal1#
 Download = 1
-UpdateRate = 3600
+UpdateRate = #RefreshRate#
 DynamicVariables = 1
 FinishAction = [!CommandMeasure "mParser" "parseNextCalendar()" "#CURRENTCONFIG#"]
 

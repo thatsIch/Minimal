@@ -1,1 +1,11 @@
-﻿3530565772630537
+﻿maven shade > alles mit einer jar + easy deployment
+17.09 last ranked
+
+Feature Detectors / Decriptor Extractors / Matchers types
+(FAST, SURF) / SURF / FlannBased
+(FAST, SIFT) / SIFT / FlannBased
+(FAST, ORB) / ORB / Bruteforce
+(FAST, ORB) / BRIEF / Bruteforce
+(FAST, SURF) / FREAK / Bruteforce
+
+presenter validierung

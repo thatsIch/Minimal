@@ -6,7 +6,7 @@ MeterStyle = sDateDefault
 ; ==================================================
 ; Meter Background Top Left
 [mD3Seperator]
-Meter = Bar
+Meter = Image
 MeterStyle = sSeperator
 
 ; Meter Dummy
@@ -25,7 +25,7 @@ Y = (0 + 4)R
 ; Meter Element Info
 [mD3E1Info]
 Meter = String
-MeterStyle = sEInfo
+MeterStyle = sEInfoDefault
 
 ; Element 2
 ; =========
@@ -37,7 +37,7 @@ MeterStyle = sEBar
 ; Meter Element Info
 [mD3E2Info]
 Meter = String
-MeterStyle = sEInfo
+MeterStyle = sEInfoDefault
 
 ; Element 3
 ; =========
@@ -49,7 +49,7 @@ MeterStyle = sEBar
 ; Meter Element Info
 [mD3E3Info]
 Meter = String
-MeterStyle = sEInfo
+MeterStyle = sEInfoDefault
 
 ; Element 4
 ; =========
@@ -61,7 +61,7 @@ MeterStyle = sEBar
 ; Meter Element Info
 [mD3E4Info]
 Meter = String
-MeterStyle = sEInfo
+MeterStyle = sEInfoDefault
 
 ; Element 5
 ; =========
@@ -73,7 +73,7 @@ MeterStyle = sEBar
 ; Meter Element Info
 [mD3E5Info]
 Meter = String
-MeterStyle = sEInfo
+MeterStyle = sEInfoDefault
 
 ; Element 6
 ; =========
@@ -85,7 +85,7 @@ MeterStyle = sEBar
 ; Meter Element Info
 [mD3E6Info]
 Meter = String
-MeterStyle = sEInfo
+MeterStyle = sEInfoDefault
 
 ; Element 7
 ; =========
@@ -97,7 +97,7 @@ MeterStyle = sEBar
 ; Meter Element Info
 [mD3E7Info]
 Meter = String
-MeterStyle = sEInfo
+MeterStyle = sEInfoDefault
 
 ; Element 8
 ; =========
@@ -109,4 +109,4 @@ MeterStyle = sEBar
 ; Meter Element Info
 [mD3E8Info]
 Meter = String
-MeterStyle = sEInfo
+MeterStyle = sEInfoDefault

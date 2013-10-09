@@ -37,6 +37,14 @@ RegExpSubstitute = 1
 Disabled = 1
 
 ; Calculate progress on own, since NowPlaying results in integer
+[mPosition]
+Measure = Plugin
+Plugin = NowPlaying
+Group = UpdateMeasureGroupPlayer
+PlayerName = [mPlayer]
+PlayerType = Position
+OnChangeAction = [!UpdateMeasure "mProgress" "#CURRENTCONFIG#"]
+
 [mDuration]
 Measure = Plugin
 Plugin = NowPlaying
@@ -46,17 +54,9 @@ PlayerType = Duration
 UpdateDivider = -1
 OnChangeAction = [!UpdateMeasure "mProgress" "#CURRENTCONFIG#"]
 
-[mPosition]
-Measure = Plugin
-Plugin = NowPlaying
-Group = UpdateMeasureGroupPlayer
-PlayerName = [mPlayer]
-PlayerType = Position
-OnChangeAction = [!UpdateMeasure "mProgress" "#CURRENTCONFIG#"]
-
 [mProgress]
 Measure = Calc
-Formula = [mPosition:] / [mDuration:]
+Formula = mPosition / mDuration
 DynamicVariables = 1
 UpdateDivider = -1
 OnChangeAction = [!UpdateMeter "bBar" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"]

@@ -1,11 +1,2 @@
-﻿maven shade > alles mit einer jar + easy deployment
-17.09 last ranked
-
-Feature Detectors / Decriptor Extractors / Matchers types
-(FAST, SURF) / SURF / FlannBased
-(FAST, SIFT) / SIFT / FlannBased
-(FAST, ORB) / ORB / Bruteforce
-(FAST, ORB) / BRIEF / Bruteforce
-(FAST, SURF) / FREAK / Bruteforce
-
-presenter validierung
+﻿GLCM = eg nur in 4 richtungen gucken und die 4 matrizen addieren, dabei X, Y und Y, X in die Matrix hinzufügen
+Eintrag fängt dabei woanders an, um zu entscheiden, wenn man iterationen sparen will

@@ -4,6 +4,18 @@ Plugin = RecycleManager
 RecycleType = Count
 OnChangeAction = [!UpdateMeter "mIcon" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"]
 
+[mBinSize]
+Measure = Plugin
+Plugin = RecycleManager
+RecycleType = Size
+OnChangeAction = [!UpdateMeasure "mBinSizeMB" "#CURRENTCONFIG#"]
+
+[mBinSizeMB]
+Measure = Calc
+Formula = round([mBinSize:] / 1024 / 1024)
+DynamicVariables = 1
+OnChangeAction = [!UpdateMeter "mIcon" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"]
+
 [MeasureBinAction]
 Measure = Calc
 Formula = MeasureBin

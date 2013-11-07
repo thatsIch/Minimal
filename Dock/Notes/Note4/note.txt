@@ -1,7 +1,1 @@
-﻿PAC = HMVC
-
-ToggleButton
-ToggleGroup
-
-Inversion of Control with lifecycle state change
-EGit show changes of last commit
+﻿

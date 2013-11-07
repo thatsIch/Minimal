@@ -1,2 +1,1 @@
-﻿GLCM = eg nur in 4 richtungen gucken und die 4 matrizen addieren, dabei X, Y und Y, X in die Matrix hinzufügen
-Eintrag fängt dabei woanders an, um zu entscheiden, wenn man iterationen sparen will
+﻿

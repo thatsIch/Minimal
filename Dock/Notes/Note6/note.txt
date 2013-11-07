@@ -1,1 +1,26 @@
-﻿
+﻿Service<Void> service = new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {           
+                @Override
+                protected Void call() throws Exception {
+                    //Background work                       
+                    final CountDownLatch latch = new CountDownLatch(1);
+                    Platform.runLater(new Runnable() {                          
+                        @Override
+                        public void run() {
+                            try{
+                                //FX Stuff done here
+                            }finally{
+                                latch.countDown();
+                            }
+                        }
+                    });
+                    latch.await();                      
+                    //Keep with the background work
+                    return null;
+                }
+            };
+        }
+    };
+    service.start();

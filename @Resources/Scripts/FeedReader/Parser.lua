@@ -235,6 +235,31 @@ function sortFeedList(rawList)
 	for _, feed in pairs(rawList) do
 		local category, identifier, url, pinned = feed[1], feed[2], feed[3], feed[4]
 
+		-- rework identifier
+		-- USED GLOBAL FUNCTIONS
+		local char = string.char
+		local gsub = string.gsub
+
+		-- CONVERT TABLE
+		local generalConvertTable = {
+			[char(195,164)] = char(228), -- auml
+			[char(195,182)] = char(246), -- ouml
+			[char(195,188)] = char(252), -- uuml
+			[char(195,132)] = char(196), -- Auml
+			[char(195,150)] = char(214), -- Ouml
+			[char(195,156)] = char(220), -- Uuml
+			[char(195,159)] = char(223), -- sz
+			[char(195,32)] = char(32), -- space
+			[char(195,169)] = char(233), -- e tegue
+			[char(226,128)] = char(147), -- top "
+			[char(195,168)] = char(232), -- e grave
+		}
+
+		-- ITERATE THROUGH ALL ENTRIES AND REPLACE
+		for k,v in pairs(generalConvertTable) do
+			identifier = gsub(identifier, k, v)
+		end
+
 		if not sortedResult[category] then 
 			sortedResult[category] = {}
 			tempAlphaSorted[category] = {}

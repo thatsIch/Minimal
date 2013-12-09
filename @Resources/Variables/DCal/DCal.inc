@@ -1,6 +1,6 @@
 [Variables]
 ; How often shall the calendar update itself (in seconds, default 1h = 3600s)
-RefreshRate = 600
+RefreshRate = 1800
 
 ; Width of each day
 DayWidth = 250

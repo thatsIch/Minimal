@@ -1,2 +1,7 @@
 ﻿May his wish come true
 May her wish come true
+
+private static double sigmoid(double x)
+{
+    return 1 / (1 + Math.exp(-x));
+}

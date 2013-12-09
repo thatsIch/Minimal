@@ -1,4 +1,1 @@
-﻿hintergrund vom reader fest als Datei. Kann jeder dann ändern
-screenshot link in eine notiz einfügen und stellt dann screen da
-
-HKEY_CURRENT_USER \ Software \ Microsoft \ Internet Explorer \ Desktop \ General
+﻿

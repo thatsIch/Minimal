@@ -1,1 +1,25 @@
-﻿
+﻿Builder Block
+hook up pattern via Spatial Pylon
+provide it with network
+
+Filler Block
+use OpenBlocks pattern die see outcome
+different choices to build
+
+Vllt simplen Filler
+kannst bestimmten Block aus Netzwerk auswählen und baut dann alle ab die einem anderen bestehen den der berührt
+Sand > Wasser
+
+tool to lay down wire smartly without need to place them manually, just need startpoint, endpoint and then apply
+
+Licht Facades
+
+Intersection Block > Network Block but can define 3 channels with liquid, redstone, power, item
+
+Wand of Equal Trade nur mit System
+
+save last spot teleportation
+
+energy stuff
+
+Sand Stabilizor

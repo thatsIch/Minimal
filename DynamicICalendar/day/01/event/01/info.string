@@ -1,0 +1,4 @@
+; Meter Element Info
+[mD1E1Info]
+Meter = String
+MeterStyle = sEInfoDefault

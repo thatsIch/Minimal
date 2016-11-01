@@ -1,6 +1,0 @@
-﻿ToggleButton, ToggleGroup
-Message, PipeLine, Filter
-Thresholing um Fehler besser rauszufiltern
-Denoising
-CvtColor, CvSmooth
-CvThreshold

@@ -1,0 +1,31 @@
+﻿Automated Unit Tests
+Automated Component Tests
+Automated Integration Tests
+Automated API Tests
+Automated GUI Tests
+Manual Session Based Testing
+
+OpenShift WF Admin adminUULdAeG ExUZCsMBQwX6
+
+PostgreSQL 9.2 database added.  Please make note of these credentials:
+
+   Root User: adminmgan4kb
+   Root Password: xfahqQA1AV7e
+   Database Name: blog
+
+Connection URL: postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT
+
+MongoDB 2.4 database added.  Please make note of these credentials:
+
+   Root User:     admin
+   Root Password: um82Ym7wkVvk
+   Database Name: blog
+
+Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
+
+Jenkins created successfully.  Please make note of these credentials:
+
+   User: admin
+   Password: DvbcYUdfnkzf
+
+Note:  You can change your password at: https://jenkins-thatsich.rhcloud.com/me/configure

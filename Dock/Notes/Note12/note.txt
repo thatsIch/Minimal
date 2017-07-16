@@ -1,1 +1,3 @@
-﻿
+﻿Entity vs ValueObject: - Factory Methods, no Constructor, equals using Objects.equals, hashCode using Objects.hash, toString using MoreObjects.toStringHelper, formatting with interface Formattable
+forwardingList
+anti corruption layer - prevent JSF entering your JPA entity business model

@@ -1,0 +1,8 @@
+; acting as a reference point to span over the whole width of the screen
+[BackgroundImageMeterAligner]
+Meter = Image
+X = 0
+Y = 0
+W = #SCREENAREAWIDTH#
+H = 0
+UpdateDivider = -1

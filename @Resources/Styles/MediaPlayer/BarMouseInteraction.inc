@@ -13,5 +13,6 @@ SolidColor = 00000001
 LeftMouseDownAction = [!CommandMeasure "mBarMouseInteraction" "LeftDownAction()"]
 LeftMouseUpAction = [!CommandMeasure "mBarMouseInteraction" "LeftUpAction('#CURRENTSECTION#')"]
 MouseOverAction = [!CommandMeasure "mBarMouseInteraction" "OverAction('#CURRENTSECTION#')"]
-RightMouseDownAction = [!CommandMeasure "mBarMouseInteraction" "RightDownAction()"]
-RightMouseUpAction = [!CommandMeasure "mBarMouseInteraction" "RightUpAction('#CURRENTSECTION#')"]
+;Comment in for Volume interaction
+;RightMouseDownAction = [!CommandMeasure "mBarMouseInteraction" "RightDownAction()"]
+;RightMouseUpAction = [!CommandMeasure "mBarMouseInteraction" "RightUpAction('#CURRENTSECTION#')"]

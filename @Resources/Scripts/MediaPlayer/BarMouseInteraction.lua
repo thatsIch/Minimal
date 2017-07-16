@@ -35,19 +35,14 @@ function RightUpAction(currentSection)
 	SetVol(currentSection)
 end
 
---
-
 function SetPos(currentSection)
 	local index = string.match(currentSection, "(%d+)") or 0
-	SKIN:Bang('!CommandMeasure "mPlayer" "SetPosition ' .. index .. '"')
-	SKIN:Bang('!UpdateMeasure "mPlayer"')
-	SKIN:Bang('!UpdateMeter "bBar"')
-	SKIN:Bang('!Redraw')
+	SKIN:Bang('!CommandMeasure "mPlayer" "SetPosition ' .. index .. '" "#CURRENTCONFIG#"')
+	SKIN:Bang('!UpdateMeasure "mPlayer" "#CURRENTCONFIG#"')
+	SKIN:Bang('!UpdateMeasure "mPosition" "#CURRENTCONFIG#"')
 end
 
 function SetVol(currentSection)
 	local index = string.match(currentSection, "(%d+)") or 0
-	SKIN:Bang('!CommandMeasure "mPlayer" "SetVolume ' .. index .. '"')
-	-- SKIN:Bang('!UpdateMeasure "mPlayer"')
-	-- SKIN:Bang('!Redraw')
+	SKIN:Bang('!CommandMeasure "mPlayer" "SetVolume ' .. index .. '" "#CURRENTCONFIG#"')
 end

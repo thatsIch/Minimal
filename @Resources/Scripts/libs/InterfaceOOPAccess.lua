@@ -60,7 +60,7 @@ return function(SKIN)
 			-- unknown case
 			else
 				print('Name: ' .. table.__sectionname .. ', key: ' .. key) 
-				return
+				return nil
 			end 
 		end, 
 		__newindex = function(table,key,value) SKIN:Bang('!SetOption',table.__sectionname,key,value,SKIN:GetVariable('CURRENTCONFIG')) end
@@ -74,9 +74,6 @@ return function(SKIN)
 
 				-- store meter/measure
 				sections[key].__section = SKIN:GetMeasure(key) or SKIN:GetMeter(key) or false
-				-- if not sections[key].__section then
-				-- 	print("Missing Meter/Measure "..key..". Please check if you have typed the correct name.")
-				-- end
 				
 				-- store meter/measurename
 				sections[key].__sectionname = key 
@@ -108,8 +105,8 @@ return function(SKIN)
 
 			-- unknown case
 			else 
-				print('Unkown Variable Case: ' .. key)
-				return
+				-- print('Unkown Variable Case: ' .. key)
+				return nil
 			end
 		end, 
 		__newindex = function(table,key,value) SKIN:Bang('!SetVariable',key,value, SKIN:GetVariable('CURRENTCONFIG')) end

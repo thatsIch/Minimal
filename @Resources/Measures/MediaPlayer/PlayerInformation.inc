@@ -36,8 +36,27 @@ Substitute = ".*\\(.*)\..*":"\1"
 RegExpSubstitute = 1
 Disabled = 1
 
-[mProgress]
+; Calculate progress on own, since NowPlaying results in integer
+[mPosition]
 Measure = Plugin
 Plugin = NowPlaying
+Group = UpdateMeasureGroupPlayer
 PlayerName = [mPlayer]
-PlayerType = Progress
+PlayerType = Position
+OnChangeAction = [!UpdateMeasure "mProgress" "#CURRENTCONFIG#"]
+
+[mDuration]
+Measure = Plugin
+Plugin = NowPlaying
+Group = UpdateMeasureGroupPlayer
+PlayerName = [mPlayer]
+PlayerType = Duration
+UpdateDivider = -1
+OnChangeAction = [!UpdateMeasure "mProgress" "#CURRENTCONFIG#"]
+
+[mProgress]
+Measure = Calc
+Formula = mPosition / mDuration
+DynamicVariables = 1
+UpdateDivider = -1
+OnChangeAction = [!UpdateMeter "bBar" "#CURRENTCONFIG#"] [!Redraw "#CURRENTCONFIG#"]

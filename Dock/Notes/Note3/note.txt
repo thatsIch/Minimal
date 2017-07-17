@@ -1,4 +1,0 @@
-﻿Change session ID after sucessful login
-
-HttpServletRequest.changeSessionId()
-Unique Token for each request against CSRF

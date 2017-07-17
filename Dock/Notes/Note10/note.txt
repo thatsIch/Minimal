@@ -1,7 +1,0 @@
-﻿seperate AE2 api to api and spi
-
-api - that you call and use to achieve a goal
-spi - that you extend and implement to achieve a goal
-
-Powershell
-foreach ($image in docker images |awk '$1 ~ /.*/ { print $1 }') { docker pull $image }

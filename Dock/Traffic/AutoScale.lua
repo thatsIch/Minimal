@@ -6,7 +6,6 @@ function Update()
 end
 
 function AutoScale(num, idp)
-	print("num: " .. num)
 	assert(tonumber(num), 'AutoScale expects a number.')
 	local scales = {'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'}
 	local places = idp or 0

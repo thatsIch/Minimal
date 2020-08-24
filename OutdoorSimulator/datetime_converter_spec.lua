@@ -16,7 +16,15 @@ describe('Busted unit testing framework', function()
     end)
 
     it('should provide some shortcuts to common functions', function()
-      assert.unique({{ thing = 1 }, { thing = 2 }, { thing = 3 }})
+      dofile("setter.lua")
+      -- given
+      local time = 1598262282
+      local expected = 24407724.840604166666666666666667
+      
+      -- when
+      local actual = convertUnixToJulian(time)
+
+      assert.same(actual, expected)
     end)
   end)
 end)

@@ -16,8 +16,8 @@ describe('Busted unit testing framework', function()
     end)
 
     it('should provide some shortcuts to common functions', function()
-      dofile("setter.lua")
       -- given
+      dofile("OutdoorSimulator/setter.lua")
       local time = 1598262282
       local expected = 24407724.840604166666666666666667
       

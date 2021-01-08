@@ -15,7 +15,10 @@ jobs:
 
     - uses: leafo/gh-actions-luarocks@v4.0.0
 
-    - name: test
+    - name: build
       run: |
         luarocks install busted
-        busted -o utfTerminal OutdoorSimulator
+
+    # - name: test
+    #   run: |
+    #     busted -o utfTerminal OutdoorSimulator

@@ -17,6 +17,7 @@ describe('Busted unit testing framework', function()
 
     it('should provide some shortcuts to common functions', function()
       -- given
+      -- TODO there is a problem because the setter lua is a UTF 16 encoded file and busted can not test this
       dofile("OutdoorSimulator/setter.lua")
       local time = 1598262282
       local expected = 24407724.840604166666666666666667
